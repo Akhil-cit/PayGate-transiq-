@@ -1,0 +1,255 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  background: #151716;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f2f2f0;
+  width: 252px;
+  min-width: 252px;
+  transition: width 200ms ease, min-width 200ms ease;
+}
+
+.sidebar.collapsed {
+  width: 62px;
+  min-width: 62px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebar-title {
+  color: #f3f4f2;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+.sidebar.collapsed .sidebar-title {
+  display: none;
+}
+
+.sidebar-toggle {
+  border: 0;
+  background: transparent;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  color: #8e9490;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f2f2f0;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 10px 20px;
+  overflow-x: hidden;
+}
+
+.sidebar.collapsed .sidebar-nav {
+  padding: 16px 8px 20px;
+}
+
+.sidebar-item-wrapper {
+  margin-bottom: 2px;
+}
+
+.sidebar-item {
+  position: relative;
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 13px;
+  padding: 0 12px;
+  border-radius: 7px;
+  color: #c7cbc7;
+  text-decoration: none;
+  transition: background 150ms ease, color 150ms ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-item {
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+  background: #252927;
+  color: #f4f5f3;
+}
+
+.sidebar-item.active::before {
+  position: absolute;
+  left: 0;
+  width: 3px;
+  height: 24px;
+  border-radius: 0 2px 2px 0;
+  background: #3d73d3;
+  content: '';
+}
+
+.sidebar-icon {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.sidebar-label {
+  flex: 1;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-badge {
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: #8b5e22;
+  color: #fff4dc;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.sidebar-description {
+  margin: 0 12px 4px 47px;
+  color: #8eaaa5;
+  font-size: 12px;
+}
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed .sidebar-footer {
+  align-items: center;
+  padding: 14px 8px;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .admin-info {
+  justify-content: center;
+  width: 100%;
+}
+
+.admin-avatar {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: #315d9d;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.admin-name,
+.admin-role {
+  margin: 0;
+}
+
+.admin-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-role {
+  color: #969a96;
+  font-size: 12px;
+}
+
+.sidebar.collapsed .sidebar-label,
+.sidebar.collapsed .sidebar-badge,
+.sidebar.collapsed .sidebar-description,
+.sidebar.collapsed .admin-details,
+.sidebar.collapsed .sidebar-footer p {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-footer .version-label {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 252px !important;
+    min-width: 252px !important;
+    transform: translateX(-100%);
+    transition: transform 200ms ease;
+  }
+
+  .sidebar.expanded {
+    transform: translateX(0);
+  }
+}
+
+.sidebar.collapsed .mode-switcher { display: none; }
+

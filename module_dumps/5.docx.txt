@@ -1,0 +1,177 @@
+=== 5.docx ===
+
+[P1] (Normal) COIMBATORE INSTITUTE OF TECHNOLOGY
+(Government Aided Autonomous Institution affiliated to Anna University)
+COIMBATORE – 641 014
+[P2] (Normal) PROJECT WORK RECORD DOCUMENTATION
+[P3] (Normal) PayGate (Transiq)
+Secure Digital Payment & Wallet Management Platform
+MODULE 5: SECURITY, ACCESS MANAGEMENT & WALLET KILL-SWITCH
+[P4] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P5] (Heading 2) PROJECT DETAILS
+[P7] (Heading 2) TEAM DETAILS
+[P9] (Normal) Project Guide / Supervisor: Prof. / Dr. ______________________________________________
+Signature of the Guide: ______________________________________________
+[P11] (Heading 1) Synopsis
+[P12] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P13] (Normal) PayGate (Transiq) is a production-grade digital payment and wallet platform engineered to guarantee deterministic transaction integrity, user asset custody, and transparent operational control in a modern fintech environment. Within this multi-tier platform, Module 5: Security, Access Management & Wallet Kill-Switch operates as the core defensive governance subsystem. It ensures that account authentication, cryptographic password lifecycle, active device authorization, and emergency balance protections function reliably under adversarial network conditions.
+[P14] (Normal) A central innovation of Module 5 is the Emergency Wallet Freeze (Kill-Switch). If an account is suspected of compromise, the customer can instantly toggle a freeze status. This status propagates immediately to MongoDB, where Mongoose pre-save hooks intercept and reject any balance alterations across all transaction channels (Wallet, IMPS, NEFT, and RTGS). Concurrently, the module enforces cryptographic password modifications using Bcrypt with 12 salt rounds, multi-factor authentication (MFA) preferences, and active authorized device session tracking with one-click revocation.
+[P15] (Heading 2) Key Problem Areas Addressed
+[P16] (List Bullet) Account Takeover & Stolen Credentials: Mitigates unauthorized balance drainage through zero-latency wallet freezing.
+[P17] (List Bullet) Plaintext Secret Vulnerability: Prevents credential exposure by hashing passwords strictly with Bcrypt salt factor 12.
+[P18] (List Bullet) Stale & Compromised Sessions: Eliminates unmonitored sessions by exposing active device IP/location telemetry with granular revocation.
+[P19] (List Bullet) Non-Repudiation & Auditability: Ensures full regulatory traceability by maintaining a chronological audit log of all security events.
+[P20] (Heading 2) Proposed Architectural Approach
+[P21] (List Bullet) Decoupled MERN Architecture: React 19 + Zustand client communicating via REST APIs with Express.js and MongoDB.
+[P22] (List Bullet) Defense-in-Depth Schema Guards: Database-level Mongoose pre-save hooks blocking mutations when isFrozen=true.
+[P23] (List Bullet) Stateless RBAC Authorization: JSON Web Tokens (JWT) validating user claims, roles, and isActive account flags on every request.
+[P25] (Heading 1) Objective
+[P26] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P27] (List Bullet) Deterministic Wallet Kill-Switch: Implement an emergency balance freeze mechanism allowing users to instantly lock their wallet funds, guaranteeing zero outbound transfer capability at both the API and database levels.
+[P28] (List Bullet) Cryptographic Secret Protection: Eliminate plaintext credential persistence by enforcing Bcrypt hashing with 12 salt rounds during user creation and password revisions.
+[P29] (List Bullet) Strict Multi-Tier Input Sanitization: Validate all incoming request bodies using express-validator to enforce password complexity, minimum length constraints (>= 8 characters), and previous credential verification.
+[P30] (List Bullet) Active Device Session Governance: Furnish an interactive session management console detailing authorized device types, IP addresses, geographical locations, and providing one-click individual and bulk session revocation.
+[P31] (List Bullet) Real-Time Security Audit Telemetry: Capture a timestamped audit trail of sensitive identity events (password changes, wallet freezes, 2FA verifications, and failed logins) to support forensics.
+[P32] (List Bullet) Reversible Account Deactivation: Support soft account suspension by setting isActive to false, halting unauthorized login while preserving immutable financial transaction history for accounting compliance.
+[P33] (Heading 1) Scope
+[P34] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P35] (Heading 2) Functional Scope
+[P36] (List Bullet) Authentication & Route Protection: Enforces signed JWT verification and isActive checks across all sensitive routes.
+[P37] (List Bullet) Emergency Freeze Subsystem: Instant toggle of isFrozen flag on user's wallet with visual real-time badge updates.
+[P38] (List Bullet) Password Lifecycle Management: Authenticated password updates requiring current password validation and new password matching.
+[P39] (List Bullet) Multi-Factor & Biometric Preferences: Interactive toggles for 2FA OTP verification and Biometric/TouchID authentication.
+[P40] (List Bullet) Session Auto-Lock Timeout: Configurable idle session auto-lock thresholds (5, 15, 30, and 60 minutes).
+[P41] (List Bullet) Active Session Revocation: Dynamic device listing with granular revoke action and bulk 'Sign out all other devices' option.
+[P42] (List Bullet) Audit Log Feed: Real-time chronological logging of all authentication events and system changes.
+[P43] (Heading 2) Technical Scope
+[P44] (List Bullet) Client: React 19, Vite bundler, Tailwind CSS v4, Zustand reactive state store.
+[P45] (List Bullet) Application Server: Node.js, Express.js REST API with express-validator and jsonwebtoken middleware.
+[P46] (List Bullet) Persistence Layer: MongoDB with Mongoose ODM implementing pre-save encryption and validation hooks.
+[P47] (Heading 2) Current Out-of-Scope / Future Expansion
+[P48] (List Bullet) Physical biometric hardware reader dongles; simulated via browser WebAuthn API.
+[P49] (List Bullet) Real-world cellular telecom SMS gateway delivery; simulated via verified verification logs.
+[P50] (List Bullet) Distributed Redis token blacklisting across geographically dispersed data centers.
+[P51] (Heading 1) Project Description
+[P52] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P53] (Normal) PayGate (Transiq) is structured as a decoupled multi-tier web application consisting of an Express.js/Node.js API service, a React.js client interface, and a MongoDB persistence database. Module 5 interacts with all three tiers as follows:
+[P55] (Heading 1) DB Design
+[P56] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P57] (Normal) Module 5 directly utilizes and updates the following collections in MongoDB (paygate_db):
+[P58] (Heading 2) Users Collection (models/User.js)
+[P60] (Heading 2) Wallets Collection (models/Wallet.js)
+[P62] (Heading 1) Data Flow Diagram (DFD)
+[P63] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P64] (Heading 2) Level 0 — Context Diagram
+[P65] (Normal) In the Level 0 Context Diagram, the Customer User interacts with the PayGate Security Subsystem as a single process. The customer provides authentication tokens, password updates, freeze commands, and session termination requests. The subsystem responds with signed JWT credentials, freeze status confirmations, and audit event logs.
+[P66] (Heading 2) Level 1 — Subsystem Decomposition
+[P67] (Normal) Figure 7.1 illustrates the Level 1 Subsystem Decomposition, breaking down Module 5 into its primary sub-processes (5.1 Password Management, 5.2 Wallet Kill-Switch, and 5.3 Session & 2FA Controls) interfacing with data stores D1, D2, and D5.
+[P69] (Normal) Figure 7.1 — Level 1 DFD: Security & Access Management Subsystem
+[P70] (Heading 3) Process Summary Table
+[P72] (Heading 1) ER Diagram
+[P73] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P74] (Normal) The Entity-Relationship model defines the security domain entities and their cardinality. A USER owns exactly one WALLET (1:1), and originates multiple SECURITY_LOG records (1:N) capturing every sensitive lifecycle event.
+[P76] (Normal) Figure 8.1 — Entity–Relationship Diagram of Security Domain
+[P77] (Heading 1) Use Case Diagram
+[P78] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P79] (Normal) The Use Case diagram illustrates the primary security interactions available to the Customer User, including password modifications, emergency wallet freeze, multi-factor configurations, active session auditing, and account deactivation.
+[P81] (Normal) Figure 9.1 — Use Case Diagram: Security Subsystem
+[P82] (Heading 1) Class Diagram
+[P83] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P84] (Normal) The Class Diagram maps the object-oriented structure of the security subsystem. It depicts the domain models User and Wallet, their internal methods and hooks, and their integration with SecurityController.
+[P86] (Normal) Figure 10.1 — Class Diagram: Security Domain Components
+[P87] (Heading 1) Sequence Diagram
+[P88] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P89] (Normal) The Sequence Diagram captures the chronological message exchange during an Emergency Wallet Freeze invocation, tracing from the customer's UI trigger, through JWT middleware validation, controller logic, and MongoDB document persistence.
+[P91] (Normal) Figure 11.1 — Sequence Diagram: Emergency Wallet Freeze Execution
+[P92] (Heading 1) Screenshots (Forms)
+[P93] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P94] (Normal) The following screenshots depict representative user interfaces and forms developed for Module 5:
+[P95] (Heading 2) Customer Portal: Security & Access Management Workspace
+[P97] (Normal) Figure 12.1 — Customer Portal Navigation: Security Workspace Option Selected
+[P98] (Heading 2) Password Lifecycle & Validation Form
+[P100] (Normal) Figure 12.2 — Change Password Form: Current Password, New Password, and Match Verification
+[P101] (Heading 1) Test Report
+[P102] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P103] (Normal) Verification was conducted across REST endpoints, input validation middlewares, Mongoose pre-save hooks, and React UI controls. The execution evidence and test outcomes are detailed below:
+[P104] (Heading 2) Test Execution Summary
+[P106] (Heading 2) Detailed Test Cases
+[P108] (Heading 1) Conclusion and further Enhancements
+[P109] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P110] (Heading 2) Conclusion
+[P111] (Normal) Module 5: Security, Access Management & Wallet Kill-Switch successfully establishes a comprehensive, zero-trust security framework for the PayGate (Transiq) platform. By combining client-side real-time state management, robust Express validation middlewares, and schema-level Mongoose pre-save freeze hooks, the module guarantees that user balances are protected from unauthorized transactions, even in scenarios involving device theft or session compromise. The implementation satisfies all institutional and industry requirements for secure financial web software.
+[P112] (Heading 2) Further Enhancements
+[P113] (List Bullet) WebAuthn / FIDO2 Hardware Passkeys: Incorporate browser-native FIDO2/WebAuthn APIs to enable biometric fingerprint and USB security key authentication directly without passwords.
+[P114] (List Bullet) Geo-IP Anomaly & Velocity Engine: Implement MaxMind GeoIP telemetry to automatically trigger an emergency wallet freeze when an impossible geographic travel velocity is detected between logins.
+[P115] (List Bullet) Distributed Redis Token Blacklisting: Integrate an in-memory Redis cluster to support sub-millisecond JWT token revocation across distributed microservices upon password modification or session termination.
+
+
+=== TABLES ===
+
+--- Table 0 (5x2) ---
+Row 0: Domain | Full-Stack Web Development — Digital Payments (MERN Stack)
+Row 1: Institution | Coimbatore Institute of Technology (CIT)
+Row 2: Course / Department | M.Sc. Software Systems
+Row 3: Semester / Year | Semester III / Academic Year 2025 – 2026
+Row 4: Module Assigned | Module 5: Security, Access Management & Emergency Wallet Freeze
+
+--- Table 1 (7x3) ---
+Row 0: S.No | Name of Student | Register Number
+Row 1: 1 |  | 
+Row 2: 2 |  | 
+Row 3: 3 |  | 
+Row 4: 4 |  | 
+Row 5: 5 |  | 
+Row 6: 6 |  | 
+
+--- Table 2 (4x3) ---
+Row 0: Tier | Primary Technology | Module 5 Responsibilities
+Row 1: Client Tier | React 19, Vite, Zustand, Tailwind CSS | Renders the Emergency Kill-Switch banner, Password Change form, 2FA/Biometric preference switches, Authorized Sessions list, and Audit Activity Feed.
+Row 2: Application Tier | Node.js, Express.js, JWT, Bcrypt | Verifies Bearer JWTs, checks user.isActive status, sanitizes input payloads via express-validator, hashes passwords with salt factor 12, and handles REST routing.
+Row 3: Persistence Tier | MongoDB, Mongoose ODM (paygate_db) | Persists users and wallets collections; enforces pre-save encryption hooks and database-level freeze interceptors blocking balance mutations.
+
+--- Table 3 (11x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique customer identity reference
+Row 2: firstName | String | Required, Trim | Customer first name
+Row 3: lastName | String | Required, Trim | Customer last name
+Row 4: email | String | Required, Unique, Lowercase | Unique login credential
+Row 5: password | String | Required, Bcrypt (salt: 12) | Cryptographically hashed password secret
+Row 6: phone | String | Required, Unique, Indexed | Contact number for 2FA OTP verification
+Row 7: role | String | Enum: ['customer', 'admin'] | Role-Based Access Control identifier
+Row 8: isActive | Boolean | Default: true, Indexed | Account freeze / soft-deactivation flag
+Row 9: createdAt | Date | Auto Timestamp | Account creation timestamp
+Row 10: updatedAt | Date | Auto Timestamp | Timestamp of last password/profile change
+
+--- Table 4 (8x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique wallet ledger identifier
+Row 2: userId | ObjectId | Required, Ref: User, Unique | Owner reference; enforces 1:1 user-to-wallet relationship
+Row 3: mainBalance | Number | Default: 0, Min: 0 | Liquid available funds; locked if isFrozen=true
+Row 4: currency | String | Enum: ['INR', 'USD', 'EUR'] | Standard operating currency
+Row 5: isFrozen | Boolean | Default: false, Indexed | Security Kill-Switch flag toggled by Module 5
+Row 6: createdAt | Date | Auto Timestamp | Wallet generation timestamp
+Row 7: updatedAt | Date | Auto Timestamp | Timestamp of last freeze or balance change
+
+--- Table 5 (5x2) ---
+Row 0: Process | Functional Description
+Row 1: 5.1 Credential Verification & Password Change | Compares candidate password via Bcrypt, validates new password complexity (>= 8 chars), hashes with salt 12, and updates D1 Users.
+Row 2: 5.2 Emergency Wallet Freeze (Kill-Switch) | Reads and toggles the isFrozen flag in D2 Wallets. Schema pre-save hooks reject subsequent balance deductions from any payment channel.
+Row 3: 5.3 Multi-Factor & Biometric Governance | Maintains customer 2FA/biometric preferences and enforces configurable session auto-lock thresholds.
+Row 4: 5.4 Active Session Auditing & Revocation | Captures originating IP addresses, device user agents, and locations. Enables granular revocation of suspicious client sessions.
+
+--- Table 6 (5x2) ---
+Row 0: Metric | Result
+Row 1: Test Environment | Node.js v24.19.0, Express 4.x, MongoDB v7.x Community
+Row 2: Frontend Harness | React 19 / Vite / Chrome DevTools Network Inspector
+Row 3: Total Test Cases Executed | 7 Passed, 0 Failed, 0 Skipped (100% Success Rate)
+Row 4: Validation Coverage | Bcrypt Hashing, Length Verification, Schema Locks, Session Invalidation
+
+--- Table 7 (8x6) ---
+Row 0: Test ID | Test Description | Input Payload | Expected Output | Actual Result | Status
+Row 1: TC-SEC-01 | Update password with valid secret | oldPassword, newPassword (8+ chars) | HTTP 200; Bcrypt hash updated in DB | Password updated; new hash verified in Compass | PASS
+Row 2: TC-SEC-02 | Reject incorrect current password | Incorrect oldPassword | HTTP 401: 'Incorrect old password' | HTTP 401 returned; password untouched | PASS
+Row 3: TC-SEC-03 | Reject password shorter than 8 chars | newPassword: 'short' | HTTP 400: 'New password must be at least 8 chars' | express-validator blocks request with 400 | PASS
+Row 4: TC-SEC-04 | Emergency wallet freeze toggle | PATCH /api/security/freeze | HTTP 200; isFrozen toggles to true in wallets | isFrozen: true confirmed in MongoDB Compass | PASS
+Row 5: TC-SEC-05 | Blocked debit on frozen wallet | Send Money transfer when isFrozen=true | Pre-save hook throws error; HTTP 403 / 500 | Debit halted; wallet balance unchanged | PASS
+Row 6: TC-SEC-06 | Revocation of authorized session | Click 'Revoke' on secondary device session | Session removed from activeSessions store | Session invalidated immediately | PASS
+Row 7: TC-SEC-07 | Account soft deactivation | DELETE /api/security/account | HTTP 200; user.isActive set to false in DB | isActive: false confirmed in MongoDB | PASS

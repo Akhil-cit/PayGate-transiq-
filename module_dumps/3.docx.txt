@@ -1,0 +1,94 @@
+=== 3.docx ===
+
+[P1] (Title) PayGate - Secure Digital Payment Platform
+[P2] (Normal) Modules: Payment Initiation & My Wallet
+[P3] (Normal) SYNOPSIS
+[P4] (Body Text) The PayGate (Transiq) platform is a production-grade payment gateway system developed for secure online monetary transfers and wallet bank account management. This document presents the design, architecture, database models, and test reports for Payment Initiation and My Wallet.
+[P6] (Body Text) Built using React, FastAPI, and MongoDB Community Server, the system manages fund transfers through a deterministic Finite State Machine (CREATED -> VALIDATED -> AWAITING_PIN -> SUCCESSFUL / FAILED). Payments generate a unique background Transaction ID (TXN-YYYYMMDD-XXXXXX) allowing idempotent retries. Security PINs are encrypted via SHA-256 digests. My Wallet enables a two-step bank account linking workflow using 6-digit OTPs with 5-minute TTL expiration and attempt rate limiting.
+[P8] (Heading 1) OBJECTIVE
+[P9] (List Paragraph) Secure Payment Initiation: Multi-step guided payment workflow with background Transaction ID creation (TXN-YYYYMMDD-XXXXXX).
+[P10] (List Paragraph) Beneficiary Validation: Verification of transfer recipient existence within the database.
+[P11] (List Paragraph) Account Validation: Validation of funding account active status and verified flag (isVerified == True).
+[P12] (List Paragraph) Pre-Flight & Commit Balance Check: Ensuring transfer amount > 0 and <= available balance at pre-flight and commit boundaries.
+[P13] (List Paragraph) Security PIN Authorization: Six-digit PIN verification using SHA-256 cryptographic digest matching.
+[P14] (List Paragraph) JWT Authentication: Enforcing JWT bearer token authorization across protected endpoints.
+[P15] (List Paragraph) State Machine Execution: Modeling transaction lifecycles using FSM state transitions persisted in MongoDB.
+[P16] (List Paragraph) Idempotent Retry: Retrying failed payments using the exact same Transaction ID.
+[P17] (List Paragraph) OTP Account Linking: Two-factor bank account connection via 6-digit OTP with 5-minute TTL and 3-attempt cap.
+[P18] (List Paragraph) Multi-Collection Balance Sync: Real-time balance synchronization across funding, connected, and core bank collections.
+[P19] (List Paragraph) Standardized Error Handling: Standardized HTTP responses for frontend error toast notifications.
+[P21] (Heading 1) SCOPE
+[P22] (List Paragraph) Payment Initiation Scope: Background TXN creation, WALLET/IMPS/NEFT/RTGS payment methods, beneficiary & account validation, SHA-256 PIN check, failure recording, payment retries retaining same TXN ID.
+[P23] (List Paragraph) My Wallet Scope: Display connected bank accounts, dummy_bank_accounts lookup, 6-digit OTP generation with 5-min TTL, attempt rate limiting, upsert=True bank linking, sub-wallet splits.
+[P24] (List Paragraph) Out of Scope: Direct commercial bank API clearing networks, physical SMS gateway delivery (simulated locally), credit card acquiring networks.
+[P26] (Heading 1) PROJECT DESCRIPTION & FUNCTIONAL MODULES
+[P27] (Body Text) The system follows a three-tier architecture: React single-page frontend, FastAPI Python backend, and MongoDB database layer. Payment execution transitions through CREATED, VALIDATED, AWAITING_PIN, and SUCCESSFUL / FAILED states.
+[P29] (Normal) Payment Initiation Module - Step 1: Funding Account Selection & Background TXN ID Header
+[P31] (Normal) Payment Initiation Module - Step 5: Cryptographic 6-Digit Security PIN Authorization Modal
+[P34] (Normal) My Wallet Module - Connected Bank Accounts Overview Grid & Balance Summary KPIs
+[P36] (Normal) My Wallet Module - Two-Step Simulated OTP Bank Verification  with Time
+[P37] (Heading 1) DATABASE DESIGN
+[P38] (Body Text) Database: MongoDB Community Server (paygate_db) | Connection: mongodb://localhost:27017/ | Driver: PyMongo
+[P39] (List Paragraph) accounts: Funding accounts (id, name, number, balance, type, bank, status, isVerified).
+[P40] (List Paragraph) connected_bank_accounts: User verified bank accounts (id, accountNumber [Indexed], maskedAccountNumber, name, balance, isVerified, status).
+[P41] (List Paragraph) dummy_bank_accounts: Core-banking simulation records (accountNumber, accountHolderName, associatedPhoneNumber, availableBalance, bankName).
+[P42] (List Paragraph) recipients: Transfer beneficiaries (id, name, bank, account, ifsc, phone, quickAccess).
+[P43] (List Paragraph) transactions: Transaction ledger & FSM state store (transactionId, status, step, accountId, recipientId, amount, totalAmount, failureReason).
+[P44] (List Paragraph) otps: OTP verification store (accountNumber, phone, otp, attempts, expiresAt, verified).
+[P45] (List Paragraph) wallets: Sub-wallet balance splits (accountId, name, allocatedAmount, updatedAt).
+[P51] (Normal) PayGate MongoDB Entity-Relationship (ER) Diagram
+[P53] (Heading 1) DATA FLOW DIAGRAM (DFD)
+[P55] (Normal) DFD Level 0 - PayGate System Context Diagram
+[P75] (Normal) DFD Level 1 - My Wallet Bank Account Verification
+[P79] (Heading 1) USE CASE DIAGRAM
+[P81] (Normal) PayGate System Use Case Diagram
+[P83] (Heading 1) CLASS DIAGRAM
+[P104] (Heading 1) PayGate Backend Architecture Class Diagram
+[P105] (Heading 1) SEQUENCE DIAGRAMS
+[P108] (Normal) Payment Initiation & Authorization Sequence Diagram
+[P131] (Normal) My Wallet Bank Account Verification Sequence Diagram
+[P145] (Heading 1) TEST REPORT
+[P156] (Heading 1) CONCLUSION
+[P157] (Normal) The implementation of the Payment Initiation and My Wallet modules for the PayGate (Transiq) platform successfully fulfills the technical and security requirements of a modern digital payment gateway.
+[P159] (Body Text) By modeling payment execution as a deterministic Finite State Machine, the system enforces rigorous state transitions (CREATED -> VALIDATED -> AWAITING_PIN -> SUCCESSFUL / FAILED), ensuring transaction auditability and preventing ghost payments. Cryptographic security is achieved through SHA-256 digest hashing of Security PINs. The My Wallet module establishes a 2-step bank account linking flow governed by 6-digit OTPs with 5-minute TTL expiration and 3-attempt limits.
+[P161] (Body Text) Data persistence using MongoDB Community Server leverages projection rules ({'_id': 0}), upsert semantics (upsert=True), and multi-collection balance synchronization to ensure absolute ledger consistency.
+[P163] (Heading 1) FURTHER ENHANCEMENTS
+[P164] (Body Text) Multi-document MongoDB transactions (session.start_transaction()), HTTP Idempotency-Key header support, immutable append-only ledger, Open Banking OAuth2 tokenization, machine learning fraud detection models, and production TLS/Vault security.
+
+
+=== TABLES ===
+
+--- Table 0 (18x5) ---
+Row 0: Category / Heading | Input Test Data | Expected Result | Actual Result | Status
+Row 1: A. Transaction Initiation | Trigger payment initiation | Generate unique TXN ID in CREATED state | Generated TXN-20261007-849201 (CREATED) | PASS
+Row 2: B. Amount Validation | Amount = 500 | Pre-flight validation succeeds | Validation passed successfully | PASS
+Row 3: B. Amount Validation | Amount = 0 | Reject with 400 Bad Request | Rejected with 400 Bad Request | PASS
+Row 4: B. Amount Validation | Amount = -500 | Reject via Pydantic schema (gt=0) | Rejected by Pydantic validation | PASS
+Row 5: C. Account Validation | Account ID = ACC_SAVINGS | Account validation succeeds | Account validated successfully | PASS
+Row 6: C. Account Validation | Account (isVerified == False) | Reject with 400 Bad Request | Rejected with 400 Bad Request | PASS
+Row 7: D. Beneficiary Validation | Recipient ID = REC01 | Beneficiary validation succeeds | Beneficiary found in recipients | PASS
+Row 8: D. Beneficiary Validation | Recipient ID = REC999 (Invalid) | Reject with 400 Bad Request | Rejected with 400 Bad Request | PASS
+Row 9: E. Balance Validation | Balance = 82450, Amount = 5000 | Balance check passes | Balance check passed | PASS
+Row 10: E. Balance Validation | Balance = 2000, Amount = 5000 | Reject with INSUFFICIENT_FUNDS | Rejected with INSUFFICIENT_FUNDS | PASS
+Row 11: F. Payment Method | Method = IMPS | Payment method accepted | Method recorded as IMPS | PASS
+Row 12: G. JWT Authentication | Valid Bearer JWT Token | Request processed successfully | Access authorized | PASS
+Row 13: G. JWT Authentication | Expired / Malformed Token | Reject with 401 Unauthorized | Rejected with 401 Unauthorized | PASS
+Row 14: H. PIN Validation | PIN = 123456 (Correct SHA-256) | PIN verified; status SUCCESSFUL | SHA-256 matched; SUCCESSFUL | PASS
+Row 15: H. PIN Validation | PIN = 654321 (Incorrect SHA-256) | Transaction status set to FAILED | SHA-256 mismatch; FAILED | PASS
+Row 16: I. Wallet Status | Wallet Status = FROZEN | Reject with FROZEN_WALLET | Rejected with FROZEN_WALLET | PASS
+Row 17: J. State Transitions | Step-by-step FSM execution | CREATED -> VALIDATED -> AWAITING_PIN -> SUCCESSFUL | All FSM state updates saved in DB | PASS
+
+--- Table 1 (13x5) ---
+Row 0: K. Retry | Trigger POST /api/payment/retry | Set state to AWAITING_PIN using SAME TXN ID | Retried using same TXN ID | PASS
+Row 1: L. Duplicate Prevention | Rapid duplicate submission | Maintain single TXN ID ledger entry | Single ledger entry maintained | PASS
+Row 2: M. Failure Handling | Simulated bank timeout | Set status FAILED (BANK_TIMEOUT) | Recorded BANK_TIMEOUT failure | PASS
+Row 3: N. Receipt Generation | Complete SUCCESSFUL payment | Return transaction receipt payload | Returned complete receipt summary | PASS
+Row 4: O. OTP Generation | Account = BANK10001, Phone = 9876543210 | 6-digit OTP generated with 5-min TTL | OTP stored in otps collection | PASS
+Row 5: P. OTP Verification | Submit correct 6-digit OTP | OTP verified; account linked | OTP matched; verified == True | PASS
+Row 6: Q. OTP Expiration | Submit OTP after 5 minutes | Reject with 400 Bad Request (Expired) | Rejected with 400 Bad Request | PASS
+Row 7: R. Attempt Limiting | Submit 3 incorrect OTPs | Lock verification (Max 3 attempts) | Verification locked after 3 attempts | PASS
+Row 8: S. Account Linking | Complete OTP verification | Add record to connected_bank_accounts | Account linked successfully | PASS
+Row 9: T. MongoDB Upsert | Link verified account | Execute update_one with upsert=True | Record updated/inserted without duplicate | PASS
+Row 10: U. HTTP Error Handling | Backend exception raised | Return unified JSON {'detail': '...'} | Returned standardized JSON error | PASS
+Row 11: V. Pydantic Validation | Submit non-numeric amount | Gateway rejects invalid schema | Gateway rejected invalid payload | PASS
+Row 12: W. Balance Synchronization | Complete successful payment | Synchronize balances across 3 collections | Balances synchronized consistently | PASS

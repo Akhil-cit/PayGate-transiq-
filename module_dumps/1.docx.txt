@@ -1,0 +1,148 @@
+=== 1.docx ===
+
+[P1] (Normal) COIMBATORE INSTITUTE OF TECHNOLOGY
+[P2] (Normal) (Government Aided Autonomous Institution affiliated to Anna University, Chennai)
+[P3] (Normal) COIMBATORE – 641 014, TAMIL NADU, INDIA
+[P4] (Normal) PROJECT RECORD DOCUMENTATION
+[P5] (Normal) PayGate  — Secure Digital Payment Gateway
+[P6] (Normal) Module 1: Dashboard and smart pockets
+[P7] (Normal) PROJECT SPECIFICATIONS
+[P10] (Heading 1) SYNOPSIS
+[P11] (Normal) PayGate (Payment Gateway System) is a web-based payment and wallet management application developed to provide customers with a convenient and centralized platform for managing their digital financial activities. The system aims to simplify wallet monitoring and financial organization by bringing essential information, including the main wallet balance, linked simulated bank accounts, Smart Pocket summaries, and recent transaction details, into a unified customer dashboard. The project focuses on improving the accessibility and usability of financial information while enabling customers to organize their funds according to individual financial goals. The Customer Dashboard and Smart Pockets module serves as an important component of the application by providing a consolidated view of the customer's wallet status and goal-based fund allocations.
+[P13] (Heading 2) Objective
+[P14] (List Bullet) To design and implement a customer-facing dashboard that presents wallet information and Smart Pocket summaries in a centralized interface.
+[P15] (List Bullet) The module aims to support goal-based budgeting by allowing customers to define savings targets, monitor the amount currently allocated to each goal, and perform controlled deposit and withdrawal operations.
+[P16] (List Bullet) It also aims to improve user control through pocket locking, make relevant account information easier to inspect, and provide clear feedback when an operation succeeds or fails.
+[P17] (Heading 2) Scope
+[P18] (List Bullet) The scope of this record is limited to Module 1, Customer Dashboard and Smart Pockets.
+[P19] (List Bullet) It includes displaying the wallet main balance and currency, showing linked simulated bank-account information, presenting a Smart Pocket summary, and displaying recent transaction information where supported by the application.
+[P20] (List Bullet) It includes creating a pocket, assigning a target amount, tracking its current amount, depositing funds, withdrawing funds when permitted, and locking or unlocking a pocket.
+[P21] (List Bullet) Wallet-level frozen state is documented as a separate control from pocket-level locking.
+[P22] (List Bullet) Other payment, refund, settlement, security-administration, and reporting modules are not described in detail here.
+[P23] (Heading 2) Project Description
+[P24] (List Bullet) PayGate follows a layered web-application design.
+[P25] (List Bullet) The React interface renders dashboard cards, wallet information, pocket summaries, and pocket-operation controls.
+[P26] (List Bullet) Zustand stores relevant client-side state so components can access updated customer, wallet, and pocket information without passing every value through multiple component levels.
+[P27] (List Bullet) When a customer performs an operation, the frontend sends an HTTP request to the Express REST API.
+[P28] (List Bullet) The backend identifies the requested operation, validates input and access, applies the relevant business rules, and uses Mongoose models to read or update MongoDB documents.
+[P29] (List Bullet) The API returns a success or error response, after which the frontend refreshes the displayed state.
+[P30] (List Bullet) The Wallet document represents the main wallet balance and wallet state; each Pocket document represents a named financial goal, its target amount, its current allocated amount, and its lock state.
+[P31] (Normal) .
+[P32] (List Bullet) Create Pocket → Set Target → Deposit → Lock/Unlock → Withdraw.
+[P33] (List Bullet) A deposit adds to the pocket’s current amount and, when funds are moved from the wallet, reduces the wallet main balance.
+[P34] (List Bullet) A withdrawal reduces the pocket amount and returns funds to the wallet.
+[P35] (List Bullet) A locked pocket should reject withdrawals.
+[P36] (Normal) 2. DATABASE DESIGN
+[P37] (Normal) MongoDB stores the module’s data as documents. Mongoose defines the models and provides the backend interface to MongoDB. The userId field associates each wallet and pocket with its customer.
+[P39] (Heading 2) Relationships
+[P40] (List Bullet) One customer is associated with one wallet in the intended design.
+[P41] (List Bullet) One customer can have multiple Smart Pockets.
+[P42] (List Bullet) targetAmount is the goal; currentAmount is the amount currently allocated toward it.
+[P43] (List Bullet) Pocket lock is pocket-level; wallet freeze is wallet-level.
+[P45] (Heading 1) 3. DATA FLOW DIAGRAM (DFD)
+[P46] (Heading 2) Database Design Notes
+[P47] (List Bullet) MongoDB stores each wallet and pocket as a document in its respective collection.
+[P48] (List Bullet) The _id field uniquely identifies a document, while userId links it to the owning customer.
+[P49] (List Bullet) mainBalance is the overall wallet amount; targetAmount is the goal amount for one pocket; currentAmount is the amount currently allocated to that pocket.
+[P50] (List Bullet) currency indicates the wallet currency, isFrozen represents wallet-level control, and isLocked represents pocket-level withdrawal control.
+[P52] (Normal) Figure: 3. DATA FLOW DIAGRAM (DFD)
+[P53] (Normal) 4. ENTITY–RELATIONSHIP (ER) DIAGRAM
+[P54] (Normal) The Entity–Relationship (ER) Diagram identifies User, Wallet, and Pocket as the principal data entities in Module 1. The User entity represents the customer account. A Wallet record stores the customer's main balance, currency, frozen state, and creation time, and its userId field links it to the customer. A Pocket record stores the pocket name, target amount, current amount, lock state, and creation time; its userId field links the pocket to its owner. The intended relationship is one wallet per customer and multiple pockets per customer. This structure makes it possible to retrieve the financial records associated with a particular customer.
+[P56] (Normal) Figure: 4. ENTITY–RELATIONSHIP (ER) DIAGRAM
+[P57] (Normal) 5. USE CASE DIAGRAM
+[P58] (Normal) The Use Case Diagram describes the functions available to the customer through Module 1. The customer can open the dashboard to inspect the wallet balance, linked simulated accounts, Smart Pocket summary, and recent transaction information. The customer can create a pocket, enter a target amount, and view progress by comparing the current amount with the target. The customer can deposit funds into a pocket, withdraw funds when the pocket permits it, and lock or unlock the pocket. These use cases describe the module's customer-facing behaviour rather than internal database operations.
+[P60] (Normal) Figure: 5. USE CASE DIAGRAM
+[P62] (Heading 1) 6. CLASS DIAGRAM
+[P63] (Normal) The Class Diagram gives a simplified structural view of the core entities used by the module. User represents the customer identity. Wallet contains attributes for the main balance, currency, frozen state, and customer association. Pocket contains attributes for the goal name, target amount, current amount, lock state, and customer association. The association through userId allows the backend to identify which financial records belong to the authenticated customer. The diagram is a conceptual view of the data responsibilities; it does not claim that every displayed attribute is implemented as a separate software class.
+[P65] (Normal) Figure: 6. CLASS DIAGRAM
+[P66] (Normal) 7. SEQUENCE DIAGRAM
+[P67] (Normal) The Sequence Diagram illustrates the request-response flow for a typical Smart Pocket operation. First, the customer initiates an action from the React interface, such as creating a pocket or requesting a deposit. The frontend sends an HTTP request to the Express API. The backend validates the input and checks the relevant business conditions, such as whether the requested amount is valid or a pocket is locked. Mongoose then reads or updates the relevant MongoDB document or documents. The database result is returned through the backend as a JSON response, and the frontend updates the displayed pocket or wallet information. Error responses should be shown when validation or business rules prevent the operation.
+[P69] (Normal) Figure: 7. SEQUENCE DIAGRAM
+[P70] (Normal) 8. SCREENSHOTS
+[P71] (Normal) WELCOME PAGE IN DASHBOARD
+[P77] (Normal) POCKETS CREATED
+[P79] (Normal) POCKETS LOCKED (no withdraw possible)
+[P81] (Normal) 9. TEST REPORT
+[P82] (Normal) The test cases below cover normal user actions, invalid input, balance-related rules, pocket locking, dashboard loading, and API failure handling. Execute each case against the running application and mark the Status as Pass or Fail based on the observed result. The expected result is the behaviour that should occur; it should not be marked as passed until verified.
+[P84] (Normal) 10. CONCLUSION AND FURTHER ENHANCEMENTS
+[P85] (List Bullet) The Customer Dashboard and Smart Pockets module provides a centralized interface for inspecting wallet information and organizing funds around personal financial goals.
+[P86] (List Bullet) The dashboard brings together the wallet main balance, linked simulated bank-account information, Smart Pocket summary, and recent transaction information where available.
+[P87] (List Bullet) A Smart Pocket represents a goal-based allocation: targetAmount defines the intended goal and currentAmount records the amount currently allocated toward it.
+[P88] (List Bullet) Deposit and withdrawal operations change the pocket amount and, when implemented as fund transfers, update the wallet balance correspondingly.
+[P89] (List Bullet) Lock/unlock provides a pocket-level control against withdrawals, while isFrozen represents a separate wallet-level state.
+[P90] (List Bullet) The module separates presentation, state management, backend request handling, and data persistence using React, Zustand, Node.js, Express, MongoDB, and Mongoose.
+[P91] (List Bullet) Further enhancements may include progress indicators and charts for each savings goal, configurable reminders when a target is close or overdue, filtering and date-based viewing of recent transactions, and a history of pocket deposits and withdrawals.
+[P92] (List Bullet) The backend could also be strengthened with automated tests for simultaneous balance updates, atomic wallet-to-pocket transfers, and consistent rollback when one part of an operation fails.
+[P93] (List Bullet) Additional usability improvements could include clearer validation messages and accessible status indicators for locked pockets and frozen wallets.
+[P94] (List Bullet) These are suggested future improvements and should be treated as proposed work unless implemented and tested.
+
+
+=== TABLES ===
+
+--- Table 0 (5x2) ---
+Row 0: Field | Details
+Row 1: Domain | Digital Payment Systems (MERN Stack)
+Row 2: Subsystem | Module 1:dashboard and smart pockets
+Row 3: Institution | Coimbatore Institute of Technology
+Row 4: Course & Year | M.Sc. Software Systems  |  Semester III  |  Academic Year 2025–2026
+
+--- Table 1 (2x4) ---
+Row 0: S.No | Name of Student | Register Number | Role / Module Contribution
+Row 1: 1 | Krishnaprabha D | 2503717672622025 | Module 1:dashboard and smart pockets
+
+--- Table 2 (7x3) ---
+Row 0: Operation | Purpose | Expected effect / rule
+Row 1: Create Pocket | Create a goal-based allocation. | A pocket is associated with the customer; currentAmount normally starts at zero.
+Row 2: Set Target | Define the goal amount. | targetAmount records the desired amount and should be a valid positive value.
+Row 3: Deposit | Add money to a pocket. | Pocket currentAmount increases; if funds are transferred from the wallet, wallet mainBalance decreases by the same amount.
+Row 4: Withdraw | Return allocated funds to the wallet. | Pocket currentAmount decreases and wallet mainBalance increases; reject excessive withdrawals.
+Row 5: Lock / Unlock | Control pocket withdrawals. | isLocked=true blocks withdrawals; isLocked=false permits them subject to other checks.
+Row 6: Freeze Wallet | Represent wallet-level restriction. | isFrozen indicates the wallet's state and is distinct from the pocket lock.
+
+--- Table 3 (14x3) ---
+Row 0: Collection | Field | Description
+Row 1: Wallets | _id | Unique wallet document identifier
+Row 2: Wallets | userId | Customer associated with wallet
+Row 3: Wallets | mainBalance | Main wallet balance
+Row 4: Wallets | currency | Wallet currency
+Row 5: Wallets | isFrozen | Wallet-level frozen state
+Row 6: Wallets | createdAt | Wallet creation timestamp
+Row 7: Pockets | _id | Unique pocket document identifier
+Row 8: Pockets | userId | Customer associated with pocket
+Row 9: Pockets | name | Financial goal name
+Row 10: Pockets | targetAmount | Desired target amount
+Row 11: Pockets | currentAmount | Amount currently allocated
+Row 12: Pockets | isLocked | Whether pocket withdrawals are blocked
+Row 13: Pockets | createdAt | Pocket creation timestamp
+
+--- Table 4 (1x1) ---
+Row 0: 
+
+--- Table 5 (1x1) ---
+Row 0: 
+
+--- Table 6 (1x1) ---
+Row 0: 
+
+--- Table 7 (21x4) ---
+Row 0: Test Case | Input and/or Action | Expected Result | Status
+Row 1: Valid user login | Correct registered credentials | Authentication succeeds and dashboard opens. | Pass
+Row 2: Invalid login | Incorrect password | Login is rejected with an error. | Pass
+Row 3: Empty login fields | Submit blank required fields | Required-field validation appears. | Pass
+Row 4: Profile update | Save valid changed profile details | Updated details are displayed. | Pass
+Row 5: Invalid profile update | Submit invalid profile details | Update is rejected with validation feedback. | Pass
+Row 6: Password update | Submit valid new password | Password update succeeds according to configured rules. | Pass
+Row 7: Invalid password update | Password does not meet rules | Update is rejected. | Pass
+Row 8: Dashboard load | Open customer dashboard | Dashboard sections load as supported. | Pass
+Row 9: Wallet balance display | Request wallet details | Main balance and currency are shown. | Pass
+Row 10: Linked accounts display | Open linked accounts area | Linked simulated account details display when available. | Pass
+Row 11: Create pocket | Valid name and target amount | Pocket is created with current amount initially zero. | Pass
+Row 12: Empty pocket name | Submit pocket without a name | Creation is rejected. | Pass
+Row 13: Invalid target amount | Enter zero, negative or non-numeric amount | Invalid target is rejected. | Pass
+Row 14: Valid deposit | Deposit positive amount within available funds | Pocket amount increases and wallet is adjusted per fund-movement rules. | Pass
+Row 15: Invalid deposit | Enter zero, negative or invalid amount | Deposit is rejected. | Pass
+Row 16: Valid withdrawal | Withdraw within pocket balance from unlocked pocket | Pocket amount decreases and wallet is adjusted. | Pass
+Row 17: Excess withdrawal | Withdraw more than pocket current amount | Withdrawal is rejected. | Pass
+Row 18: Locked-pocket withdrawal | Lock pocket and attempt withdrawal | Withdrawal is blocked. | Pass
+Row 19: Lock/unlock pocket | Toggle pocket lock state | Lock state changes and UI reflects it. | Pass
+Row 20: API error | Simulate unavailable API or server error | Error is displayed without crashing the interface. | Pass

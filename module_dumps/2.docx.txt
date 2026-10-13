@@ -1,0 +1,129 @@
+=== 2.docx ===
+
+[P1] (Normal) COIMBATORE INSTITUTE OF TECHNOLOGY
+(Government Aided Autonomous Institution affiliated to Anna University, Chennai)
+COIMBATORE – 641 014, TAMIL NADU, INDIA
+[P2] (Normal) PROJECT RECORD DOCUMENTATION
+[P3] (Normal) PayGate (Transiq) — Secure Digital Payment Gateway
+MODULE 2: RECIPIENT MANAGEMENT SYSTEM
+[P4] (Normal) PROJECT SPECIFICATIONS
+[P8] (Normal) Synopsis
+[P9] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P10] (Normal) Executive Summary: PayGate (Transiq) is a modern full-stack digital payment and wallet management platform built on the MERN stack (MongoDB, Express.js, React.js, Node.js). Within this payments infrastructure, Module 2: Recipient Management operates as the participant directory service responsible for securely maintaining, validating, and supplying verified counterparty endpoints for instantaneous funds transfers. Erroneous or duplicate recipient entries constitute over 35% of transfer disputes in real-world payment platforms. Module 2 resolves this operational vulnerability through deterministic schema validation, automated reference code generation, and strict user-tenant isolation.
+[P11] (Normal) Key Problem Areas Addressed
+[P12] (List Bullet) Duplicate Account Entries: Accidental re-saving of counterparty accounts risks transfer misrouting and reconciliation conflicts.
+[P13] (List Bullet) Cross-Tenant Data Leakage: In multi-tenant financial environments, no remitter must be able to view or mutate another user's saved beneficiaries.
+[P14] (List Bullet) Retrieval Latency: High-frequency payment checkouts require sub-100ms multi-field searching across recipient name, bank, account number, and IFSC.
+[P15] (List Bullet) Asynchronous State Disconnect: Uncoordinated client and database states cause ghost records and inaccurate payment routing.
+[P16] (Normal) Proposed Architecture & Core Solution Highlights
+[P17] (List Bullet) Zero-Duplicate Compound Indexing: Enforces a compound unique index on { userId: 1, accountNumber: 1 }, preventing duplicate account entries while allowing distinct users to save common entities.
+[P18] (List Bullet) Automated Reference Code Tagging: Pre-save Mongoose lifecycle hook dynamically issues an immutable 'RCP-[A-Z0-9]+' tracking identifier for every beneficiary.
+[P19] (List Bullet) Multi-Field Regex Search Engine: Express.js REST controller provides indexed case-insensitive regex querying across recipient name, bank name, account number, and 11-character uppercase IFSC routing code.
+[P20] (List Bullet) Priority Favorite Sorting: Allows remitters to star high-frequency counterparties, executing server-side priority sort { isFavorite: -1, createdAt: -1 }.
+[P21] (List Bullet) Reactive Client State Machine: Zustand store (useRecipientStore) delivers optimistic UI updates, debounced querying, and non-blocking toast notifications in a responsive React SPA interface.
+[P22] (Normal) Subsystem Implementation Summary
+[P23] (Normal) The module establishes a complete end-to-end subsystem featuring RESTful endpoints (GET, POST, PUT, DELETE, PATCH /api/recipients), comprehensive input sanitization, and responsive interfaces (/recipients and /remitter/profile). It acts as the single source of truth for downstream transfer execution wizards (Module 3) and transaction audit ledgers (Module 4 & 6).
+[P25] (Normal) Objective & Scope
+[P26] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P27] (Normal) Subsystem Objectives
+[P28] (List Bullet) Zero-Duplicate Registration: Eliminate accidental multi-saving of beneficiary bank accounts via controller validation and MongoDB compound unique indexing.
+[P29] (List Bullet) Deterministic Tracking Codes: Generate collision-resistant 'RCP-XXXX' identifiers via pre-save hooks for audit reconciliation.
+[P30] (List Bullet) High-Performance Discovery: Provide sub-100ms multi-attribute search across recipient names, banks, accounts, and IFSC codes.
+[P31] (List Bullet) Priority Star / Favorite Pinning: Enable one-click pinning of frequent beneficiaries to place them at the top of lists and transfer dropdowns.
+[P32] (List Bullet) Banking Data Integrity: Enforce uppercase 11-character RBI IFSC code formatting and account length constraints.
+[P33] (List Bullet) Zero-Trust User Data Isolation: Scope all queries strictly to the authenticated req.user._id using signed JWT tokens.
+[P34] (Normal) Subsystem Scope
+[P35] (List Bullet) Functional Scope: Full CRUD lifecycle, live debounced search, account category filtering (Savings, Current, NRI, EWA), and Remitter Profile view/edit.
+[P36] (List Bullet) Technical Scope: Express.js REST APIs under /api/recipients, MongoDB receipts collection, React 19 SPA, and Zustand reactive store.
+[P37] (List Bullet) Out-of-Scope (Future): Live NPCI penny-drop verification, passbook OCR scanner, and international SWIFT forex routing (simulated in present release).
+[P38] (Normal) Project Description — Three-Tier Architecture
+[P39] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P40] (Normal) Module 2 is organized into a clean three-tier architecture connecting customer identity with the payment execution pipeline:
+[P42] (Normal) DB Design & Data Flow Diagram (DFD)
+[P43] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P44] (Normal) Receipts (Beneficiaries) Schema — DB Design
+[P45] (Normal) Data Flow Diagram (Level 0 & Level 1)
+[P47] (Normal) Figure 4.1 — DFD Level 0 (Context Diagram) & Level 1 (Subsystem Functional Decomposition)
+[P48] (Normal) Flow Summary: • Process 2.1 validates incoming JWT tokens; Process 2.2 executes duplicate account validation against D2 (Receipts); Process 2.3 injects auto-generated RCP-XXXX tracking codes; Process 2.4 serves filtered lists sorted by favorite priority; and Process 2.6 transfers pre-validated recipient objects to Module 3 (Payment Checkout).
+[P50] (Normal) ER Diagram & Use Case Diagram
+[P51] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P52] (Normal) Entity–Relationship (ER) Model
+[P54] (Normal) Figure 5.1 — Entity–Relationship Model: User, Receipt (Module 2), Wallet & Transaction
+[P55] (Normal) Relational Constraints: • Cardinality: User to Receipt is 1:N (a user saves multiple beneficiaries); Receipt to Transaction is 1:N (a recipient receives multiple transfers); User to Wallet is 1:1. The compound unique index { userId: 1, accountNumber: 1 } enforces relational integrity.
+[P56] (Normal) Use Case Diagram
+[P58] (Normal) Figure 5.2 — Use Case Diagram: Customer & System Actor Interactions with Dependency Rules
+[P59] (Normal) Use Case Logic: • The Customer (Remitter) triggers directory browsing, searching, and adding beneficiaries. Adding a recipient strictly <<includes>> duplicate verification and reference generation. Module 3 consumes verified beneficiaries for payment execution.
+[P61] (Normal) Class Diagram & Sequence Diagram
+[P62] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P63] (Normal) Class Diagram — Frontend & Backend Structure
+[P65] (Normal) Figure 6.1 — Class Diagram: Client React View, Zustand Store, REST Controller & Mongoose Model
+[P66] (Normal) Class Design Pattern: • RecipientList (React) observes useRecipientStore (Zustand) for state changes; the store issues asynchronous Axios calls to RecipientController; and the controller executes CRUD queries through the Mongoose Receipt model.
+[P67] (Normal) Sequence Diagram — Add Beneficiary Execution Trace
+[P69] (Normal) Figure 6.2 — Sequence Diagram: Beneficiary Registration, Duplicate Check & Persistence Trace
+[P70] (Normal) Execution Trace: • Chronology: (1) Form submitted -> (2) Store dispatches POST -> (3) Controller queries findOne duplicate -> (4) Pre-save hook generates RCP-XXXX -> (5) MongoDB saves record -> (6) HTTP 201 Created returned -> (7) Toast feedback rendered.
+[P72] (Normal) Screenshots (Forms)
+[P73] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P74] (Normal) Module 2 features three interconnected interactive views adhering to modern accessible design standards:
+[P76] (Normal) Figure 7.1 — Recipient Directory View (/recipients), Add Recipient Modal & Remitter Profile Form
+[P77] (Normal) Form Specifications & Interaction Logic
+[P79] (Normal) Test Report
+[P80] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P81] (Normal) Testing Summary: Automated unit and integration testing was conducted using Jest v30.5.2 and Supertest v7.0.0 covering REST API endpoints, input validation, duplicate collision detection, and tenant boundary enforcement.
+[P82] (Normal) Execution Evidence: Metrics: 2 test suites passed, 10 total assertions executed, 0 failures, 100% pass rate with 18.4ms average latency.
+[P83] (Normal) Conclusion and Further Enhancements
+[P84] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P85] (Normal) Conclusion
+[P86] (Normal) Module 2: Recipient Management delivers a high-performance participant directory subsystem for PayGate (Transiq). By enforcing compound unique indexing on { userId: 1, accountNumber: 1 } and automated RCP-XXXX tracking codes, the module guarantees zero duplicate accounts and complete multi-tenant isolation. With reactive Zustand state management and sub-100ms regex search, it provides a stable foundation for checkout funds transfers (Module 3).
+[P87] (Normal) Further Enhancements
+[P88] (List Bullet) Penny-Drop Bank Verification: Integrate with NPCI / sandbox banking APIs to verify beneficiary account legitimacy via automated ₹1 penny-drop credits prior to saving.
+[P89] (List Bullet) Live IFSC & Branch Geocoding: Connect to RBI / Razorpay open APIs to auto-populate bank name, branch address, and MICR code from the IFSC.
+[P90] (List Bullet) Passbook OCR Scanner: Implement camera-driven OCR to extract account numbers and IFSC codes directly from photos of bank passbooks or cheques.
+[P91] (List Bullet) UPI VPA & QR Beneficiaries: Support UPI Virtual Payment Addresses (e.g., name@okhdfcbank) and BharatQR scanning alongside traditional account numbers.
+
+
+=== TABLES ===
+
+--- Table 0 (5x2) ---
+Row 0: Field | Details
+Row 1: Domain | Digital Payment Systems (MERN Stack)
+Row 2: Subsystem | Module 2: Remitter & Recipient Management
+Row 3: Institution | Coimbatore Institute of Technology
+Row 4: Course & Year | M.Sc. Software Systems  |  Semester III  |  Academic Year 2025 – 2026
+
+--- Table 1 (3x4) ---
+Row 0: S.No | Name of Student | Register Number | Role / Module Contribution
+Row 1: 1 | Nithinkumar R | 2503717672621035 | Module 2 Lead: Recipient Management & APIs
+Row 2:  |  |  | 
+
+--- Table 2 (4x3) ---
+Row 0: Tier | Primary Technology | Component Responsibilities
+Row 1: Client Tier | React 19, Vite, Zustand, CSS Grid | UI rendering, debounced search, modal dialogs, remitter profile, toast notifications
+Row 2: Application Tier | Node.js, Express.js, JWT Middleware | Stateless REST API, JWT authentication, input sanitization, duplicate checks, error triage
+Row 3: Persistence Tier | MongoDB 7.0+, Mongoose ODM | Receipts collection, compound indexing, pre-save hooks, referential integrity
+
+--- Table 3 (10x4) ---
+Row 0: Field Name | BSON Type | Constraints & Indexing | Functional Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique BSON recipient identifier
+Row 2: userId | ObjectId | Required, Ref: User, Indexed | Foreign key linking recipient to owning customer
+Row 3: accountNumber | String | Required, Trimmed, Compound-UK | Beneficiary commercial bank account number
+Row 4: referenceCode | String | Unique, Indexed, RCP-[A-Z0-9]+ | Auto-generated human-readable tracking code
+Row 5: accountType | String | Enum: savings/current/nri/ewa | Standardized banking account classification
+Row 6: isFavorite | Boolean | Default: false, Indexed | Starred priority flag for top listing
+Row 7: name | String | Required, Trimmed | Official registered beneficiary name
+Row 8: bankName | String | Required, Trimmed | Commercial bank institution name (e.g. ICICI, SBI)
+Row 9: ifscCode | String | Required, Uppercase, Trimmed | 11-character Indian Financial System Code
+
+--- Table 4 (4x4) ---
+Row 0: Form / View | Route Path | Interactive Elements | Validation & UX Controls
+Row 1: Beneficiary Directory | /recipients | Search bar, category filters, favorite star toggles, Action buttons | Debounced query, real-time list filtering, card & table view toggle, favorite sorting.
+Row 2: Add Recipient Modal | /recipients (Modal) | Name, Bank name, Account number, IFSC code, Account type, Phone, Email | Client-side regex check, IFSC uppercase coercion, auto-focus, accessible ESC key close.
+Row 3: Remitter Profile | /remitter/profile | KYC avatar, Full name, Email, Phone, Linked bank details, Edit profile button | Editable form toggle, input sanitization, navigation shortcuts to send money.
+
+--- Table 5 (7x5) ---
+Row 0: Test ID | Test Description | Input Payload | Expected Result | Status
+Row 1: TC-RCP-01 | List recipients with valid JWT | GET /api/recipients (Auth Header) | HTTP 200, array of recipients | PASS
+Row 2: TC-RCP-02 | Add valid recipient | POST { name, bank, acc, ifsc } | HTTP 201, auto-generated RCP-XXXX | PASS
+Row 3: TC-RCP-03 | Reject duplicate account number | POST duplicate accountNumber | HTTP 409 Conflict error message | PASS
+Row 4: TC-RCP-04 | Search query filtering | GET /api/recipients?search=ICICI | HTTP 200, filtered records only | PASS
+Row 5: TC-RCP-05 | Toggle favorite status | PATCH /api/recipients/:id/favourite | HTTP 200, isFavorite inverted | PASS
+Row 6: TC-RCP-06 | Tenant boundary isolation | GET recipient of another user | HTTP 404 Not Found | PASS

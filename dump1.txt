@@ -1,0 +1,256 @@
+=== Document: D:\Clg\Python lab\MERN PROJECT\PayGate_Transiq_Professional_Project_Documentation (1).docx ===
+
+[0] (Normal) COIMBATORE INSTITUTE OF TECHNOLOGY
+[1] (Normal) (Government Aided Autonomous Institution affiliated to Anna University)
+[2] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3] (Normal) PROJECT DOCUMENTATION
+[4] (Normal) PayGate (Transiq)
+[5] (Normal) Secure Digital Payment & Wallet Management Platform
+[6] (Normal) A Scalable Full-Stack MERN Payment Gateway and Intelligent Digital Wallet System
+[9] (Normal) Team Details (6 Members)
+[11] (Normal) Project Guide / Supervisor: Prof. / Dr. ______________________________________
+[12] (Normal) Signature of the Guide: ______________________________
+[14] (Heading 1) Table of Contents
+[16] (Normal) Note: In Microsoft Word, right-click the table of contents and select “Update Field” after editing the document.
+[18] (Heading 1) 1. Synopsis
+[19] (Normal) The rapid digitization of banking and merchant transactions demands high-speed, secure, and fault-tolerant financial architectures. PayGate (Transiq) is an enterprise-grade full-stack digital wallet and payment gateway web platform built on the MERN (MongoDB, Express.js, React, Node.js) technology stack. The system provides end-to-end electronic fund transfers between registered customers, linked banking institutions, and beneficiaries, reinforced by automated telemetry for administrative fraud supervision and real-time error auditing.
+[20] (Heading 2) 1.1 Problem Definition
+[21] (Normal) Modern digital transaction platforms suffer from two major challenges: (1) brittle client-side state leading to accidental double charges or stale balances during connectivity interruptions, and (2) absence of structured telemetry, causing failed financial operations to be silently dropped without auditable traceability.
+[22] (Heading 2) 1.2 Proposed System
+[23] (List Bullet) Customer Financial Portal: wallet top-ups, Smart Pockets with strict withdrawal locking, verified beneficiary directory management, and a 4-step idempotent payment checkout wizard — Beneficiary selection → Method configuration → PIN authorization → Digital receipt issuance.
+[24] (List Bullet) Operations & Audit Console (Admin): transaction telemetry, system health monitoring, pending payment retries, and high-severity error auditing with root-cause categorization such as INSUFFICIENT_FUNDS, BANK_TIMEOUT and FROZEN_WALLET.
+[25] (Heading 2) 1.3 Key Technologies
+[26] (List Bullet) Frontend: React 18 (Vite SPA), Tailwind CSS, Zustand centralized stores and Lucide icons.
+[27] (List Bullet) Backend: Node.js runtime, Express REST API, JSON Web Token (JWT) stateless authentication and Bcrypt hashing.
+[28] (List Bullet) Database: MongoDB with Mongoose ODM, ACID session transactions and schema validators.
+[29] (Heading 2) 1.4 Implementation Outcome
+[30] (Normal) The platform enforces strict zero-trust role separation. Unauthenticated visitors are prevented from loading dashboard views through synchronous route guards. Transactions execute atomically, and payment failures produce automated ErrorLog records for audit recovery.
+[31] (Heading 1) 2. Objectives
+[32] (List Bullet) Secure Wallet & Multi-Account Banking: manage primary wallet balances alongside simulated linked commercial bank accounts (Savings, Current, NRI) within an integrated dashboard.
+[33] (List Bullet) Deterministic, Idempotent Payment Initiation: provide a multi-step funds transfer flow ensuring payments cannot be double-processed, overdrawn, or transferred to unverified recipients.
+[34] (List Bullet) Smart Pocket Micro-Budgeting: create targeted financial goal buckets with dedicated lock/unlock controls to prevent impulse spending.
+[35] (List Bullet) Zero-Trust Role-Based Access Control (RBAC): segregate customer and administrative privileges through signed JWT tokens, bcrypt-hashed secrets and front-end navigation guards.
+[36] (List Bullet) Real-time Telemetry & Auditability: capture transaction failure telemetry including timestamps, error codes, affected amounts and stack traces into an administrator-monitored ledger.
+[37] (Heading 1) 3. Scope
+[38] (Heading 2) 3.1 Functional Scope
+[39] (List Bullet) Authentication & Identity: user registration with input sanitization, secure login, customer/admin role separation and session clearance on logout.
+[40] (List Bullet) Customer Services: real-time balance inspection, pocket creation, beneficiary management, IFSC/account validation, Wallet/IMPS/NEFT/RTGS transfers and transaction-history filtering.
+[41] (List Bullet) Administrative Operations: system-wide transaction-volume and success-rate analytics, pending transaction resolution and error triage with LOW, MEDIUM, HIGH and CRITICAL severity levels.
+[42] (Heading 2) 3.2 Technical Scope
+[43] (List Bullet) Stateless REST API communicating through JSON payloads.
+[44] (List Bullet) Responsive interface for mobile, tablet and desktop screens.
+[45] (List Bullet) MongoDB hosted locally or on cloud clusters with schema-level validation.
+[46] (Heading 2) 3.3 Out-of-Scope / Future Expansion
+[47] (List Bullet) Physical hardware POS integration.
+[48] (List Bullet) Cross-border currency conversion and SWIFT settlement.
+[49] (List Bullet) Third-party real-bank webhook integration; current implementation uses mock banking controllers.
+[50] (Heading 1) 4. Project Description & System Architecture
+[51] (Normal) PayGate (Transiq) is structured as a decoupled multi-tier web application consisting of an Express.js/Node.js API service and a React.js client. The architecture is organised into three tiers.
+[52] (Heading 2) 4.1 Client Tier — Transiq UI
+[53] (List Bullet) High-performance Single Page Application powered by Vite.
+[54] (List Bullet) Zustand stores: useCustomerStore, useRecipientStore, usePocketStore, transactionStore and logsStore.
+[55] (List Bullet) Root-level route protection through AppLayout, checking token validity before rendering views.
+[56] (Heading 2) 4.2 Application Server Tier — transiq-api
+[57] (List Bullet) Node.js / Express backend exposing versioned /api/ endpoints.
+[58] (List Bullet) Middleware for CORS, JSON parsing, token verification (auth.js), role validation (adminAuth.js) and centralized error interception.
+[59] (List Bullet) Business controllers orchestrate payment validation, PIN verification, balance deductions and atomic record insertion.
+[60] (Heading 2) 4.3 Data Persistence Tier — MongoDB
+[61] (List Bullet) Seven dedicated collections: users, wallets, bankaccounts, pockets, receipts, transactions and errorlogs.
+[62] (List Bullet) Mongoose ObjectId references and indexed lookups maintain referential integrity and efficient access.
+[64] (Heading 1) 5. Database Design
+[65] (Normal) The database comprises the core collections documented in the project record. The following tables retain the field-level definitions, constraints and purposes from the source.
+[66] (Heading 2) 5.1 users Collection
+[68] (Heading 2) 5.2 wallets Collection
+[70] (Heading 2) 5.3 pockets Collection
+[72] (Heading 2) 5.4 receipts Collection — Beneficiaries
+[74] (Heading 2) 5.5 transactions Collection
+[76] (Heading 2) 5.6 errorlogs Collection
+[78] (Heading 1) 6. Data Flow Diagrams
+[79] (Heading 2) 6.1 Level 0 DFD — Context Diagram
+[80] (Normal) The context diagram treats the whole PayGate platform as a single process (0.0) and shows data exchange with three external entities.
+[81] (List Bullet) Customer / User: supplies credentials, transfer requests and beneficiary details; receives dashboard data, receipts and status alerts.
+[82] (List Bullet) System Administrator: submits audit queries, log reviews and freeze triggers; receives system telemetry, error logs and metrics.
+[83] (List Bullet) Banking Gateway API: receives fund settlement requests and returns settlement responses and account status; simulated by mock banking controllers.
+[84] (Heading 2) 6.2 Level 1 DFD — Subsystem Decomposition
+[85] (Normal) Data stores: D1 Users, D2 Wallets, D3 Receipts, D4 Transactions Ledger and D5 ErrorLogs.
+[88] (Normal) Figure 6.1 — Level 1 DFD: Subsystem Decomposition
+[89] (Heading 1) 7. Entity–Relationship Diagram
+[90] (Normal) The ER model defines the principal entities and relationship cardinalities. A User allocates many Pockets (1:N), saves many Receipts/beneficiaries (1:N), links many Bank Accounts (1:N) and owns exactly one Wallet (1:1). A Wallet originates many Transactions (1:N), a Receipt receives many Transactions (1:N), and a failed Transaction triggers one ErrorLog (1:1).
+[92] (Normal) Figure 7.1 — Entity–Relationship Diagram of PayGate (Transiq)
+[93] (Heading 1) 8. Use Case Diagram
+[94] (Normal) Two actors interact with the system: the Customer User, who registers, logs in and performs customer-portal operations, and the System Admin, who monitors telemetry, reviews transactions, inspects error logs and resolves pending transactions.
+[96] (Normal) Figure 8.1 — Use Case Diagram: Customer and Administrator Roles
+[97] (Heading 1) 9. Class Diagram
+[98] (Normal) The class model contains the domain classes User, Wallet, Pocket, Receipt, Transaction and ErrorLog, together with PaymentController. The controller creates transactions and updates wallets.
+[100] (Normal) Figure 9.1 — Class Diagram of PayGate (Transiq)
+[101] (Heading 1) 10. Sequence Diagram
+[102] (Normal) The sequence diagram traces payment initiation: PIN submission, JWT verification in the authentication middleware, wallet and balance checks, followed by either an error response with an ErrorLog entry or a successful balance deduction, transaction creation and receipt display.
+[104] (Normal) Figure 10.1 — Sequence Diagram: Payment Initiation and PIN Authorization
+[105] (Heading 1) 11. User Interface Screenshots
+[106] (Normal) The project record provides representative screens for the customer and administrator workflows.
+[107] (Heading 2) 11.1 Customer Sign In & Registration
+[109] (Normal) Figure 11.1 — Customer Sign In & Registration; Figure 11.2 — Customer Dashboard & Smart Pockets
+[110] (Heading 2) 11.2 Beneficiary Directory & Payment Checkout
+[112] (Normal) Figure 11.3 — Beneficiary Directory Management; Figure 11.4 — 4-Step Payment Checkout Wizard
+[113] (Heading 2) 11.3 Admin Operations & Error Audit Console
+[115] (Normal) Figure 11.5 — Admin Operations & Error Audit Console
+[116] (Heading 1) 12. Test Report
+[117] (Normal) Testing was conducted using Jest and Supertest covering REST endpoints, validation logic, balance safeguards and security middlewares.
+[118] (Heading 2) 12.1 Test Execution Summary
+[120] (Heading 2) 12.2 Detailed Test Cases
+[122] (Heading 2) 12.3 Test Execution Evidence
+[123] (Normal) The project record reports 2 passed test suites, 5 passed tests and zero failures/skips, with an execution time of 0.588 seconds.
+[124] (Heading 1) 13. Conclusion and Further Enhancements
+[125] (Heading 2) 13.1 Conclusion
+[126] (Normal) The PayGate (Transiq) project delivers a digital payment and wallet platform by combining a responsive React single-page frontend, an asynchronous Node.js/Express REST backend and MongoDB persistence. The documented design emphasizes transactional integrity through atomic balance deductions, Smart Pocket micro-budgeting, strict role-based routing guards and automated administrative telemetry for payment failures.
+[127] (Heading 2) 13.2 Further Enhancements
+[128] (List Bullet) Real-Time WebSockets for Instant Status Updates: integrate Socket.io to push transaction notifications and settlement receipts without polling.
+[129] (List Bullet) Biometric & Multi-Factor Authentication (MFA): implement WebAuthn/FIDO2 alongside SMS/Email TOTP.
+[130] (List Bullet) AI-Driven Fraud Detection Engine: apply machine-learning classification to transaction risk based on geographic IP shifts, velocity checks and atypical transaction sizes.
+[131] (List Bullet) Multi-Currency & International Forex Routing: support cross-border foreign-exchange conversion using ISO 4217 currency pairs and live exchange-rate integration.
+[132] (Heading 1) 14. Team Presentation Plan
+[133] (Normal) The source project record specifies a six-member team. The following division keeps the presentation balanced while allowing the PPT to remain concise.
+[135] (Heading 1) 15. Likely Viva Questions
+[137] (Heading 1) 16. Source Basis
+[138] (Normal) This documentation is prepared directly from the supplied PayGate (Transiq) Project Record. The structure, terminology, architecture, database definitions, diagrams, screenshots, test results and future-enhancement statements are retained from that source rather than replaced with external assumptions.
+[139] (Normal) Primary source: PayGate (Transiq) Project Record, Coimbatore Institute of Technology, 19 pages.
+[140] (Normal) — END OF DOCUMENT —
+
+
+=== TABLES ===
+
+--- Table 0 (7x2) ---
+Row 0: Field | Details
+Row 1: Project Title | PayGate (Transiq) — Secure Digital Payment & Wallet Management Platform
+Row 2: Domain | Full-Stack Web Development — Digital Payments (MERN Stack)
+Row 3: Institution | Coimbatore Institute of Technology
+Row 4: Course | M.Sc. Software Systems
+Row 5: Semester | III
+Row 6: Academic Year | 2025 – 2026
+
+--- Table 1 (7x3) ---
+Row 0: S.No | Name of the Student | Register Number
+Row 1: 1 |  | 
+Row 2: 2 |  | 
+Row 3: 3 |  | 
+Row 4: 4 |  | 
+Row 5: 5 |  | 
+Row 6: 6 |  | 
+
+--- Table 2 (4x3) ---
+Row 0: Tier | Primary Technology | Responsibilities
+Row 1: Client | React 18, Vite, Tailwind, Zustand | UI rendering, state management, route protection and payment wizard
+Row 2: Application | Node.js, Express, REST API | Authentication, validation, payment processing, role checks and error interception
+Row 3: Persistence | MongoDB, Mongoose | Users, wallets, beneficiaries, transactions and telemetry
+
+--- Table 3 (10x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique user identifier
+Row 2: firstName | String | Required, Trim | User first name
+Row 3: lastName | String | Required, Trim | User last name
+Row 4: email | String | Required, Unique, Lowercase | Primary login email address
+Row 5: password | String | Required (Bcrypt hash) | Hashed authentication password
+Row 6: phone | String | Optional | Contact mobile number
+Row 7: role | String | Enum: customer, admin; Default: customer | System authorization role
+Row 8: isActive | Boolean | Default: true | Account suspension status
+Row 9: createdAt | Date | Auto Timestamp | Account registration timestamp
+
+--- Table 4 (7x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique wallet identifier
+Row 2: userId | ObjectId | Required, Ref: User, Index | Owning customer reference
+Row 3: mainBalance | Number | Required, Min: 0, Default: 0 | Available liquid funds (INR)
+Row 4: currency | String | Default: INR | Standard currency ISO code
+Row 5: isFrozen | Boolean | Default: false | Security freeze status flag
+Row 6: createdAt | Date | Auto Timestamp | Wallet generation timestamp
+
+--- Table 5 (8x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique pocket envelope ID
+Row 2: userId | ObjectId | Required, Ref: User | Owning customer reference
+Row 3: name | String | Required, Trim | Pocket goal name
+Row 4: targetAmount | Number | Required, Min: 1 | Financial milestone target
+Row 5: currentAmount | Number | Min: 0, Default: 0 | Current funds locked in pocket
+Row 6: isLocked | Boolean | Default: false | Withdrawal prevention lock flag
+Row 7: createdAt | Date | Auto Timestamp | Pocket creation date
+
+--- Table 6 (9x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique recipient identifier
+Row 2: userId | ObjectId | Required, Ref: User | Owning customer reference
+Row 3: name | String | Required | Beneficiary registered name
+Row 4: accountNumber | String | Required | Beneficiary bank account number
+Row 5: ifscCode | String | Required, Uppercase | Bank IFSC routing code
+Row 6: bankName | String | Required | Commercial bank name
+Row 7: accountType | String | Enum: savings, current, nri | Bank account type
+Row 8: isFavorite | Boolean | Default: false | Starred priority flag
+
+--- Table 7 (12x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique ledger record ID
+Row 2: referenceCode | String | Required, Unique, Indexed | Generated TXN reference
+Row 3: senderWalletId | ObjectId | Ref: Wallet, Nullable | Source wallet reference
+Row 4: recipientId | ObjectId | Required, Ref: Receipt | Beneficiary destination reference
+Row 5: amount | Number | Required, Min: 0.01 | Transfer sum in INR
+Row 6: method | String | WALLET / IMPS / NEFT / RTGS | Payment channel
+Row 7: type | String | transfer / deposit / withdrawal | Movement type
+Row 8: status | String | pending / success / failure / cancelled | Transaction outcome
+Row 9: description | String | Default: Funds Transfer | Transfer remarks
+Row 10: failureReason | String | Optional | Cause if transaction failed
+Row 11: createdAt | Date | Auto Timestamp, Indexed | Execution timestamp
+
+--- Table 8 (8x4) ---
+Row 0: Field | Type | Constraints / Default | Description
+Row 1: _id | ObjectId | Primary Key, Auto | Unique telemetry incident ID
+Row 2: transactionId | ObjectId | Required, Ref: Transaction | Affected transaction ledger link
+Row 3: errorCode | String | Required | Categorized failure classification
+Row 4: severity | String | LOW / MEDIUM / HIGH / CRITICAL | Incident triage rating
+Row 5: message | String | Required | Human-readable error description
+Row 6: resolved | Boolean | Default: false | Admin mitigation resolution flag
+Row 7: createdAt | Date | Auto Timestamp | Incident capture timestamp
+
+--- Table 9 (6x2) ---
+Row 0: Process | Description
+Row 1: 1.0 User Authentication | Verifies login credentials against hashed secrets in D1 and issues a JWT carrying the user role.
+Row 2: 2.0 Wallet & Pocket Management | Reads/updates wallet balances in D2; allocates, deposits, withdraws and locks pockets.
+Row 3: 3.0 Beneficiary Maintenance | Adds, edits and stores beneficiary records in D3.
+Row 4: 4.0 Payment Initiation & PIN Authorization | Validates beneficiary, checks balance, deducts from D2, logs D4 and generates the receipt; failures/timeouts route to 5.0.
+Row 5: 5.0 Telemetry & Audit Processing | Writes incident records to D5; administrators inspect errors and transaction history.
+
+--- Table 10 (7x2) ---
+Row 0: Metric | Result
+Row 1: Test Runner | Jest v30.5.2 (Node.js ES Modules)
+Row 2: Execution Timestamp | October 2026
+Row 3: Test Suites Run | 2 passed, 2 total
+Row 4: Total Tests Executed | 5 passed, 0 failed, 0 skipped
+Row 5: tests/api.test.js | PASS — health check, role enforcement, duplicate registration and PIN validation
+Row 6: tests/math.test.js | PASS — currency formatting for zero and floating numbers
+
+--- Table 11 (7x6) ---
+Row 0: Test ID | Test Description | Input | Expected Output | Actual Result | Status
+Row 1: TC-AUTH-01 | Unauthenticated access to dashboard | Request to / without token | Redirect to /login | Redirected to /login | PASS
+Row 2: TC-AUTH-02 | Customer registration role enforcement | Payload: role='admin' | Backend forces customer role | Created user has customer role | PASS
+Row 3: TC-PAY-01 | PIN authorization with correct PIN | PIN 1234, Amount ₹500 | HTTP 200; balance decremented | Balance updated; TXN created | PASS
+Row 4: TC-PAY-02 | Overdraft / insufficient balance | ₹1,00,000 vs ₹45,000 balance | HTTP 400; insufficient balance | 400 returned; ErrorLog saved | PASS
+Row 5: TC-PAY-03 | Transfer with frozen wallet | isFrozen=true | HTTP 403; transfer blocked | 403 returned; blocked | PASS
+Row 6: TC-LOGS-01 | Automatic ErrorLog on failure | Failed transaction | ErrorLog inserted | Verified in MongoDB | PASS
+
+--- Table 12 (7x3) ---
+Row 0: Member | Presentation Responsibility | Recommended Coverage
+Row 1: Member 1 | Introduction & Problem | Title, synopsis, problem definition, objectives
+Row 2: Member 2 | Scope & Architecture | Scope, MERN stack, three-tier architecture
+Row 3: Member 3 | Database & Design Models | Collections, DFD, ER diagram
+Row 4: Member 4 | Application Workflow | Use cases, class diagram, sequence/payment flow
+Row 5: Member 5 | UI & Security | Screens, authentication, RBAC, wallet controls
+Row 6: Member 6 | Testing & Future Work | Test results, limitations, enhancements, conclusion
+
+--- Table 13 (9x2) ---
+Row 0: Question | Suggested Answer
+Row 1: Why MERN? | It provides a decoupled full-stack architecture using React for the client, Node/Express for REST services and MongoDB/Mongoose for persistence.
+Row 2: Why JWT? | JWT enables stateless authenticated API requests and carries the authenticated role for authorization.
+Row 3: Why bcrypt? | It stores passwords as one-way hashes rather than plaintext secrets.
+Row 4: Why Smart Pockets? | They provide goal-based micro-budgeting with explicit lock/unlock controls.
+Row 5: What happens when payment fails? | The transaction is rejected and categorized ErrorLog telemetry is recorded for administrative audit/recovery.
+Row 6: Why atomic transaction handling? | Balance changes and ledger creation must remain consistent so partial financial updates are avoided.
+Row 7: Is it connected to real banks? | No. The project record explicitly states that real-bank webhook integration is out of scope and mock banking controllers are used.
+Row 8: What is the key contribution? | The system combines controlled payment execution with explicit failure telemetry and administrative recovery visibility.

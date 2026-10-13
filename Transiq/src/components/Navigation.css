@@ -1,0 +1,131 @@
+.navigation {
+  background: #0f172a;
+  color: white;
+  padding: 0;
+  box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #1e293b;
+  width: 100%;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 56px;
+}
+
+.nav-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-right: 32px;
+  transition: opacity 0.2s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.85;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid #334155;
+  color: white;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background: #1e293b;
+}
+
+.menu-toggle-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: white;
+  border-radius: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.nav-link-item {
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-link-item:hover {
+  color: #e2e8f0;
+  background-color: #1e293b;
+}
+
+.nav-link-item.active {
+  color: #ffffff;
+  background-color: #2563eb;
+}
+
+.nav-badge {
+  font-size: 10px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .nav-container {
+    padding: 0 16px;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    background-color: #0f172a;
+    padding: 8px 12px;
+    border-bottom: 1px solid #1e293b;
+    gap: 2px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-link-item {
+    width: 100%;
+    padding: 10px 14px;
+  }
+}

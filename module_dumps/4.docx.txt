@@ -1,0 +1,206 @@
+=== 4.docx ===
+
+[P0] (Normal) CIT
+[P1] (Normal) COIMBATORE INSTITUTE OF TECHNOLOGY
+[P2] (Normal) INDIVIDUAL MODULE DOCUMENTATION
+[P3] (Normal) PayGate (Transiq)
+[P4] (Normal) Module 4 — Transactions, Analytics & Financial Insights
+[P5] (Normal) Secure Digital Payment & Wallet Management Platform
+[P8] (Heading 2) Team Details
+[P10] (Normal) Project Guide / Supervisor: Prof. / Dr. __________________________________________
+[P12] (Heading 1) Synopsis
+[P13] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P14] (Normal) Module 4 of PayGate (Transiq) focuses on recording, displaying and analysing financial transactions. A reliable transaction ledger provides traceability for each financial event and supports transaction history, status tracking, payment-method visibility and financial activity review.
+[P15] (Normal) The transactions collection stores structured details including _id, referenceCode, senderWalletId, recipientId, amount, method, type, status, description, failureReason and createdAt. Supported methods are WALLET, IMPS, NEFT and RTGS; transaction types are transfer, deposit and withdrawal; and transaction statuses are pending, success, failure and cancelled.
+[P16] (Normal) Users can review transaction history and narrow records using date, status, reference-code and amount-based filters. Recorded fields can support transaction-volume analysis, success/failure review, visibility into financial activity and user financial insights. The module emphasises auditability through unique references, timestamps, amounts, methods, statuses and failure reasons where applicable. This documentation describes only the specified transaction functionality and does not introduce fabricated statistics or undocumented integrations.
+[P17] (Heading 2) Module Summary
+[P18] (List Bullet) Record: maintain structured transaction details and outcomes.
+[P19] (List Bullet) Display: provide transaction history and documented filters.
+[P20] (List Bullet) Analyse: use recorded data to support financial activity visibility and insights.
+[P21] (List Bullet) Audit: retain identifiers, timestamps and failure details where applicable.
+[P23] (Heading 1) Objective
+[P24] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P25] (List Bullet) Maintain a structured transaction record for transfer, deposit and withdrawal activity.
+[P26] (List Bullet) Provide transaction history with date, status, reference-code and amount-based filtering.
+[P27] (List Bullet) Track the supported payment methods: WALLET, IMPS, NEFT and RTGS.
+[P28] (List Bullet) Represent transaction outcomes consistently as pending, success, failure or cancelled.
+[P29] (List Bullet) Support financial activity analysis without inventing transaction metrics.
+[P30] (List Bullet) Improve traceability through a unique reference code, creation timestamp and failure reason where applicable.
+[P32] (Heading 1) Scope
+[P33] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P34] (Heading 2) Functional Scope
+[P35] (List Bullet) View transaction history.
+[P36] (List Bullet) Filter transactions by date, status, reference code and amount.
+[P37] (List Bullet) Track transaction method, type and status.
+[P38] (List Bullet) Generate/use a transaction reference code for traceability.
+[P39] (List Bullet) Record a failure reason where applicable.
+[P40] (List Bullet) Use stored transaction records to support transaction-volume and success/failure analysis.
+[P41] (Heading 2) Data Scope
+[P42] (Normal) The module centres on the transactions collection and its documented fields. Other collections and payment processing components are referenced only where needed to explain transaction relationships.
+[P43] (Heading 2) Limitations
+[P44] (List Bullet) No transaction statistics are asserted in this document.
+[P45] (List Bullet) No live bank settlement or third-party integration is claimed; the wider project record describes mock banking controllers.
+[P46] (List Bullet) Analytics are described as supported uses of transaction data, not as undocumented dashboards or algorithms.
+[P48] (Heading 1) Project Description
+[P49] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P50] (Normal) The Transactions, Analytics & Financial Insights module is the record-and-review layer for PayGate (Transiq). It receives transaction outcomes from the payment workflow, stores their identifying and financial attributes, and makes those records available for history and analysis.
+[P52] (Heading 2) Transaction Lifecycle
+[P55] (Heading 1) DB Design
+[P56] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P57] (Normal) The module uses the documented transactions collection. Field names below are retained as specified in the project record.
+[P59] (Heading 2) Allowed Values
+[P62] (Heading 1) Data Flow Diagram (DFD)
+[P63] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P64] (Normal) Within the wider PayGate context, payment initiation and PIN authorization validate the beneficiary, check the wallet balance and record a ledger entry. Failures and timeouts are routed to telemetry and audit processing. The module's central data store is D4 — Transactions Ledger.
+[P66] (Heading 2) Conceptual Flow
+[P69] (Heading 1) ER Diagram
+[P70] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P71] (Normal) The module's principal relationship is between the transaction record and the wallet/recipient records. The wider project data model describes a Wallet as the source of many Transactions (1:N), and a Receipt/Beneficiary as the destination of many Transactions (1:N). A failed Transaction may be linked to an ErrorLog for audit review.
+[P73] (Normal) Key transaction attributes: _id, referenceCode, senderWalletId, recipientId, amount, method, type, status, description, failureReason and createdAt.
+[P75] (Heading 1) Use Case Diagram
+[P76] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P77] (Normal) The module-specific use cases are centred on reviewing transaction records. Customer-facing actions concern viewing history and filtering records; administrative review can use transaction history and failure telemetry within the wider PayGate system.
+[P79] (Normal) The list above is a textual use-case specification for Module 4, not a claim of additional undocumented screens or functionality.
+[P81] (Heading 1) Class Diagram
+[P82] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P83] (Normal) The module's principal class is Transaction, which holds the transaction fields defined in the database design. It is associated with Wallet and Receipt/Beneficiary references; ErrorLog is relevant when a transaction failure is captured.
+[P86] (Heading 1) Sequence Diagram
+[P87] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P88] (Normal) The following sequence expresses the module's documented interaction at a conceptual level. It does not prescribe undocumented implementation internals.
+[P91] (Heading 1) Screenshots (Forms)
+[P92] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P93] (Normal) The wider project record documents customer sign-in/dashboard, beneficiary management, payment checkout and the administrative operations console. These screens provide context for how transaction activity is initiated and reviewed. They are not all Module 4-specific transaction-history screenshots.
+[P95] (Normal) Representative project interface — source image 3
+[P97] (Normal) Representative project interface — source image 4
+[P99] (Normal) Representative project interface — source image 5
+[P101] (Normal) Representative project interface — source image 6
+[P103] (Normal) Representative project interface — source image 7
+[P105] (Heading 1) Test Report
+[P106] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P107] (Normal) The project record documents Jest and Supertest testing of REST endpoints, validation logic, balance safeguards and security middleware. The tests below are system-level evidence relevant to the transaction workflow; they should not be interpreted as a separate full test suite for every Module 4 filter.
+[P110] (Normal) The available project report does not provide separate measured results for every date, status, reference-code or amount filter. No additional test outcomes have been fabricated.
+[P112] (Heading 1) Conclusion and Further Enhancements
+[P113] (Normal) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[P114] (Heading 2) Conclusion
+[P115] (Normal) Module 4 provides transaction transparency by keeping structured records available for history, filtering, status tracking and financial activity review. The transactions collection captures the core evidence needed to identify a transaction and understand its recorded outcome. Unique references, timestamps and failure reasons where applicable support traceability and audit review.
+[P116] (Heading 2) Further Enhancements
+[P117] (List Bullet) Expand the test suite with dedicated test cases for date, status, reference-code and amount-based filters.
+[P118] (List Bullet) Add clearly documented transaction-history export or reporting only if approved as a future requirement.
+[P119] (List Bullet) Provide additional documented explanations for pending and cancelled transaction handling.
+[P120] (List Bullet) Enhance audit review workflows while preserving the existing transaction field definitions and access controls.
+[P121] (Normal) All enhancements above are proposals for future work, not claims about current implementation.
+
+
+=== TABLES ===
+
+--- Table 0 (5x2) ---
+Row 0: Field | Details
+Row 1: Institution | Coimbatore Institute of Technology
+Row 2: Programme | M.Sc. Software Systems
+Row 3: Semester / Academic Year | Semester III / 2025–2026
+Row 4: Module | Transactions, Analytics & Financial Insights
+
+--- Table 1 (7x3) ---
+Row 0: S. No. | Name of Student | Register Number
+Row 1: 1 |  | 
+Row 2: 2 |  | 
+Row 3: 3 |  | 
+Row 4: 4 |  | 
+Row 5: 5 |  | 
+Row 6: 6 |  | 
+
+--- Table 2 (7x2) ---
+Row 0: Area | Module responsibility
+Row 1: Transaction recording | Store reference, participants, amount, method, type, status, description, failure reason and timestamp.
+Row 2: Transaction history | Display recorded transactions for review.
+Row 3: Filtering | Narrow records by date, status, reference code and amount.
+Row 4: Status tracking | Represent pending, success, failure and cancelled outcomes.
+Row 5: Financial insights | Support transaction-volume, outcome and activity visibility using stored records.
+Row 6: Auditability | Provide traceable reference and timestamp; retain failure reason where applicable.
+
+--- Table 3 (7x2) ---
+Row 0: Stage | Description
+Row 1: 1. Payment Initiated | A payment request enters the workflow.
+Row 2: 2. Validated | The request is checked.
+Row 3: 3. Authorized | Required authorization is performed.
+Row 4: 4. Processed | The payment operation is processed.
+Row 5: 5. Recorded | The transaction details and outcome are recorded.
+Row 6: 6. Outcome | The resulting status is represented as success or failure; the collection also defines pending and cancelled statuses.
+
+--- Table 4 (12x2) ---
+Row 0: Field | Purpose
+Row 1: _id | Unique database record identifier.
+Row 2: referenceCode | Transaction reference used for identification and traceability.
+Row 3: senderWalletId | Identifies the source wallet.
+Row 4: recipientId | Identifies the recipient.
+Row 5: amount | Transaction value.
+Row 6: method | WALLET / IMPS / NEFT / RTGS.
+Row 7: type | transfer / deposit / withdrawal.
+Row 8: status | pending / success / failure / cancelled.
+Row 9: description | Transaction description or remarks.
+Row 10: failureReason | Reason recorded when a transaction fails, where applicable.
+Row 11: createdAt | Timestamp when the transaction record was created.
+
+--- Table 5 (4x2) ---
+Row 0: Attribute | Documented values
+Row 1: method | WALLET, IMPS, NEFT, RTGS
+Row 2: type | transfer, deposit, withdrawal
+Row 3: status | pending, success, failure, cancelled
+
+--- Table 6 (5x3) ---
+Row 0: Input / Process | Data movement | Output / Store
+Row 1: Payment workflow | Validated request and processing outcome | Transaction record
+Row 2: Transaction recording | referenceCode, participants, amount, method, type, status, description, failureReason, createdAt | D4 — Transactions Ledger
+Row 3: History and filtering | Date, status, reference-code and amount filters | Narrowed transaction list
+Row 4: Telemetry on failure | Failure details where applicable | D5 — ErrorLogs (wider system context)
+
+--- Table 7 (4x1) ---
+Row 0: Payment workflow
+Row 1: Initiated → Validated → Authorized → Processed → Recorded
+Row 2: Recorded outcome
+Row 3: Success / Failure; transaction status may also be pending or cancelled
+
+--- Table 8 (4x3) ---
+Row 0: Entity | Relationship | Cardinality / role
+Row 1: Wallet | originates → Transaction | One wallet can originate many transactions (1:N).
+Row 2: Receipt / Beneficiary | receives ← Transaction | One recipient can be referenced by many transactions (1:N).
+Row 3: Transaction | may trigger → ErrorLog | Failure telemetry is recorded where applicable.
+
+--- Table 9 (5x3) ---
+Row 0: Actor | Use case | Purpose
+Row 1: Customer / User | View transaction history | Review recorded financial activity.
+Row 2: Customer / User | Filter by date/status/reference/amount | Locate relevant transaction records.
+Row 3: Customer / User | Track transaction status | Understand the recorded transaction outcome.
+Row 4: System Administrator | Review transaction and error records | Support operational review and auditability.
+
+--- Table 10 (5x2) ---
+Row 0: Class | Key attributes / role
+Row 1: Transaction | _id, referenceCode, senderWalletId, recipientId, amount, method, type, status, description, failureReason, createdAt
+Row 2: Wallet | Referenced source wallet; associated with transactions through senderWalletId.
+Row 3: Receipt / Beneficiary | Referenced recipient; associated through recipientId.
+Row 4: ErrorLog | Stores failure/incident information in the wider system where applicable.
+
+--- Table 11 (7x2) ---
+Row 0: Step | Interaction
+Row 1: 1 | Customer initiates a payment through the payment workflow.
+Row 2: 2 | The workflow validates and authorizes the request.
+Row 3: 3 | The payment operation is processed.
+Row 4: 4 | A transaction record is created with the reference, amount, method, type, status and timestamp.
+Row 5: 5 | If the operation fails, failureReason is recorded where applicable and failure telemetry may be written to ErrorLogs.
+Row 6: 6 | The resulting transaction becomes available for history, filtering and review.
+
+--- Table 12 (5x2) ---
+Row 0: Metric | Documented result
+Row 1: Test runner | Jest v30.5.2 (Node.js ES Modules)
+Row 2: Suites | 2 passed, 2 total
+Row 3: Tests | 5 passed, 0 failed, 0 skipped
+Row 4: Execution time | 0.588 seconds
+
+--- Table 13 (7x3) ---
+Row 0: Test ID | Scenario | Recorded result
+Row 1: TC-PAY-01 | Correct PIN authorization; amount ₹500 | Balance updated; transaction created — PASS
+Row 2: TC-PAY-02 | Insufficient balance: ₹1,00,000 vs ₹45,000 balance | HTTP 400; ErrorLog saved — PASS
+Row 3: TC-PAY-03 | Transfer using frozen wallet | HTTP 403; transfer blocked — PASS
+Row 4: TC-LOGS-01 | Automatic ErrorLog on failed transaction | ErrorLog verified in MongoDB — PASS
+Row 5: TC-AUTH-01 | Unauthenticated dashboard access | Redirected to /login — PASS
+Row 6: TC-AUTH-02 | Registration role enforcement | Customer role enforced — PASS
