@@ -198,9 +198,11 @@ export default function MyWalletPage() {
           <div className="flex items-center gap-2">
             <Link
               to="/send-money"
-              className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold shadow-xs transition"
+              className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 !text-white rounded-lg text-xs font-semibold shadow-xs transition inline-flex items-center gap-1.5"
+              style={{ color: '#ffffff' }}
             >
-              Send Money →
+              <span>Send Money</span>
+              <span>→</span>
             </Link>
             <button
               onClick={() => {
