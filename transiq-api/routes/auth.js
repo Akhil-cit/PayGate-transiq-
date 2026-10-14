@@ -80,26 +80,47 @@ router.post('/verify-user', async (req, res) => {
     }
 
     const q = identifier.trim();
-    const user = await User.findOne({
-      $or: [
-        { email: q.toLowerCase() },
-        { phone: q },
-        { firstName: new RegExp(`^${escapeRegex(q)}$`, 'i') },
-        { lastName: new RegExp(`^${escapeRegex(q)}$`, 'i') },
-      ],
-    });
+    const parts = q.split(/\s+/);
+    const orConditions = [
+      { email: q.toLowerCase() },
+      { phone: q },
+      { firstName: new RegExp(`^${escapeRegex(q)}$`, 'i') },
+      { lastName: new RegExp(`^${escapeRegex(q)}$`, 'i') },
+    ];
+
+    if (parts.length > 1) {
+      orConditions.push({
+        $and: [
+          { firstName: new RegExp(`^${escapeRegex(parts[0])}$`, 'i') },
+          { lastName: new RegExp(`^${escapeRegex(parts.slice(1).join(' '))}$`, 'i') },
+        ],
+      });
+    }
+
+    if (parts[0] && parts[0].length >= 2) {
+      orConditions.push({ firstName: new RegExp(escapeRegex(parts[0]), 'i') });
+    }
+
+    const user = await User.findOne({ $or: orConditions });
 
     if (user) {
       return res.json({
         exists: true,
         message: `User "${user.firstName} ${user.lastName}" found in database.`,
-        data: { firstName: user.firstName, lastName: user.lastName },
+        data: {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phone: user.phone,
+          role: user.role,
+        },
       });
     }
 
     return res.json({
       exists: false,
-      message: `No account matching "${q}" was found in the database. Please sign up to create a new profile.`,
+      message: `No account matching "${q}" was found in the database. Complete quick registration to proceed.`,
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
