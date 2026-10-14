@@ -48,7 +48,6 @@ export default function InsightsPage() {
 
       {error && <div className="txn-error-banner">⚠️ {error}</div>}
 
-        {/* Insights Panel */}
         <div className="analytics-insights-card">
           <h2 className="analytics-chart-title">Key Insights</h2>
           {!insights ? (

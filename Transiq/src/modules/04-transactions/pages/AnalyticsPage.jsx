@@ -68,7 +68,6 @@ export default function AnalyticsPage() {
 
       {error && <div className="txn-error-banner">⚠️ {error}</div>}
 
-      {/* Summary KPI Cards */}
       <div className="analytics-kpi-grid">
         <KPICard
           icon={DollarSign} color="#6366f1"
@@ -104,9 +103,7 @@ export default function AnalyticsPage() {
         />
       </div>
 
-      {/* Charts Row */}
       <div className="analytics-charts-grid">
-        {/* Monthly Volume Chart */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">Monthly Transaction Volume</h2>
           {byMonth.length === 0 ? (
@@ -130,7 +127,6 @@ export default function AnalyticsPage() {
           )}
         </div>
 
-        {/* Monthly Count Line Chart */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">Monthly Transaction Count</h2>
           {byMonth.length === 0 ? (
@@ -154,9 +150,7 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Method Breakdown + Insights */}
       <div className="analytics-bottom-grid">
-        {/* Payment Method Breakdown */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">By Payment Method</h2>
           {byMethod.length === 0 ? (
@@ -198,7 +192,6 @@ export default function AnalyticsPage() {
           )}
         </div>
 
-        {/* Insights Panel */}
         <div className="analytics-insights-card">
           <h2 className="analytics-chart-title">Key Insights</h2>
           {!insights ? (

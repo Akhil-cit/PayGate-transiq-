@@ -63,7 +63,6 @@ const transactionLogSchema = new mongoose.Schema(
   }
 );
 
-// Index for queries
 transactionLogSchema.index({ remitterId: 1, timestamp: -1 });
 transactionLogSchema.index({ status: 1, timestamp: -1 });
 transactionLogSchema.index({ createdAt: -1 });

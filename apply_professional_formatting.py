@@ -13,14 +13,12 @@ sys.stdout.reconfigure(encoding='utf-8')
 src_path = r'C:\Users\dell\Desktop\PayGate_Module_6_Professionally_Formatted.docx'
 doc = docx.Document(src_path)
 
-# Set page margins to 0.5 in
 for sec in doc.sections:
     sec.top_margin = Inches(0.5)
     sec.bottom_margin = Inches(0.5)
     sec.left_margin = Inches(0.5)
     sec.right_margin = Inches(0.5)
 
-# Color Palette
 NAVY = RGBColor(15, 39, 71)       # #0F2747
 SLATE = RGBColor(28, 70, 112)     # #1C4670
 TEAL = RGBColor(13, 148, 136)     # #0D9488
@@ -39,7 +37,6 @@ def set_cell_margins(cell, top=20, bottom=20, left=40, right=40):
 
 def set_cell_shading(cell, color_hex):
     tcPr = cell._tc.get_or_add_tcPr()
-    # remove existing shd if any
     for existing in tcPr.findall(qn('w:shd')):
         tcPr.remove(existing)
     shd = parse_xml(f'<w:shd {nsdecls("w")} w:fill="{color_hex}"/>')
@@ -51,26 +48,22 @@ def add_page_break_before(p):
         pPr.append(parse_xml(f'<w:pageBreakBefore {nsdecls("w")}/>'))
 
 def remove_manual_page_breaks_in_p(p):
-    # Remove any w:br w:type="page" from runs in this paragraph
     for r in p.runs:
         for br in r._element.findall(qn('w:br')):
             if br.attrib.get(qn('w:type')) == 'page':
                 r._element.remove(br)
 
 print("Formatting cover page...")
-# P0: CIT Logo
 p0 = doc.paragraphs[0]
 p0.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p0.paragraph_format.space_before = Pt(0)
 p0.paragraph_format.space_after = Pt(2)
 p0.paragraph_format.line_spacing = 1.0
 
-# Ensure logo image extent is clean (~0.92 in width, ~0.94 in height)
 for extent in p0._element.findall('.//{http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing}extent'):
     extent.attrib['cx'] = '841248'  # 0.92 in
     extent.attrib['cy'] = '852552'  # 0.932 in
 
-# P1: College Name
 p1 = doc.paragraphs[1]
 p1.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p1.paragraph_format.space_before = Pt(0)
@@ -82,7 +75,6 @@ for r in p1.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P2: Subtext
 p2 = doc.paragraphs[2]
 p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p2.paragraph_format.space_before = Pt(0)
@@ -94,7 +86,6 @@ for r in p2.runs:
     r.font.bold = False
     r.font.color.rgb = SLATE
 
-# P3: Divider
 p3 = doc.paragraphs[3]
 p3.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p3.paragraph_format.space_before = Pt(0)
@@ -106,7 +97,6 @@ for r in p3.runs:
     r.font.bold = False
     r.font.color.rgb = NAVY
 
-# P4: Record Title
 p4 = doc.paragraphs[4]
 p4.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p4.paragraph_format.space_before = Pt(0)
@@ -118,7 +108,6 @@ for r in p4.runs:
     r.font.bold = True
     r.font.color.rgb = TEAL
 
-# P5: Project Title
 p5 = doc.paragraphs[5]
 p5.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p5.paragraph_format.space_before = Pt(0)
@@ -130,7 +119,6 @@ for r in p5.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P6: Subtitle
 p6 = doc.paragraphs[6]
 p6.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p6.paragraph_format.space_before = Pt(0)
@@ -142,7 +130,6 @@ for r in p6.runs:
     r.font.bold = True
     r.font.color.rgb = SLATE
 
-# P7: System Subtitle
 p7 = doc.paragraphs[7]
 p7.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p7.paragraph_format.space_before = Pt(0)
@@ -155,7 +142,6 @@ for r in p7.runs:
     r.font.bold = False
     r.font.color.rgb = MUTED
 
-# P8: Module Title
 p8 = doc.paragraphs[8]
 p8.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p8.paragraph_format.space_before = Pt(2)
@@ -167,7 +153,6 @@ for r in p8.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P9: "PROJECT DETAILS"
 p9 = doc.paragraphs[9]
 p9.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p9.paragraph_format.space_before = Pt(2)
@@ -180,7 +165,6 @@ for r in p9.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# Table 0: Project Details
 tbl0 = doc.tables[0]
 tbl0.alignment = WD_TABLE_ALIGNMENT.CENTER
 for r_idx, row in enumerate(tbl0.rows):
@@ -209,7 +193,6 @@ for r_idx, row in enumerate(tbl0.rows):
                         r.font.bold = False
                         r.font.color.rgb = DARK
 
-# P10: (Note: in paragraph list P[10] is TEAM DETAILS)
 p10 = doc.paragraphs[10]
 p10.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p10.paragraph_format.space_before = Pt(3)
@@ -222,7 +205,6 @@ for r in p10.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# Table 1: Team Details
 tbl1 = doc.tables[1]
 tbl1.alignment = WD_TABLE_ALIGNMENT.CENTER
 for r_idx, row in enumerate(tbl1.rows):
@@ -254,7 +236,6 @@ for r_idx, row in enumerate(tbl1.rows):
                         r.font.bold = False
                         r.font.color.rgb = DARK
 
-# P11: Guide Supervisor
 p11 = doc.paragraphs[11]
 p11.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p11.paragraph_format.space_before = Pt(3)
@@ -267,7 +248,6 @@ for r in p11.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P12: Signatures
 p12 = doc.paragraphs[12]
 p12.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p12.paragraph_format.space_before = Pt(1)
@@ -279,23 +259,19 @@ for r in p12.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P13: Page Break paragraph before Synopsis
 p13 = doc.paragraphs[13]
 p13.paragraph_format.space_before = Pt(0)
 p13.paragraph_format.space_after = Pt(0)
 p13.paragraph_format.line_spacing = 1.0
-# Ensure p13 has a page break run and nothing else
 p13.text = ""
 p13_run = p13.add_run()
 p13_run.add_break(docx.enum.text.WD_BREAK.PAGE)
 
 print("Cover page tight styling complete!")
 
-# Fix Table Headers across ALL tables (0 through 6) to White font & Navy Fill
 print("Styling all tables to ensure header font is crisp WHITE...")
 for tbl_idx, tbl in enumerate(doc.tables):
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
-    # Check header row (row 0)
     for c_idx, cell in enumerate(tbl.rows[0].cells):
         set_cell_shading(cell, NAVY_HEX)
         for p in cell.paragraphs:
@@ -304,13 +280,11 @@ for tbl_idx, tbl in enumerate(doc.tables):
                 r.font.bold = True
                 r.font.color.rgb = WHITE
     
-    # Check all cells in entire table for dark background
     for row in tbl.rows:
         trPr = row._tr.get_or_add_trPr()
         if trPr.find(qn('w:cantSplit')) is None:
             trPr.append(parse_xml(f'<w:cantSplit {nsdecls("w")}/>'))
         for cell in row.cells:
-            # check fill
             shd = cell._tc.get_or_add_tcPr().find(qn('w:shd'))
             if shd is not None:
                 fill_val = shd.attrib.get(qn('w:fill'), '').upper()
@@ -329,8 +303,6 @@ for tbl_idx, tbl in enumerate(doc.tables):
 
 print("All table headers successfully updated to crisp white font!")
 
-# Now format Synopsis (strictly 1 page, starts on Page 2)
-# P[14] is Synopsis heading
 p14 = doc.paragraphs[14]
 p14.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p14.paragraph_format.space_before = Pt(0)
@@ -370,7 +342,6 @@ for p_i in range(15, 27):
             if not r.font.bold:
                 r.font.color.rgb = DARK
 
-# P[27] is page break at end of Synopsis
 p27 = doc.paragraphs[27]
 p27.text = ""
 p27.paragraph_format.space_before = Pt(0)
@@ -378,8 +349,6 @@ p27.paragraph_format.space_after = Pt(0)
 p27_run = p27.add_run()
 p27_run.add_break(docx.enum.text.WD_BREAK.PAGE)
 
-# Define Major Sections and their Starting Paragraphs
-# We want clean page breaks before each major section and lower subheadings
 section_breaks_before_text = [
     ("Objective", 14),
     ("Scope", 14),
@@ -403,7 +372,6 @@ print("Applying page breaks and keep_with_next on sections and subheadings...")
 for i, p in enumerate(doc.paragraphs):
     t = p.text.strip()
     
-    # Check if this paragraph matches any break target
     matched = False
     for title_target, font_sz in section_breaks_before_text:
         if t == title_target or t.startswith(title_target):
@@ -421,7 +389,6 @@ for i, p in enumerate(doc.paragraphs):
             break
             
     if not matched:
-        # Check general headings or figure captions
         if t.startswith("Figure "):
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             p.paragraph_format.space_before = Pt(2)
@@ -454,8 +421,6 @@ for i, p in enumerate(doc.paragraphs):
                 r.font.bold = True
                 r.font.color.rgb = NAVY
 
-# Resize screenshot images slightly so that 2 forms fit cleanly on one page
-# 5.2 in width, 2.5 in height
 print("Optimizing screenshot image dimensions...")
 for i, p in enumerate(doc.paragraphs):
     t = p.text.strip()
@@ -464,11 +429,9 @@ for i, p in enumerate(doc.paragraphs):
         p.paragraph_format.space_before = Pt(2)
         p.paragraph_format.space_after = Pt(2)
         for extent in p._element.findall('.//{http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing}extent'):
-            # 5.2 in width = 4754880 dxa, 2.5 in height = 2286000 dxa
             extent.attrib['cx'] = '4754880'
             extent.attrib['cy'] = '2286000'
 
-# Diagram images (P[80], P[90], P[100], P[113], P[124])
 for i in [80, 90, 100, 113, 124]:
     p = doc.paragraphs[i]
     if '<w:drawing' in p._element.xml:
@@ -479,12 +442,10 @@ for i in [80, 90, 100, 113, 124]:
             extent.attrib['cx'] = '5303520'  # 5.8 in
             extent.attrib['cy'] = '3474720'  # 3.8 in
 
-# Save document
 temp_desktop_path = r'C:\Users\dell\Desktop\PayGate_Module_6_Professionally_Formatted_temp.docx'
 doc.save(temp_desktop_path)
 print("Saved temporary docx successfully.")
 
-# Replace target file
 target_desktop = r'C:\Users\dell\Desktop\PayGate_Module_6_Professionally_Formatted.docx'
 target_docs = r'C:\Users\dell\Documents\PayGate_Module_6_Professionally_Formatted.docx'
 

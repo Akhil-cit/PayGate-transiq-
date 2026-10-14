@@ -1,8 +1,7 @@
-import { create } from 'zustand';//zustand store code is here
+import { create } from 'zustand';
 import adminService from '../../../api/adminService';
 
 export const useLogsStore = create((set, get) => ({
-  // ── State ───────────────────────────────────────────────────────────────────
   stats: null,
   transactionLogs: [],
   errorLogs: [],
@@ -17,7 +16,6 @@ export const useLogsStore = create((set, get) => ({
   pagination: { currentPage: 1, totalPages: 1, totalRecords: 0, limit: 20 },
   errorsPagination: { currentPage: 1, totalPages: 1, totalRecords: 0, limit: 20 },
 
-  // ── Fetch Real System Health ────────────────────────────────────────────────
   fetchHealth: async () => {
     set({ healthLoading: true });
     try {
@@ -38,7 +36,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Fetch KPI Stats ─────────────────────────────────────────────────────────
   fetchStats: async () => {
     set({ statsLoading: true, error: null });
     try {
@@ -49,7 +46,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Fetch All Transactions ──────────────────────────────────────────────────
   fetchTransactions: async (params = {}) => {
     set({ loading: true, error: null });
     try {
@@ -66,7 +62,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Fetch Single Transaction ────────────────────────────────────────────────
   fetchTransactionById: async (id) => {
     set({ loading: true, error: null });
     try {
@@ -77,7 +72,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Force Settle (success) ──────────────────────────────────────────────────
   resolvePendingTransaction: async (id) => {
     try {
       await adminService.forceSuccess(id);
@@ -92,7 +86,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Force Cancel (failure) ──────────────────────────────────────────────────
   cancelPendingTransaction: async (id) => {
     try {
       await adminService.forceFail(id, 'BANK_TIMEOUT');
@@ -107,7 +100,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Fetch Error Logs ────────────────────────────────────────────────────────
   fetchErrors: async (params = {}) => {
     set({ errorsLoading: true, error: null });
     try {
@@ -122,7 +114,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Resolve Single Error ────────────────────────────────────────────────────
   toggleResolveError: async (errorId, notes = '') => {
     try {
       const { data } = await adminService.resolveError(errorId, notes);
@@ -136,7 +127,6 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Resolve All Errors ──────────────────────────────────────────────────────
   resolveAllErrors: async () => {
     try {
       await adminService.resolveAllErrors();
@@ -152,13 +142,9 @@ export const useLogsStore = create((set, get) => ({
     }
   },
 
-  // ── Retry Failed Transaction (re-fetch after backend change) ────────────────
   retryFailedTransaction: async (id) => {
-    // Retry logic is handled server-side in Module 3/4
-    // For admin view, just re-fetch the transaction
     await get().fetchTransactionById(id);
   },
 
-  // ── Clear error ─────────────────────────────────────────────────────────────
   clearError: () => set({ error: null }),
 }));

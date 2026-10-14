@@ -103,9 +103,7 @@ const ErrorLogViewer = ({ showHeader = true }) => {
         </div>
       )}
 
-      {/* Filter and Search Bar */}
       <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 mb-5 flex flex-wrap gap-3 items-center justify-between">
-        {/* Severity & Resolution Filters */}
         <div className="flex flex-wrap gap-1 bg-white p-1 rounded-lg border border-slate-200">
           {[
             { key: 'ALL', label: 'All Errors', count: errorLogs.length },
@@ -135,7 +133,6 @@ const ErrorLogViewer = ({ showHeader = true }) => {
           ))}
         </div>
 
-        {/* Search */}
         <div className="flex-1 max-w-sm">
           <input
             type="text"
@@ -147,7 +144,6 @@ const ErrorLogViewer = ({ showHeader = true }) => {
         </div>
       </div>
 
-      {/* Error Logs List */}
       <div className="space-y-3">
         {filteredLogs.length === 0 ? (
           <div className="py-8 text-center text-slate-500 bg-slate-50 rounded-lg border border-dashed border-slate-200">
@@ -195,10 +191,8 @@ const ErrorLogViewer = ({ showHeader = true }) => {
                   </div>
                 </div>
 
-                {/* Message */}
                 <p className="text-xs font-medium text-slate-800 mb-2">{log.message}</p>
 
-                {/* Stack Trace Accordion */}
                 {log.stackTrace && (
                   <div className="mb-2">
                     <button
@@ -215,7 +209,6 @@ const ErrorLogViewer = ({ showHeader = true }) => {
                   </div>
                 )}
 
-                {/* Footer Meta */}
                 <div className="flex flex-wrap justify-between items-center text-[11px] text-slate-500 pt-2.5 border-t border-slate-100 gap-2">
                   <span className="font-mono">
                     Transaction Ref: <strong className="text-blue-600 font-semibold">{txnRef}</strong>

@@ -5,7 +5,6 @@ from doc_builder_base import DocBuilder, Pt, Inches, WD_ALIGN_PARAGRAPH
 def build_module_1(out_path):
     b = DocBuilder()
     
-    # 1st Page
     b.build_cover_page(
         mod_num=1,
         mod_title="Customer Profile, Wallets & Smart Pockets",
@@ -13,7 +12,6 @@ def build_module_1(out_path):
         student_reg="2503717672622025"
     )
     
-    # Synopsis (Strictly 1 Page)
     b.add_h1("Synopsis")
     b.add_p(
         "PayGate (Transiq) is an enterprise-grade digital payment and wallet management platform designed to deliver secure, "
@@ -46,7 +44,6 @@ def build_module_1(out_path):
     )
     b.doc.add_page_break()
     
-    # Objective
     b.add_h1("Objective")
     b.add_p("The primary objectives of Module 1 (Customer Profile, Wallets & Smart Pockets) are:")
     b.add_bullet(" Design a responsive, high-performance customer dashboard presenting real-time wallet balances, active financial targets, and quick actions.", "1. Unified Financial Dashboard:")
@@ -56,7 +53,6 @@ def build_module_1(out_path):
     b.add_bullet(" Support external banking visibility by linking simulated bank account feeds alongside native digital wallet balances.", "5. Multi-Account Banking Aggregation:")
     b.add_bullet(" Ensure strict multi-tenant isolation so that customers can only view, modify, or liquidate pockets and wallets belonging to their verified identity.", "6. Tenant Privacy & Security:")
 
-    # Scope
     b.add_h1("Scope")
     b.add_h2("Functional Scope")
     b.add_bullet(" User authentication, customer profile viewing, and session persistence via JWT tokens.", "Authentication & Profile Custody: ")
@@ -74,7 +70,6 @@ def build_module_1(out_path):
     b.add_bullet(" Direct automated recurring ACH/NACH standing instructions for auto-debiting pockets on a monthly schedule.", "Automated Recurring Direct Debits: ")
     b.add_bullet(" Compound interest or investment yield accrual on locked pocket balances.", "Investment Yield Accrual: ")
 
-    # Project Description
     b.add_h1("Project Description")
     b.add_p("Module 1 is engineered as a decoupled multi-tier web subsystem operating across three primary architectural layers:")
     b.add_h2("Client Tier — Customer Dashboard UI")
@@ -90,7 +85,6 @@ def build_module_1(out_path):
     b.add_h2("Data Persistence Tier — MongoDB")
     b.add_p("Data persistence is governed by the wallets and pockets collections in MongoDB, linked to parent user profiles via unique ObjectIds.")
 
-    # DB Design
     b.add_h1("DB Design")
     b.add_h2("5.1 wallets Collection")
     w_rows = [
@@ -126,7 +120,6 @@ def build_module_1(out_path):
     ]
     b.add_table_data(["Operation", "REST Endpoint", "Input Parameters", "Business Invariant Rule", "Status"], op_rows, [1.3, 1.5, 1.4, 2.3, 0.5])
 
-    # DFD
     b.add_h1("Data Flow Diagram (DFD)")
     b.add_p("The Data Flow Diagram models the exchange of wallet liquidity, envelope allocation commands, and telemetry feeds:")
     b.add_image('extracted_module_diagrams/mod1_img6_image2.png', width_in=6.2, caption="Figure 7.1 — Level 0 & Level 1 DFD: Customer Dashboard & Smart Pockets")
@@ -135,7 +128,6 @@ def build_module_1(out_path):
     b.add_bullet(" Aggregates linked pocket balances from D3 Pockets and evaluates progress metrics.", "Process 1.2 (Smart Pocket Management): ")
     b.add_bullet(" Executes atomic reallocations between mainBalance and currentAmount.", "Process 1.3 (Fund Reallocation Engine): ")
 
-    # ER Diagram
     b.add_h1("ER Diagram")
     b.add_p("The Entity-Relationship model defines the 1:1 relationship between User and Wallet, and the 1:N relationship between Wallet and Pockets:")
     b.add_image('extracted_module_diagrams/mod1_img5_image3.png', width_in=6.2, caption="Figure 8.1 — Entity-Relationship Diagram: Wallet & Smart Pockets Architecture")
@@ -143,7 +135,6 @@ def build_module_1(out_path):
     b.add_bullet(" Each customer profile owns exactly one primary liquidity wallet.", "USER (1) to WALLET (1): ")
     b.add_bullet(" Each wallet partitions funds across zero or more goal-dedicated pockets.", "WALLET (1) to POCKET (N): ")
 
-    # Use Case Diagram
     b.add_h1("Use Case Diagram")
     b.add_p("The Use Case Diagram defines the capabilities available to authenticated customers:")
     b.add_image('extracted_module_diagrams/mod1_img3_image4.png', width_in=6.2, caption="Figure 9.1 — Use Case Diagram: Customer Dashboard & Budgeting Operations")
@@ -154,17 +145,14 @@ def build_module_1(out_path):
     b.add_bullet(" Withdraw allocated funds back to wallet (contingent upon lock state).", "UC-04 Withdraw from Pocket: ")
     b.add_bullet(" Toggle withdrawal lock to safeguard goal funds.", "UC-05 Lock/Unlock Pocket: ")
 
-    # Class Diagram
     b.add_h1("Class Diagram")
     b.add_p("The Class Diagram illustrates the controllers, domain models, and Zustand stores:")
     b.add_image('verified_diagrams/mod1_class.png', width_in=6.2, caption="Figure 10.1 — Class Diagram: Module 1 Object-Oriented Architecture")
 
-    # Sequence Diagram
     b.add_h1("Sequence Diagram")
     b.add_p("Traces the message exchange during atomic pocket deposits and lock-guarded withdrawals:")
     b.add_image('verified_diagrams/mod1_sequence.png', width_in=6.2, caption="Figure 11.1 — Sequence Diagram: Smart Pocket Fund Reallocation Flow")
 
-    # Screenshots (Forms)
     b.add_h1("Screenshots (Forms)")
     b.add_p("Below are real, high-resolution screenshots captured directly from the live PayGate Chromium application session:")
     
@@ -176,7 +164,6 @@ def build_module_1(out_path):
     b.add_p("The master customer console displaying the total wallet balance (₹45,000), quick actions, and active Smart Pocket envelopes.")
     b.add_image('module_screenshots/mod1_customer_dashboard.png', width_in=5.8, caption="Figure 12.2 — Live Customer Dashboard & Smart Pockets Interface (/)")
 
-    # Test Report
     b.add_h1("Test Report")
     b.add_p("Automated software testing was executed using Jest v30.5.2 and Supertest covering all Module 1 endpoints:")
     b.add_h2("Test Execution Summary")
@@ -203,7 +190,6 @@ def build_module_1(out_path):
     ]
     b.add_table_data(["Test ID", "Test Description", "Test Input / Condition", "Expected Output", "Actual Result", "Status"], tc_rows, [0.9, 1.4, 1.4, 1.4, 1.3, 0.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER])
 
-    # Conclusion & Enhancements
     b.build_conclusion_enhancements(
         conclusion_text=[
             "Module 1 (Customer Profile, Wallets & Smart Pockets) successfully delivers a resilient personal financial management layer for PayGate. "

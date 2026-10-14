@@ -7,7 +7,6 @@ from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN
 from pptx.enum.shapes import MSO_SHAPE
 
-# ── Color Palette (PayGate Fintech Enterprise) ──────────────────────────────────
 COLOR_BG_DARK       = RGBColor(15, 23, 42)      # Deep Navy #0F172A
 COLOR_BG_LIGHT      = RGBColor(248, 250, 252)   # Light Slate Gray #F8FAFC
 COLOR_WHITE         = RGBColor(255, 255, 255)
@@ -20,7 +19,6 @@ COLOR_SLATE_TEXT    = RGBColor(71, 85, 105)     # Slate Muted #475569
 COLOR_SLATE_CARD    = RGBColor(255, 255, 255)   # Clean White Card
 COLOR_CARD_ALT      = RGBColor(241, 245, 249)   # Slate-100 #F1F5F9
 
-# Severity Colors
 COLOR_SEV_LOW       = RGBColor(100, 116, 139)   # Slate #64748B
 COLOR_SEV_MED       = RGBColor(217, 119, 6)     # Amber #D97706
 COLOR_SEV_HIGH      = RGBColor(234, 88, 12)     # Orange #EA580C
@@ -36,7 +34,6 @@ def create_presentation():
     blank_layout = prs.slide_layouts[6]
 
     def add_header_footer(slide, title_text, category_text="MODULE 06 — ADMIN OPERATIONS, MONITORING & ERROR AUDIT CONSOLE", slide_num=1):
-        # Header category
         cat_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.4), Inches(11.7), Inches(0.35))
         tf_cat = cat_box.text_frame
         tf_cat.word_wrap = True
@@ -48,7 +45,6 @@ def create_presentation():
         p_c.font.bold = True
         p_c.font.color.rgb = COLOR_BLUE_ACCENT
 
-        # Slide Title
         t_box = slide.shapes.add_textbox(Inches(0.8), Inches(0.72), Inches(11.7), Inches(0.65))
         tf_t = t_box.text_frame
         tf_t.word_wrap = True
@@ -60,13 +56,11 @@ def create_presentation():
         p_t.font.bold = True
         p_t.font.color.rgb = COLOR_NAVY_DARK
 
-        # Top Accent Divider
         line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(1.42), Inches(11.733), Inches(0.02))
         line.fill.solid()
         line.fill.fore_color.rgb = COLOR_SLATE_BORDER
         line.line.color.rgb = COLOR_SLATE_BORDER
 
-        # Footer
         footer_line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0.8), Inches(7.0), Inches(11.733), Inches(0.015))
         footer_line.fill.solid()
         footer_line.fill.fore_color.rgb = COLOR_SLATE_BORDER
@@ -92,11 +86,7 @@ def create_presentation():
         p_num.font.bold = True
         p_num.font.color.rgb = COLOR_SLATE_TEXT
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 1: Admin Console Overview
-    # ════════════════════════════════════════════════════════════════════════════
     s1 = prs.slides.add_slide(blank_layout)
-    # Background
     bg1 = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg1.fill.solid()
     bg1.fill.fore_color.rgb = COLOR_BG_LIGHT
@@ -104,7 +94,6 @@ def create_presentation():
 
     add_header_footer(s1, "Operational Visibility & System Governance", slide_num=1)
 
-    # 3 Structured Pillar Cards
     pillars = [
         ("Why Administrators Require Visibility", 
          "Mission-Critical Oversight",
@@ -140,7 +129,6 @@ def create_presentation():
         card.line.color.rgb = COLOR_SLATE_BORDER
         card.line.width = Pt(1.5)
 
-        # Accent top bar
         bar = s1.shapes.add_shape(MSO_SHAPE.RECTANGLE, left, Inches(1.8), Inches(3.733), Inches(0.12))
         bar.fill.solid()
         bar.fill.fore_color.rgb = accent_col
@@ -172,7 +160,6 @@ def create_presentation():
             p.space_after = Pt(10)
             p.line_spacing = 1.15
 
-    # Speaker Notes Slide 1
     s1.notes_slide.notes_text_frame.text = (
         "Good morning respected evaluators. As part of our team's PayGate presentation, "
         "I am presenting Module 6: The Admin Operations, Monitoring & Error Audit Console.\n\n"
@@ -183,9 +170,6 @@ def create_presentation():
         "real-time error triage, and immediate kill-switch intervention under a zero-trust RBAC architecture."
     )
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 2: Admin Dashboard (KPIs, Telemetry & Form Layout)
-    # ════════════════════════════════════════════════════════════════════════════
     s2 = prs.slides.add_slide(blank_layout)
     bg2 = s2.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg2.fill.solid()
@@ -194,7 +178,6 @@ def create_presentation():
 
     add_header_footer(s2, "Admin Dashboard Architecture & Operational Console", slide_num=2)
 
-    # Left Column: Structured Form Screenshot representation from Project Record
     left_card = s2.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(6.0), Inches(4.9))
     left_card.fill.solid()
     left_card.fill.fore_color.rgb = COLOR_WHITE
@@ -219,7 +202,6 @@ def create_presentation():
     p_s1.font.color.rgb = COLOR_NAVY_DARK
     p_s1.space_after = Pt(10)
 
-    # Code/ASCII container
     snap_box = s2.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(1.05), Inches(2.7), Inches(5.5), Inches(3.75))
     snap_box.fill.solid()
     snap_box.fill.fore_color.rgb = COLOR_CARD_ALT
@@ -251,7 +233,6 @@ def create_presentation():
         p_cl.font.size = Pt(8.5)
         p_cl.font.color.rgb = COLOR_NAVY_DARK
 
-    # Right Column: 4 Key Dashboard Monitoring Components
     kpi_blocks = [
         ("1. Transaction Volume & Settled Value", 
          "Tracks total count (completed, failed, pending) and settled volume in INR (₹) via GET /api/admin/stats."),
@@ -294,7 +275,6 @@ def create_presentation():
         p_kd.font.color.rgb = COLOR_SLATE_TEXT
         p_kd.line_spacing = 1.15
 
-    # Speaker Notes Slide 2
     s2.notes_slide.notes_text_frame.text = (
         "Slide 2 showcases the PayGate Admin Dashboard. On the left is the exact Form 5 layout from our project documentation. "
         "The interface aggregates four vital telemetry streams:\n"
@@ -304,9 +284,6 @@ def create_presentation():
         "And fourth, real-time system health telemetry polled every 10 seconds via /health, monitoring MongoDB ping latency, heap memory, and process uptime."
     )
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 3: Transaction Monitoring & Ledger Inspection
-    # ════════════════════════════════════════════════════════════════════════════
     s3 = prs.slides.add_slide(blank_layout)
     bg3 = s3.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg3.fill.solid()
@@ -315,7 +292,6 @@ def create_presentation():
 
     add_header_footer(s3, "Comprehensive Transaction Monitoring & Audit Fields", slide_num=3)
 
-    # Top summary card
     top_box = s3.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.75), Inches(11.733), Inches(1.0))
     top_box.fill.solid()
     top_box.fill.fore_color.rgb = COLOR_WHITE
@@ -336,7 +312,6 @@ def create_presentation():
     p_t2.font.size = Pt(11)
     p_t2.font.color.rgb = COLOR_NAVY_DARK
 
-    # 4 Detailed Inspection Dimension Cards
     dimensions = [
         ("1. Unique Reference Code",
          "Format: TXN-<Timestamp>-<UUID>",
@@ -402,7 +377,6 @@ def create_presentation():
             p_di.space_after = Pt(8)
             p_di.line_spacing = 1.15
 
-    # Speaker Notes Slide 3
     s3.notes_slide.notes_text_frame.text = (
         "In Slide 3, we examine how administrators inspect the transaction ledger in PayGate. "
         "The system stores all operations in MongoDB's transactions collection with high indexing. "
@@ -412,9 +386,6 @@ def create_presentation():
         "when auditing transaction disputes."
     )
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 4: Error Telemetry Lifecycle Flow
-    # ════════════════════════════════════════════════════════════════════════════
     s4 = prs.slides.add_slide(blank_layout)
     bg4 = s4.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg4.fill.solid()
@@ -423,7 +394,6 @@ def create_presentation():
 
     add_header_footer(s4, "Error Telemetry Pipeline & Database Schema", slide_num=4)
 
-    # Flow Steps
     flow_steps = [
         ("1. Transaction Failure", "Payment debit fails due to business rule or partner error", COLOR_SEV_CRIT),
         ("2. Error Classification", "failureReason parsed and categorized automatically", COLOR_SEV_HIGH),
@@ -465,7 +435,6 @@ def create_presentation():
             arr.fill.fore_color.rgb = COLOR_SLATE_BORDER
             arr.line.color.rgb = COLOR_SLATE_BORDER
 
-    # Bottom Half: The ErrorLog Database Table
     t_card = s4.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(3.75), Inches(11.733), Inches(2.95))
     t_card.fill.solid()
     t_card.fill.fore_color.rgb = COLOR_WHITE
@@ -481,7 +450,6 @@ def create_presentation():
     p_tl.font.bold = True
     p_tl.font.color.rgb = COLOR_NAVY_PRIMARY
 
-    # Add Table
     table_shape = s4.shapes.add_table(8, 4, Inches(1.1), Inches(4.25), Inches(11.133), Inches(2.25))
     table = table_shape.table
     table.columns[0].width = Inches(1.8)
@@ -520,7 +488,6 @@ def create_presentation():
                 cell.fill.solid()
                 cell.fill.fore_color.rgb = COLOR_WHITE if r_i % 2 == 1 else COLOR_CARD_ALT
 
-    # Speaker Notes Slide 4
     s4.notes_slide.notes_text_frame.text = (
         "Slide 4 details the Error Telemetry Pipeline in PayGate. Notice the sequential flowchart: "
         "When a transaction debit fails, a Mongoose post-save hook on the Transaction model "
@@ -530,9 +497,6 @@ def create_presentation():
         "resolve them with PATCH /api/admin/errors/:id/resolve, guaranteeing end-to-end incident auditability."
     )
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 5: Error Severity Classification
-    # ════════════════════════════════════════════════════════════════════════════
     s5 = prs.slides.add_slide(blank_layout)
     bg5 = s5.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg5.fill.solid()
@@ -584,7 +548,6 @@ def create_presentation():
         scard.line.color.rgb = COLOR_SLATE_BORDER
         scard.line.width = Pt(1.5)
 
-        # Header banner inside card
         s_banner = s5.shapes.add_shape(MSO_SHAPE.RECTANGLE, s_left, Inches(1.8), Inches(2.78), Inches(0.75))
         s_banner.fill.solid()
         s_banner.fill.fore_color.rgb = s_col
@@ -600,7 +563,6 @@ def create_presentation():
         p_sh.font.bold = True
         p_sh.font.color.rgb = COLOR_WHITE
 
-        # Body text
         tb_sb = s5.shapes.add_textbox(s_left + Inches(0.2), Inches(2.7), Inches(2.38), Inches(3.8))
         tf_sb = tb_sb.text_frame
         tf_sb.word_wrap = True
@@ -621,7 +583,6 @@ def create_presentation():
             p_sb.space_after = Pt(8)
             p_sb.line_spacing = 1.15
 
-    # Speaker Notes Slide 5
     s5.notes_slide.notes_text_frame.text = (
         "Slide 5 outlines the four documented error severity tiers in PayGate: CRITICAL, HIGH, MEDIUM, and LOW. "
         "In our codebase, the Mongoose post-save hook explicitly maps failure reasons: "
@@ -631,9 +592,6 @@ def create_presentation():
         "MEDIUM handles account and limit mismatches, while LOW records informational warnings."
     )
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 6: Pending Transactions & Operational Recovery
-    # ════════════════════════════════════════════════════════════════════════════
     s6 = prs.slides.add_slide(blank_layout)
     bg6 = s6.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg6.fill.solid()
@@ -642,7 +600,6 @@ def create_presentation():
 
     add_header_footer(s6, "Pending Transaction Monitoring & Administrative Recovery", slide_num=6)
 
-    # Left Column: Recovery Role & Lifecycle
     p_left_card = s6.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8), Inches(1.8), Inches(5.6), Inches(4.9))
     p_left_card.fill.solid()
     p_left_card.fill.fore_color.rgb = COLOR_WHITE
@@ -681,7 +638,6 @@ def create_presentation():
         p_rp.space_after = Pt(10)
         p_rp.line_spacing = 1.15
 
-    # Right Column: Workflow / Architecture
     p_right_card = s6.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(6.8), Inches(1.8), Inches(5.733), Inches(4.9))
     p_right_card.fill.solid()
     p_right_card.fill.fore_color.rgb = COLOR_WHITE
@@ -706,7 +662,6 @@ def create_presentation():
     p_prh.font.color.rgb = COLOR_NAVY_DARK
     p_prh.space_after = Pt(14)
 
-    # 3 Sub-blocks for actions with exact project routes
     action_blocks = [
         ("Action A: Force Settlement (Success)", 
          "Endpoint: PATCH /api/admin/transactions/:id/force-success\n"
@@ -735,7 +690,6 @@ def create_presentation():
         p_ad.space_after = Pt(10)
         p_ad.line_spacing = 1.15
 
-    # Speaker Notes Slide 6
     s6.notes_slide.notes_text_frame.text = (
         "Slide 6 covers Pending Transaction Resolution and Operational Recovery in PayGate. "
         "Transactions in 'pending' status represent in-flight payments awaiting clearing from partner banks. "
@@ -746,9 +700,6 @@ def create_presentation():
         "Additionally, the administrator can trigger an immediate wallet security freeze via PATCH /api/admin/users/:id/freeze if fraud is suspected."
     )
 
-    # ════════════════════════════════════════════════════════════════════════════
-    # SLIDE 7: Conclusion & Value Matrix
-    # ════════════════════════════════════════════════════════════════════════════
     s7 = prs.slides.add_slide(blank_layout)
     bg7 = s7.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, Inches(13.333), Inches(7.5))
     bg7.fill.solid()
@@ -757,7 +708,6 @@ def create_presentation():
 
     add_header_footer(s7, "Conclusion: Architectural Value of the Admin Console", slide_num=7)
 
-    # 5 Pillars of Enterprise Value
     pillars_5 = [
         ("1. Real-Time Visibility", 
          "Immediate operational telemetry into system-wide volume, success percentages, and database heartbeat every 10 seconds.",
@@ -806,7 +756,6 @@ def create_presentation():
         p_pd.font.color.rgb = COLOR_SLATE_TEXT
         p_pd.space_before = Pt(2)
 
-    # Speaker Notes Slide 7
     s7.notes_slide.notes_text_frame.text = (
         "In conclusion, Module 6 fulfills the crucial operational and audit requirements of PayGate. "
         "It provides real-time visibility, rigorous auditability, automated error traceability, "

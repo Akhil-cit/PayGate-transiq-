@@ -18,7 +18,6 @@ for i, p in enumerate(doc.paragraphs):
     pb = ('w:br w:type="page"' in xml) or ('w:pageBreakBefore' in xml)
     has_image = '<w:drawing' in xml
     
-    # Check if heading
     is_major = any(t == s for s in sections_to_track)
     is_sub = any(t.startswith(s) for s in ["Form ", "Figure ", "Table ", "5.", "6.", "7.", "8.", "9.", "10.", "11.", "12.", "Functional Scope", "Technical Scope", "Out-of-Scope", "Client Tier", "Application Server Tier", "Data Persistence Tier", "Test Execution Summary", "Detailed Test Cases", "Conclusion", "Further Enhancements"])
     

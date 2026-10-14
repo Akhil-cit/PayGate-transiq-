@@ -2,13 +2,11 @@ const fs = require('fs');
 
 let code = fs.readFileSync('src/modules/04-transactions/pages/FinancialAnalysisPage.jsx', 'utf8');
 
-// 1. Update Imports
 code = code.replace(
   'LineChart, Line, PieChart, Pie, Cell, Legend',
   'AreaChart, Area, PieChart, Pie, Cell, Legend'
 );
 
-// 2. Add CustomTooltip Component after PIE_COLORS
 const customTooltipCode = `
 const CustomTooltip = ({ active, payload, label, prefix = '₹', suffix = '' }) => {
   if (active && payload && payload.length) {
@@ -40,7 +38,6 @@ code = code.replace(
   'const PIE_COLORS = [\'#6366f1\', \'#22c55e\', \'#f59e0b\', \'#ef4444\', \'#8b5cf6\', \'#06b6d4\', \'#f43f5e\'];\n' + customTooltipCode
 );
 
-// 3. Update BarChart
 const oldBarChart = `              <BarChart data={byMonth} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                 <XAxis dataKey="label" tick={{ fill: '#94a3b8', fontSize: 12 }} />
@@ -77,7 +74,6 @@ const newBarChart = `              <BarChart data={byMonth} margin={{ top: 8, ri
 
 code = code.replace(oldBarChart, newBarChart);
 
-// 4. Update LineChart -> AreaChart
 const oldLineChart = `              <LineChart data={byMonth} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                 <XAxis dataKey="label" tick={{ fill: '#94a3b8', fontSize: 12 }} />
@@ -113,7 +109,6 @@ const newAreaChart = `              <AreaChart data={byMonth} margin={{ top: 8, 
 
 code = code.replace(oldLineChart, newAreaChart);
 
-// 5. Update PieChart 1 (By Method)
 const oldPie1 = `                <PieChart>
                   <Pie
                     data={byMethod}
@@ -155,7 +150,6 @@ const newPie1 = `                <PieChart>
 
 code = code.replace(oldPie1, newPie1);
 
-// 6. Update PieChart 2 (Status)
 const oldPie2 = `                <PieChart>
                   <Pie
                     data={[

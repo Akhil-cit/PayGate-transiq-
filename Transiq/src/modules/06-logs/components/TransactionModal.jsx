@@ -26,7 +26,6 @@ const TransactionModal = ({ transaction, onClose }) => {
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-200">
-        {/* Modal Header */}
         <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900 text-white rounded-t-xl">
           <div>
             <div className="flex items-center gap-3">
@@ -48,9 +47,7 @@ const TransactionModal = ({ transaction, onClose }) => {
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="p-6 space-y-5">
-          {/* Amount Card */}
           <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fund Transfer Amount</p>
@@ -75,7 +72,6 @@ const TransactionModal = ({ transaction, onClose }) => {
             </div>
           </div>
 
-          {/* Parties Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
               <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1.5">
@@ -96,7 +92,6 @@ const TransactionModal = ({ transaction, onClose }) => {
             </div>
           </div>
 
-          {/* Description & Technical Gateway Metadata */}
           <div className="border border-slate-200 rounded-lg overflow-hidden text-xs">
             <div className="bg-slate-100 px-4 py-2 font-semibold text-slate-700 border-b border-slate-200 uppercase tracking-wider text-[11px]">
               Gateway Audit Log
@@ -122,7 +117,6 @@ const TransactionModal = ({ transaction, onClose }) => {
             </div>
           </div>
 
-          {/* Timeline of Lifecycle Events */}
           {transaction.timeline && transaction.timeline.length > 0 && (
             <div>
               <h4 className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2.5">Execution Timeline</h4>
@@ -142,7 +136,6 @@ const TransactionModal = ({ transaction, onClose }) => {
           )}
         </div>
 
-        {/* Modal Footer */}
         <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-2.5 rounded-b-xl">
           <button
             onClick={() => {

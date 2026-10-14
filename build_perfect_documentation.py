@@ -9,7 +9,6 @@ import os
 def create_document():
     doc = docx.Document()
     
-    # Page setup: Standard Letter size with 0.65" top/bottom, 0.75" left/right
     for s in doc.sections:
         s.page_width = Inches(8.5)
         s.page_height = Inches(11.0)
@@ -18,7 +17,6 @@ def create_document():
         s.left_margin = Inches(0.75)
         s.right_margin = Inches(0.75)
         
-    # Professional Enterprise FinTech Color Palette
     NAVY = RGBColor(15, 39, 71)      # 0F2747 (Deep Navy)
     SLATE = RGBColor(28, 70, 112)    # 1C4670 (Slate Blue)
     TEAL = RGBColor(13, 148, 136)    # 0D9488 (Teal Accent)
@@ -31,7 +29,6 @@ def create_document():
     HEX_LIGHT_BG = "F8FAFC"
     HEX_BORDER = "CBD5E1"
     
-    # Configure base Normal style
     style_normal = doc.styles['Normal']
     style_normal.font.name = 'Aptos'
     style_normal.font.size = Pt(10)
@@ -172,11 +169,7 @@ def create_document():
                             r.font.size = Pt(8.5)
                             r.font.color.rgb = DARK
 
-    # =========================================================================
-    # 1ST PAGE: COLLEGE LOGO, PROJECT TITLE AND TEAM DETAILS
-    # =========================================================================
     
-    # College Logo
     p_logo = doc.add_paragraph()
     p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_logo.paragraph_format.space_before = Pt(6)
@@ -185,7 +178,6 @@ def create_document():
         run_logo = p_logo.add_run()
         run_logo.add_picture('cit_logo.png', width=Inches(1.15))
 
-    # College Name
     p_clg = doc.add_paragraph()
     p_clg.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_clg.paragraph_format.space_after = Pt(1)
@@ -203,7 +195,6 @@ def create_document():
     r_sub.font.size = Pt(9)
     r_sub.font.color.rgb = SLATE
 
-    # Divider bar
     p_bar = doc.add_paragraph()
     p_bar.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_bar.paragraph_format.space_after = Pt(8)
@@ -211,7 +202,6 @@ def create_document():
     r_bar.font.color.rgb = NAVY
     r_bar.font.size = Pt(9.5)
 
-    # Project Title
     p_rec = doc.add_paragraph()
     p_rec.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_rec.paragraph_format.space_after = Pt(2)
@@ -248,7 +238,6 @@ def create_document():
     r_sub2.font.italic = True
     r_sub2.font.color.rgb = MUTED
 
-    # Module Focus Badge
     p_mod = doc.add_paragraph()
     p_mod.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_mod.paragraph_format.space_after = Pt(10)
@@ -258,7 +247,6 @@ def create_document():
     r_mod.font.bold = True
     r_mod.font.color.rgb = NAVY
 
-    # Project Details Table
     p_dth = doc.add_paragraph()
     p_dth.paragraph_format.space_after = Pt(3)
     r_dth = p_dth.add_run("PROJECT DETAILS")
@@ -282,7 +270,6 @@ def create_document():
         t_details.rows[r_i].cells[1].paragraphs[0].text = c1
     style_table(t_details, [2.2, 4.8], [WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT])
 
-    # Team Details
     p_tmh = doc.add_paragraph()
     p_tmh.paragraph_format.space_before = Pt(8)
     p_tmh.paragraph_format.space_after = Pt(3)
@@ -309,7 +296,6 @@ def create_document():
         t_team.rows[r_i].cells[3].paragraphs[0].text = c3
     style_table(t_team, [0.6, 2.2, 1.6, 2.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT])
 
-    # Guide Signatures
     p_gd = doc.add_paragraph()
     p_gd.paragraph_format.space_before = Pt(10)
     p_gd.paragraph_format.space_after = Pt(3)
@@ -320,12 +306,8 @@ def create_document():
     p_sig.paragraph_format.space_after = Pt(0)
     p_sig.add_run("Signature of the Guide: ______________________________      Date of Submission: _______________").font.color.rgb = DARK
 
-    # Strictly break page so Synopsis is on Page 2
     doc.add_page_break()
 
-    # =========================================================================
-    # SYNOPSIS (STRICTLY IN 1 PAGE, NOT IN MORE THAN 1 PAGE)
-    # =========================================================================
     add_h1("Synopsis")
     
     p_syn1 = doc.add_paragraph()
@@ -366,12 +348,8 @@ def create_document():
         "The module guarantees total platform auditability, sub-second error triage, and automated incident recovery."
     )
 
-    # Strictly break page so main documentation begins on Page 3
     doc.add_page_break()
 
-    # =========================================================================
-    # OBJECTIVE
-    # =========================================================================
     add_h1("Objective")
     p_obj = doc.add_paragraph()
     p_obj.paragraph_format.space_after = Pt(4)
@@ -388,9 +366,6 @@ def create_document():
     add_bullet(" Provide rapid-response fraud mitigation tools enabling administrators to instantly freeze customer wallets (isFrozen) or deactivate suspicious user profiles (isActive) upon detecting security threats.", "6. Proactive Account & Wallet Security Controls:")
     add_bullet(" Allow administrators to extract filtered historical transaction ledgers into structured CSV spreadsheets for offline compliance, regulatory reporting, and forensic accounting.", "7. Compliance & Forensic Audit Trail Export:")
 
-    # =========================================================================
-    # SCOPE
-    # =========================================================================
     add_h1("Scope")
 
     add_h2("Functional Scope")
@@ -412,9 +387,6 @@ def create_document():
     add_bullet(" Native streaming of telemetry to third-party enterprise Security Information and Event Management (SIEM) systems such as Datadog, Splunk, or New Relic.", "Third-Party SIEM Integration: ")
     add_bullet(" Machine-learning based anomaly scoring on real-time transaction streams (planned for future AI fraud detection engine).", "Automated AI Predictive Anomaly Detection: ")
 
-    # =========================================================================
-    # PROJECT DESCRIPTION
-    # =========================================================================
     add_h1("Project Description")
     p_pd = doc.add_paragraph()
     p_pd.paragraph_format.space_after = Pt(4)
@@ -456,9 +428,6 @@ def create_document():
         "and credentials), and wallets (balance records and freeze flags)."
     )
 
-    # =========================================================================
-    # DB DESIGN
-    # =========================================================================
     add_h1("DB Design")
     p_dbd = doc.add_paragraph()
     p_dbd.paragraph_format.space_after = Pt(4)
@@ -543,9 +512,6 @@ def create_document():
         t_em.rows[r_i].cells[4].paragraphs[0].text = c4
     style_table(t_em, [1.5, 1.6, 0.9, 1.3, 1.7], [WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT])
 
-    # =========================================================================
-    # DATA FLOW DIAGRAM (DFD)
-    # =========================================================================
     add_h1("Data Flow Diagram (DFD)")
     p_dfdd = doc.add_paragraph()
     p_dfdd.paragraph_format.space_after = Pt(4)
@@ -569,9 +535,6 @@ def create_document():
     add_bullet(" Enables administrators to query unresolved incidents, inspect stack traces, and append diagnostic notes, setting resolved = true and stamping resolvedBy in D5.", "Process 6.4 (Incident Triage & Resolution Manager): ")
     add_bullet(" Modifies security flags on D1 Users (isActive) and D2 Wallets (isFrozen), immediately restricting fraudulent accounts from initiating outgoing payments.", "Process 6.5 (Account Freeze & Security Governor): ")
 
-    # =========================================================================
-    # ER DIAGRAM
-    # =========================================================================
     add_h1("ER Diagram")
     p_erd = doc.add_paragraph()
     p_erd.paragraph_format.space_after = Pt(4)
@@ -595,9 +558,6 @@ def create_document():
     add_bullet(" An authenticated administrator reviews, triages, and resolves multiple error log entries, with resolvedBy linking the audit trail directly to the admin's user ID.", "ADMIN_USER (1) to ERROR_LOG (N): ")
     add_bullet(" System administrators govern customer wallets by toggling the isFrozen security flag, instantly restricting or unlocking debit operations.", "ADMIN_USER (1) to WALLET (N): ")
 
-    # =========================================================================
-    # USE CASE DIAGRAM
-    # =========================================================================
     add_h1("Use Case Diagram")
     p_ucd = doc.add_paragraph()
     p_ucd.paragraph_format.space_after = Pt(4)
@@ -623,9 +583,6 @@ def create_document():
     add_bullet(" Actor: System Administrator. Toggle isFrozen on customer wallet to prevent unauthorized fund outflows during security incidents.", "UC-07 Freeze / Unfreeze Customer Wallets: ")
     add_bullet(" Actor: System Administrator. Generate and download a formatted CSV spreadsheet containing all filtered transaction records.", "UC-08 Export Audit Ledger to CSV: ")
 
-    # =========================================================================
-    # CLASS DIAGRAM
-    # =========================================================================
     add_h1("Class Diagram")
     p_cld = doc.add_paragraph()
     p_cld.paragraph_format.space_after = Pt(4)
@@ -649,9 +606,6 @@ def create_document():
     add_bullet(" Financial liquidity model maintaining mainBalance, currency, and the isFrozen administrative security lock.", "Wallet: ")
     add_bullet(" Client-side Zustand store managing reactive frontend state, API dispatching, error incident arrays, and filter parameters.", "logsStore: ")
 
-    # =========================================================================
-    # SEQUENCE DIAGRAM
-    # =========================================================================
     add_h1("Sequence Diagram")
     p_sqd = doc.add_paragraph()
     p_sqd.paragraph_format.space_after = Pt(4)
@@ -677,9 +631,6 @@ def create_document():
     add_bullet(" The client dispatches POST /api/admin/errors/:id/resolve with the resolution notes payload. The controller updates resolved = true, resolvedBy = adminId, and resolvedAt = now().", "7. Incident Resolution & Database Update: ")
     add_bullet(" The dashboard refreshes reactively, decrementing the unresolved error count and logging a permanent audit trail.", "8. Reactive Telemetry Update: ")
 
-    # =========================================================================
-    # SCREENSHOTS (FORMS) — REAL SCREENSHOTS TAKEN VIA PLAYWRIGHT
-    # =========================================================================
     add_h1("Screenshots (Forms)")
     p_scd = doc.add_paragraph()
     p_scd.paragraph_format.space_after = Pt(4)
@@ -688,7 +639,6 @@ def create_document():
         "captured directly from the operational Chromium browser session, demonstrating all six core administrative forms."
     )
 
-    # Form 1: Admin Login
     add_h2("Form 12.1: Admin Authentication & Zero-Trust Sign-In (/admin/login)")
     p_f1 = doc.add_paragraph()
     p_f1.paragraph_format.space_after = Pt(2)
@@ -703,7 +653,6 @@ def create_document():
         p_img.add_run().add_picture('real_screenshots/01_admin_login.png', width=Inches(5.8))
         add_caption("Figure 12.1 — Live Admin Sign In Interface (/admin/login)")
 
-    # Form 2: Admin Monitoring Dashboard
     add_h2("Form 12.2: Platform Telemetry & Volume KPIs Dashboard (/admin/monitoring)")
     p_f2 = doc.add_paragraph()
     p_f2.paragraph_format.space_after = Pt(2)
@@ -718,7 +667,6 @@ def create_document():
         p_img.add_run().add_picture('real_screenshots/02_admin_monitoring_dashboard.png', width=Inches(5.8))
         add_caption("Figure 12.2 — Live Admin Telemetry & Operations Console (/admin/monitoring)")
 
-    # Form 3: Error Logs
     add_h2("Form 12.3: Error Log Audit & Severity Triage Console (/admin/errors)")
     p_f3 = doc.add_paragraph()
     p_f3.paragraph_format.space_after = Pt(2)
@@ -733,7 +681,6 @@ def create_document():
         p_img.add_run().add_picture('real_screenshots/03_admin_error_logs.png', width=Inches(5.8))
         add_caption("Figure 12.3 — Live Error Log Audit & Severity Console (/admin/errors)")
 
-    # Form 4: Pending Transactions
     add_h2("Form 12.4: Real-Time Pending Transaction Resolution Queue (/admin/pending)")
     p_f4 = doc.add_paragraph()
     p_f4.paragraph_format.space_after = Pt(2)
@@ -748,7 +695,6 @@ def create_document():
         p_img.add_run().add_picture('real_screenshots/04_admin_pending_transactions.png', width=Inches(5.8))
         add_caption("Figure 12.4 — Live Pending Transaction Resolution Queue (/admin/pending)")
 
-    # Form 5: Audit History / Ledger
     add_h2("Form 12.5: Platform Transaction Ledger & CSV Export (/admin/history)")
     p_f5 = doc.add_paragraph()
     p_f5.paragraph_format.space_after = Pt(2)
@@ -763,7 +709,6 @@ def create_document():
         p_img.add_run().add_picture('real_screenshots/05_admin_audit_history.png', width=Inches(5.8))
         add_caption("Figure 12.5 — Live Platform Transaction Audit Ledger (/admin/history)")
 
-    # Form 6: User & Wallet Governance
     add_h2("Form 12.6: User Governance, Security & Wallet Freeze Controls (/admin/settings)")
     p_f6 = doc.add_paragraph()
     p_f6.paragraph_format.space_after = Pt(2)
@@ -778,9 +723,6 @@ def create_document():
         p_img.add_run().add_picture('real_screenshots/06_admin_user_governance.png', width=Inches(5.8))
         add_caption("Figure 12.6 — Live User & Wallet Security Governance Panel (/admin/settings)")
 
-    # =========================================================================
-    # TEST REPORT
-    # =========================================================================
     add_h1("Test Report")
     p_trd = doc.add_paragraph()
     p_trd.paragraph_format.space_after = Pt(4)
@@ -828,9 +770,6 @@ def create_document():
         t_tc.rows[r_i].cells[5].paragraphs[0].text = c5
     style_table(t_tc, [0.9, 1.4, 1.4, 1.4, 1.3, 0.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER])
 
-    # =========================================================================
-    # CONCLUSION AND FURTHER ENHANCEMENTS
-    # =========================================================================
     add_h1("Conclusion and Further Enhancements")
 
     add_h2("Conclusion")
@@ -866,7 +805,6 @@ def create_document():
     r_end.font.bold = True
     r_end.font.color.rgb = MUTED
 
-    # Save to both workspace and Downloads
     out_ws = r'D:\Clg\python lab\MERN PROJECT\PayGate_Module_6_Admin_and_Monitoring_Documentation.docx'
     out_dl = r'C:\Users\dell\Downloads\PayGate_Module_6_Admin_and_Monitoring_Documentation.docx'
     

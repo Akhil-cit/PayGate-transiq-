@@ -44,11 +44,9 @@ const ErrorLogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ── Compound index ────────────────────────────────────────────────────────────
 ErrorLogSchema.index({ resolved: 1, severity: 1 });
 ErrorLogSchema.index({ errorCode: 1, resolved: 1 });
 
-// ── Pre-save: Auto-generate errorId ──────────────────────────────────────────
 ErrorLogSchema.pre('save', function (next) {
   if (!this.errorId) {
     this.errorId = `ERR-${Date.now().toString(36).toUpperCase()}`;

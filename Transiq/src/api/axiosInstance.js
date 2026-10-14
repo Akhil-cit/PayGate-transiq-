@@ -8,24 +8,19 @@ export const getApiBaseUrl = () => {
     const protocol = window.location.protocol || 'http:';
     const hostname = window.location.hostname;
     
-    // Automatically support VS Code Port Forwarding and GitHub Codespaces tunnels
-    // e.g. "blabla-5173.use.devtunnels.ms" -> "blabla-5000.use.devtunnels.ms"
     if (hostname.includes('-5173')) {
       const backendHostname = hostname.replace('-5173', '-5000');
       return `${protocol}//${backendHostname}/api`;
     }
     
-    // Localhost development directly hitting backend on 5000
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return `${protocol}//${hostname}:5000/api`;
     }
 
-    // Local Wi-Fi or LAN IP addresses (e.g. 10.66.177.66 or 192.168.x.x)
     if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
       return `${protocol}//${hostname}:5000/api`;
     }
     
-    // Fallback to relative /api (seamlessly handled by Vite proxy in all tunnel environments)
     return '/api';
   }
   return 'http://localhost:5000/api';
@@ -36,7 +31,6 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ── Dynamically attach Base URL & JWT token to every request ──────────────────
 api.interceptors.request.use(
   (config) => {
     config.baseURL = getApiBaseUrl();
@@ -49,7 +43,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ── Handle 401: clear invalid session and immediately redirect to login ──────
 api.interceptors.response.use(
   (response) => response,
   (error) => {

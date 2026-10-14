@@ -8,7 +8,6 @@ router.get('/', auth, pocketController.list);
 router.post('/', auth, pocketController.create);
 router.put('/:id', auth, pocketController.update);
 
-// Support both POST and PATCH for deposit, withdraw, and lock
 router.post('/:id/deposit', auth, pocketController.deposit);
 router.patch('/:id/deposit', auth, pocketController.deposit);
 

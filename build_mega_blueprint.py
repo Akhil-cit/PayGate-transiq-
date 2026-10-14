@@ -26,7 +26,6 @@ def generate():
 
 ---
 
-## TABLE OF CONTENTS
 1. [Executive Summary & High-Level System Architecture](#1-executive-summary--high-level-system-architecture)
 2. [Module Breakdown: Why & How Each Module Exists](#2-module-breakdown-why--how-each-module-exists)
    - [Module 01: Customer Financial Dashboard & Smart Pockets](#module-01-customer-financial-dashboard--smart-pockets)
@@ -47,14 +46,10 @@ def generate():
 
 ---
 
-## 1. EXECUTIVE SUMMARY & HIGH-LEVEL SYSTEM ARCHITECTURE
-
-### 1.1 Problem Statement
 Modern online payment gateways and e-wallets frequently suffer from two critical flaws:
 1. **Brittle Client-Side State Synchronization**: Network interruptions during client-side checkouts lead to ambiguous payment states, accidental double deductions, or ghost charges where the wallet is debited without ledger confirmation.
 2. **Silent Failure & Missing Telemetry**: Traditional gateways fail to categorize payment failures into granular, auditable error domains. Operators are left without trace codes when transactions stall due to bank timeouts, frozen customer wallets, or insufficient balance.
 
-### 1.2 The PayGate (Transiq) Solution
 PayGate provides an enterprise-grade full-stack financial ecosystem built on the **MERN** (MongoDB, Express.js, React 18, Node.js) technology stack:
 * **Presentation Tier**: Vite SPA with Tailwind CSS, Zustand centralized stores, and zero-delay route guards.
 * **Service Tier**: Node.js REST API with stateless JWT authentication, Bcrypt credential encryption, and atomic deduction pipelines.
@@ -62,9 +57,6 @@ PayGate provides an enterprise-grade full-stack financial ecosystem built on the
 
 ---
 
-## 2. MODULE BREAKDOWN: WHY & HOW EACH MODULE EXISTS
-
-### Module 01: Customer Financial Dashboard & Smart Pockets
 * **Why it exists**: Users require an instant consolidated view of their liquid balances, goal progress, and recent activity upon signing in.
 * **How it works**:
   * Consumes `/api/customers/me` to load authenticated identity details and linked bank balances.
@@ -72,14 +64,12 @@ PayGate provides an enterprise-grade full-stack financial ecosystem built on the
   * Implements deposit, withdrawal, lock/unlock, editing, and deletion for budget management.
   * Uses local modal state (`AuthVerificationModal`) to verify credentials directly against MongoDB.
 
-### Module 02: Verified Beneficiary Directory & Contact Book
 * **Why it exists**: Sending money repeatedly requires a verified list of recipients with validated IFSC codes and account numbers to prevent human transfer errors.
 * **How it works**:
   * Consumes `/api/receipts` to support CRUD operations for payees.
   * Validates Indian Financial System Codes (IFSC) matching `^[A-Z]{4}0[A-Z0-9]{6}$`.
   * Implements favorite starring (`toggleFavourite`) for one-click transfers.
 
-### Module 03: 4-Step Payment Initiation & Multi-Account Wallet
 * **Why it exists**: Transferring funds must be strictly sequential, idempotent, and authorized by a cryptographic PIN.
 * **How it works**:
   * Step 1: Select or enter a beneficiary.
@@ -87,13 +77,11 @@ PayGate provides an enterprise-grade full-stack financial ecosystem built on the
   * Step 3: Enter 4-digit security PIN (`1234` demo default or custom hashed PIN).
   * Step 4: Digital receipt generation with copyable `TXN-` reference code and download capabilities.
 
-### Module 04: Financial Analytics, Ledgers & Insights
 * **Why it exists**: Users require transparency into spending trends, income vs expense breakdowns, and transaction search.
 * **How it works**:
   * Consumes `/api/transactions` with pagination, status filters (`success`, `failure`, `pending`), and date ranges.
   * Aggregates volume metrics and visual category distributions.
 
-### Module 05: Security, RBAC, Active Sessions & Incident Telemetry
 * **Why it exists**: Financial platforms require zero-trust access controls, multi-device tracking, kill-switches, and audit logging.
 * **How it works**:
   * Instant wallet freeze toggle (`PATCH /api/security/freeze`) which halts all outgoing debits.
@@ -101,7 +89,6 @@ PayGate provides an enterprise-grade full-stack financial ecosystem built on the
   * Dedicated session termination (`DELETE /api/security/sessions/:id`).
   * Immutable security event logs (`User.securityLogs`).
 
-### Module 06: Admin Operations, Telemetry, Pending & Error Recovery
 * **Why it exists**: Financial administrators must oversee platform uptime, retry stuck pending transfers, and investigate high-severity errors.
 * **How it works**:
   * Monitored via `/api/admin/metrics`, `/api/admin/pending`, and `/api/admin/errors`.
@@ -109,11 +96,8 @@ PayGate provides an enterprise-grade full-stack financial ecosystem built on the
 
 ---
 
-## 3. EXHAUSTIVE DATABASE DESIGN (SCHEMAS & DATA DICTIONARY)
-
 The database `paygate_db` consists of 7 collections:
 
-### 1. `users` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -130,7 +114,6 @@ The database `paygate_db` consists of 7 collections:
 | `activeSessions` | Array | Device session documents |
 | `securityLogs` | Array | Security audit log documents |
 
-### 2. `wallets` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -139,7 +122,6 @@ The database `paygate_db` consists of 7 collections:
 | `currency` | String | ISO currency code (default: 'INR') |
 | `isFrozen` | Boolean | Freeze kill-switch status |
 
-### 3. `pockets` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -149,7 +131,6 @@ The database `paygate_db` consists of 7 collections:
 | `currentAmount` | Number | Accumulated savings |
 | `isLocked` | Boolean | Lock status |
 
-### 4. `receipts` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -161,7 +142,6 @@ The database `paygate_db` consists of 7 collections:
 | `accountType` | String | Enum: `['savings', 'current', 'nri']` |
 | `isFavorite` | Boolean | Starred status |
 
-### 5. `transactions` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -175,7 +155,6 @@ The database `paygate_db` consists of 7 collections:
 | `description` | String | Payment remarks |
 | `failureReason` | String | Optional error description |
 
-### 6. `errorlogs` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -185,7 +164,6 @@ The database `paygate_db` consists of 7 collections:
 | `message` | String | Detailed error text |
 | `resolved` | Boolean | Admin resolution status |
 
-### 7. `bankaccounts` Collection
 | Field | Type | Description |
 |---|---|---|
 | `_id` | ObjectId | Primary Key |
@@ -197,9 +175,6 @@ The database `paygate_db` consists of 7 collections:
 
 ---
 
-## 4. DATA FLOW DIAGRAMS (DFD)
-
-### Level 0 DFD (Context Diagram)
 ```mermaid
 graph TD
     User["Customer / User"]
@@ -217,7 +192,6 @@ graph TD
     BankSystem -->|"Settlement Responses, Account Status"| PayGate
 ```
 
-### Level 1 DFD (Subsystem Decomposition)
 ```mermaid
 graph TD
     C["Customer"]
@@ -258,8 +232,6 @@ graph TD
 
 ---
 
-## 5. ENTITY-RELATIONSHIP DIAGRAM & RELATIONAL CARDINALITIES
-
 ```mermaid
 erDiagram
     USER ||--o| WALLET : "owns (1:1)"
@@ -272,8 +244,6 @@ erDiagram
 ```
 
 ---
-
-## 6. UML CLASS DIAGRAM & COMPONENT OBJECT MODEL
 
 ```mermaid
 classDiagram
@@ -327,8 +297,6 @@ classDiagram
 
 ---
 
-## 7. SEQUENCE DIAGRAMS
-
 ```mermaid
 sequenceDiagram
     autonumber
@@ -367,8 +335,6 @@ sequenceDiagram
 
 ---
 
-## 8. COMPLETE REST API SPECIFICATION
-
 | Method | Endpoint | Auth | Purpose |
 |---|---|---|---|
 | `POST` | `/api/auth/register` | Public | Register customer account (forces role: customer) |
@@ -401,11 +367,8 @@ sequenceDiagram
 
 ---
 
-## 9. COMPLETE BACKEND SOURCE CODE
-
 """)
 
-        # Add backend files
         backend_files = [
             ("transiq-api/package.json", os.path.join(BACKEND_DIR, "package.json")),
             ("transiq-api/.env.example", os.path.join(BACKEND_DIR, ".env.example")),
@@ -452,7 +415,6 @@ sequenceDiagram
 
         out.write("""\n---\n\n## 10. COMPLETE FRONTEND SOURCE CODE\n\n""")
 
-        # Add frontend files
         frontend_files = [
             ("Transiq/package.json", os.path.join(FRONTEND_DIR, "package.json")),
             ("Transiq/vite.config.js", os.path.join(FRONTEND_DIR, "vite.config.js")),
@@ -501,11 +463,9 @@ sequenceDiagram
 
         out.write("""\n---\n\n## 11. EXECUTION, SEEDING, VERIFICATION & DEPLOYMENT PLAYBOOK
 
-### 11.1 Prerequisites
 * Node.js v18+ or v20+
 * MongoDB Community Server running on `mongodb://localhost:27017`
 
-### 11.2 Backend Startup
 ```bash
 cd transiq-api
 npm install
@@ -514,7 +474,6 @@ node server.js
 ```
 * Backend runs on: `http://localhost:5000`
 
-### 11.3 Frontend Startup
 ```bash
 cd Transiq
 npm install
@@ -522,7 +481,6 @@ npm run dev
 ```
 * Frontend runs on: `http://localhost:5173`
 
-### 11.4 Seeded Credentials
 * **Customer Portal**: `arjun@paygate.com` / `Password@123`
 * **Admin Console**: `admin@paygate.internal` / `Password@123`
 

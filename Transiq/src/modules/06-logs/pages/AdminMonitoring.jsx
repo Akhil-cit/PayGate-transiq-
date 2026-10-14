@@ -18,7 +18,6 @@ const AdminMonitoring = () => {
     fetchTransactions();
     fetchErrors();
     fetchHealth();
-    // Poll telemetry every 10 seconds
     const timer = setInterval(fetchHealth, 10000);
     return () => clearInterval(timer);
   }, [fetchStats, fetchTransactions, fetchErrors, fetchHealth]);
@@ -77,7 +76,6 @@ const AdminMonitoring = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Page Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">Admin Telemetry & Operations</span>
@@ -92,7 +90,6 @@ const AdminMonitoring = () => {
           </span>
         </div>
 
-        {/* KPI Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Total Transactions</p>
@@ -122,7 +119,6 @@ const AdminMonitoring = () => {
           </div>
         </div>
 
-        {/* Recent Payment Activity - Full Width Card (No Scrollbar, 100% Visible) */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 md:p-6 shadow-sm">
           <div className="flex justify-between items-center mb-4">
             <div>
@@ -180,9 +176,7 @@ const AdminMonitoring = () => {
           </div>
         </div>
 
-        {/* 3-Column Operations Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Pending Queue */}
           <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-7 flex flex-col justify-between shadow-sm min-h-[300px]">
             <div className="h-full flex flex-col">
               <div className="flex justify-between items-center mb-5 pb-3 border-b border-slate-100">
@@ -226,7 +220,6 @@ const AdminMonitoring = () => {
             </div>
           </div>
 
-          {/* Real System Health Telemetry */}
           <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-7 space-y-4 shadow-sm min-h-[300px]">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h3 className="font-bold text-slate-900 text-base">System Health</h3>
@@ -254,7 +247,6 @@ const AdminMonitoring = () => {
             </div>
           </div>
 
-          {/* Errors */}
           <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-7 shadow-sm min-h-[300px] flex flex-col justify-between">
             <div className="h-full flex flex-col">
               <div className="flex justify-between items-center mb-5 pb-3 border-b border-slate-100">

@@ -1,14 +1,12 @@
 import api from './axiosInstance';
 
 const adminService = {
-  // ── KPI Stats & Telemetry ──────────────────────────────────────────────────
   getStats: () =>
     api.get('/admin/stats'),
 
   getHealth: () =>
     api.get('/health'),
 
-  // ── Transactions ────────────────────────────────────────────────────────────
   getTransactions: (params = {}) =>
     api.get('/admin/transactions', { params }),
 
@@ -21,7 +19,6 @@ const adminService = {
   forceFail: (id, failureReason = 'BANK_TIMEOUT') =>
     api.patch(`/admin/transactions/${id}/force-fail`, { failureReason }),
 
-  // ── Error Logs ──────────────────────────────────────────────────────────────
   getErrors: (params = {}) =>
     api.get('/admin/errors', { params }),
 
@@ -31,7 +28,6 @@ const adminService = {
   resolveAllErrors: (resolutionNotes = '') =>
     api.post('/admin/errors/resolve-all', { resolutionNotes }),
 
-  // ── User Management ─────────────────────────────────────────────────────────
   getUsers: (params = {}) =>
     api.get('/admin/users', { params }),
 

@@ -11,7 +11,6 @@ export const useTransactionStore = create((set, get) => ({
   pages: 1,
   filters: {},
 
-  // ── Fetch all with filters ─────────────────────────────────────────────────
   fetchAll: async (params = {}) => {
     set({ loading: true, error: null, filters: params });
     try {
@@ -28,7 +27,6 @@ export const useTransactionStore = create((set, get) => ({
     }
   },
 
-  // ── Fetch single transaction ───────────────────────────────────────────────
   fetchById: async (id) => {
     set({ loading: true, error: null });
     try {
@@ -41,7 +39,6 @@ export const useTransactionStore = create((set, get) => ({
     }
   },
 
-  // ── Initiate transfer ──────────────────────────────────────────────────────
   create: async (payload) => {
     set({ loading: true, error: null });
     try {
@@ -54,7 +51,6 @@ export const useTransactionStore = create((set, get) => ({
     }
   },
 
-  // ── Cancel pending ─────────────────────────────────────────────────────────
   cancel: async (id) => {
     set({ loading: true, error: null });
     try {
@@ -70,7 +66,6 @@ export const useTransactionStore = create((set, get) => ({
     }
   },
 
-  // ── Retry failed ───────────────────────────────────────────────────────────
   retry: async (id) => {
     set({ loading: true, error: null });
     try {
@@ -83,7 +78,6 @@ export const useTransactionStore = create((set, get) => ({
     }
   },
 
-  // ── Pre-flight validate ────────────────────────────────────────────────────
   validate: async (payload) => {
     try {
       const { data } = await transactionService.validate(payload);

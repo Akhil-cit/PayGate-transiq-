@@ -22,7 +22,6 @@ for i, sec in enumerate(doc.sections):
     print(f"  Footer Distance: {sec.footer_distance.inches if sec.footer_distance else None} in")
     print(f"  Different First Page: {sec.different_first_page_header_footer}")
     
-    # Check page borders
     sectPr = sec._sectPr
     pgBorders = sectPr.find(qn('w:pgBorders'))
     if pgBorders is not None:
@@ -76,7 +75,6 @@ print(f"Total tables: {len(doc.tables)}")
 print("\n=== SAMPLE TABLES ===")
 for t_idx, tbl in enumerate(doc.tables[:5]):
     print(f"Table {t_idx}: rows={len(tbl.rows)}, cols={len(tbl.columns)}, style={tbl.style.name}")
-    # Inspect first row (header)
     row0 = tbl.rows[0]
     headers = []
     for cell in row0.cells:
@@ -90,7 +88,6 @@ for t_idx, tbl in enumerate(doc.tables[:5]):
                 p_runs.append((r.text.strip(), r.font.name, r.font.size.pt if r.font.size else None, r.font.bold, c))
         headers.append((cell.text.strip(), fill, p_runs))
     print(f"  Header Row: {headers}")
-    # Inspect second row
     if len(tbl.rows) > 1:
         row1 = tbl.rows[1]
         r1_cells = []
@@ -105,7 +102,6 @@ for t_idx, tbl in enumerate(doc.tables[:5]):
                     p_runs.append((r.text.strip(), r.font.name, r.font.size.pt if r.font.size else None, r.font.bold, c))
             r1_cells.append((cell.text.strip()[:20], fill, p_runs))
         print(f"  Row 1: {r1_cells}")
-    # Inspect table borders
     tblPr = tbl._tbl.tblPr
     tblBorders = tblPr.find(qn('w:tblBorders'))
     if tblBorders is not None:

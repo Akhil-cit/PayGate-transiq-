@@ -52,12 +52,10 @@ const TransactionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ── Compound indexes ──────────────────────────────────────────────────────────
 TransactionSchema.index({ senderWalletId: 1, status: 1 });
 TransactionSchema.index({ status: 1, createdAt: -1 });
 TransactionSchema.index({ type: 1, status: 1 });
 
-// ── Pre-save: Auto-generate referenceCode ────────────────────────────────────
 TransactionSchema.pre('save', function (next) {
   if (!this.referenceCode) {
     this.referenceCode = `TXN-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
@@ -65,7 +63,6 @@ TransactionSchema.pre('save', function (next) {
   next();
 });
 
-// ── Post-save: Create ErrorLog on failure ────────────────────────────────────
 TransactionSchema.post('save', async function (doc) {
   try {
     if (doc.status === 'failure' && this.isModified && this.isModified('status')) {
@@ -93,7 +90,6 @@ TransactionSchema.post('save', async function (doc) {
       }
     }
   } catch (_) {
-    // Non-blocking
   }
 });
 

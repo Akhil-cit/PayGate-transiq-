@@ -2,11 +2,9 @@ import { jest } from '@jest/globals';
 import request from 'supertest';
 import express from 'express';
 
-// Test harness demonstrating Server-Level Global Exception Interception
 const testApp = express();
 testApp.use(express.json());
 
-// Simulated route with handled & unhandled exceptions
 testApp.get('/test/unhandled-error', () => {
   throw new Error('Simulated Database Connection Failure');
 });
@@ -21,11 +19,10 @@ testApp.post('/test/validation-exception', (req, res, next) => {
     }
     res.json({ success: true });
   } catch (err) {
-    next(err); // Forward to Global Exception Handler
+    next(err);
   }
 });
 
-// Global Error Handler Middleware
 testApp.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     success: false,

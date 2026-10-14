@@ -48,7 +48,7 @@ const PendingTransactionMonitor = ({ showHeader = true }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {pendingTransactions.map((txn) => {
             const elapsedMins = getElapsedTime(txn.createdAt);
-            const maxMins = 30; // standard 30-min gateway clearing TTL
+            const maxMins = 30;
             const progress = Math.min((elapsedMins / maxMins) * 100, 100);
             const isNearTimeout = progress > 75;
             const txnId = txn.referenceCode || txn.transactionId || txn._id;
@@ -60,7 +60,6 @@ const PendingTransactionMonitor = ({ showHeader = true }) => {
                 key={txn._id || txn.id}
                 className="bg-slate-50 border border-slate-200 rounded-xl p-4.5 hover:border-slate-300 transition"
               >
-                {/* Top strip */}
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <div className="flex items-center gap-2">
@@ -81,13 +80,11 @@ const PendingTransactionMonitor = ({ showHeader = true }) => {
                   </div>
                 </div>
 
-                {/* Status stage */}
                 <div className="bg-white p-2 rounded-lg border border-slate-200 mb-3 text-xs flex items-center justify-between">
                   <span className="text-slate-500 text-[11px]">Gateway Stage:</span>
                   <span className="font-semibold text-amber-700 font-mono text-[11px]">Awaiting Bank Settlement ACK</span>
                 </div>
 
-                {/* Timeout Progress Bar */}
                 <div className="mb-4">
                   <div className="flex justify-between text-[11px] mb-1 font-mono">
                     <span className="text-slate-500">Elapsed: {elapsedMins} mins</span>
@@ -103,7 +100,6 @@ const PendingTransactionMonitor = ({ showHeader = true }) => {
                   </div>
                 </div>
 
-                {/* Force Actions */}
                 <div className="flex gap-2">
                   <button
                     onClick={() => resolvePendingTransaction(txn._id || txn.id)}

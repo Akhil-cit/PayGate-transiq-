@@ -5,7 +5,6 @@ from doc_builder_base import DocBuilder, Pt, Inches, WD_ALIGN_PARAGRAPH
 def build_module_3(out_path):
     b = DocBuilder()
     
-    # 1st Page
     b.build_cover_page(
         mod_num=3,
         mod_title="Idempotent Payment Initiation & Checkout Wizard",
@@ -13,7 +12,6 @@ def build_module_3(out_path):
         student_reg="2503717672621028"
     )
     
-    # Synopsis (Strictly 1 Page)
     b.add_h1("Synopsis")
     b.add_p(
         "PayGate (Transiq) is a production-grade full-stack digital payment and wallet management platform built on the MERN stack "
@@ -45,7 +43,6 @@ def build_module_3(out_path):
     )
     b.doc.add_page_break()
     
-    # Objective
     b.add_h1("Objective")
     b.add_p("The primary objectives of Module 3 (Idempotent Payment Initiation & Checkout Wizard) are:")
     b.add_bullet(" Provide a frictionless, guided 4-step payment checkout workflow that guarantees intuitive and error-free funds transfers.", "1. Guided Checkout Experience:")
@@ -55,7 +52,6 @@ def build_module_3(out_path):
     b.add_bullet(" Provide multi-rail payment routing across Wallet, IMPS, NEFT, and RTGS transfer mechanisms.", "5. Multi-Rail Payment Flexibility:")
     b.add_bullet(" Deliver a secure bank account connection workflow within My Wallet utilizing +91 phone number verification and 6-digit OTP checks.", "6. Secure Bank Account Linking via OTP:")
 
-    # Scope
     b.add_h1("Scope")
     b.add_h2("Functional Scope")
     b.add_bullet(" Selecting verified beneficiaries from the directory or entering ad-hoc transfer targets.", "Beneficiary Selection & Verification: ")
@@ -73,7 +69,6 @@ def build_module_3(out_path):
     b.add_bullet(" Live ISO 8583 / ISO 20022 message exchange with national core banking settlement networks.", "Live Core Banking ISO Settlement: ")
     b.add_bullet(" Recurring auto-debit standing instructions (e-Mandate / NACH integration).", "Automated Recurring e-Mandates: ")
 
-    # Project Description
     b.add_h1("Project Description")
     b.add_p("Module 3 operates across three decoupled tiers:")
     b.add_h2("Client Tier — Payment Initiation UI")
@@ -89,7 +84,6 @@ def build_module_3(out_path):
     b.add_h2("Data Persistence Tier — MongoDB")
     b.add_p("Stores transaction ledger records in transactions and connected bank accounts in bankaccounts.")
 
-    # DB Design
     b.add_h1("DB Design")
     b.add_h2("5.1 bankaccounts Collection (Connected Accounts)")
     b_rows = [
@@ -117,7 +111,6 @@ def build_module_3(out_path):
     ]
     b.add_table_data(["Field", "Type", "Constraints / Default", "Description"], t_rows, [1.4, 1.2, 1.8, 2.6])
 
-    # DFD
     b.add_h1("Data Flow Diagram (DFD)")
     b.add_p("The Data Flow Diagram models the flow of checkout parameters, PIN authorization, and OTP verification:")
     b.add_image('verified_diagrams/mod3_dfd.png', width_in=6.2, caption="Figure 7.1 — Level 0 & Level 1 DFD: Payment Initiation & Bank Linking")
@@ -126,27 +119,22 @@ def build_module_3(out_path):
     b.add_bullet(" Verifies customer PIN and debits wallet or bank reserves atomically.", "Process 3.2 (PIN Authorization & Settlement): ")
     b.add_bullet(" Dispatches 6-digit OTP and validates customer submission for account linking.", "Process 3.3 (OTP Bank Linking Engine): ")
 
-    # ER Diagram
     b.add_h1("ER Diagram")
     b.add_p("The Entity-Relationship model links Users to BankAccounts (1:N), Wallets to Transactions (1:N), and Receipts to Transactions (1:N):")
     b.add_image('verified_diagrams/mod3_er.png', width_in=6.2, caption="Figure 8.1 — Entity-Relationship Diagram: Payment Initiation & Multi-Account Banking")
 
-    # Use Case Diagram
     b.add_h1("Use Case Diagram")
     b.add_p("Depicts customer capabilities within the payment checkout and wallet linking modules:")
     b.add_image('verified_diagrams/mod3_usecase.png', width_in=6.2, caption="Figure 9.1 — Use Case Diagram: Payment Checkout & Bank Linking Operations")
 
-    # Class Diagram
     b.add_h1("Class Diagram")
     b.add_p("Models the payment controllers, transaction schemas, and bank account persistence classes:")
     b.add_image('verified_diagrams/mod3_class.png', width_in=6.2, caption="Figure 10.1 — Class Diagram: Module 3 Object-Oriented Architecture")
 
-    # Sequence Diagram
     b.add_h1("Sequence Diagram")
     b.add_p("Traces the chronological checkout flow from step 1 through PIN authorization and receipt issuance:")
     b.add_image('verified_diagrams/mod3_sequence.png', width_in=6.2, caption="Figure 11.1 — Sequence Diagram: 4-Step Payment Execution & Settlement Flow")
 
-    # Screenshots (Forms)
     b.add_h1("Screenshots (Forms)")
     b.add_p("Below are real, high-resolution screenshots captured directly from the live PayGate application session:")
     
@@ -162,7 +150,6 @@ def build_module_3(out_path):
     b.add_p("The bank account connection modal featuring built-in +91 country code alignment, account number validation, and simulated OTP verification.")
     b.add_image('module_screenshots/mod3_add_bank_modal.png', width_in=5.8, caption="Figure 12.3 — Live Add Bank Account Modal Dialog with +91 Verification")
 
-    # Test Report
     b.add_h1("Test Report")
     b.add_p("Automated software testing was executed using Jest v30.5.2 and Supertest covering all Module 3 endpoints:")
     b.add_h2("Test Execution Summary")
@@ -189,7 +176,6 @@ def build_module_3(out_path):
     ]
     b.add_table_data(["Test ID", "Test Description", "Test Input / Condition", "Expected Output", "Actual Result", "Status"], tc_rows, [0.9, 1.4, 1.4, 1.4, 1.3, 0.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER])
 
-    # Conclusion & Enhancements
     b.build_conclusion_enhancements(
         conclusion_text=[
             "Module 3 (Idempotent Payment Initiation & Checkout Wizard) establishes a robust, deterministic transaction execution pipeline for PayGate. "

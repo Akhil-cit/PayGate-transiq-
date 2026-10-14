@@ -1,8 +1,5 @@
-// White-box testing verifies internal structural paths, cyclomatic branches,
-// condition boundaries, and decision logic inside core payment & wallet authorization controllers.
 
 describe('White Box Testing: Payment Decision Tree & Balance Execution Logic', () => {
-  // Pure replica of the branch execution logic from paymentController.js
   const evaluatePaymentExecution = ({
     userRole,
     wallet,
@@ -13,32 +10,26 @@ describe('White Box Testing: Payment Decision Tree & Balance Execution Logic', (
     expectedPin = '1234',
     receiptDoc,
   }) => {
-    // Decision 1: Authentication / Role validation
     if (!userRole) {
       return { status: 401, error: 'NO_TOKEN_OR_ROLE' };
     }
 
-    // Decision 2: PIN match
     if (pin !== expectedPin) {
       return { status: 401, error: 'INVALID_PIN' };
     }
 
-    // Decision 3: Amount finite and range bounds
     const numAmt = Number(amount);
     if (!Number.isFinite(numAmt) || numAmt <= 0 || numAmt > 10000000) {
       return { status: 400, error: 'INVALID_AMOUNT' };
     }
 
-    // Decision 4: Recipient document existence & ownership
     if (!receiptDoc) {
       return { status: 404, error: 'RECIPIENT_NOT_FOUND' };
     }
 
-    // Decision 5: Source routing (Bank Account vs Wallet)
     const isBank = accountId && !accountId.startsWith('WALLET_');
 
     if (isBank) {
-      // Branch 5A: Bank Account checks
       if (!bankAcc) {
         return { status: 404, error: 'BANK_NOT_FOUND' };
       }
@@ -54,15 +45,12 @@ describe('White Box Testing: Payment Decision Tree & Balance Execution Logic', (
         newBalance: bankAcc.balance - numAmt,
       };
     } else {
-      // Branch 5B: Wallet checks
       if (!wallet) {
         return { status: 404, error: 'WALLET_NOT_FOUND' };
       }
-      // Decision 6: Frozen wallet kill-switch guard
       if (wallet.isFrozen) {
         return { status: 403, error: 'WALLET_FROZEN' };
       }
-      // Decision 7: Wallet balance overdraft prevention
       if (wallet.mainBalance < numAmt) {
         return { status: 400, error: 'INSUFFICIENT_WALLET_FUNDS' };
       }

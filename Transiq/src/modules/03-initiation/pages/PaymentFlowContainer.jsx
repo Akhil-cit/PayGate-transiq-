@@ -10,32 +10,26 @@ export default function PaymentFlowContainer() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Background Transaction ID Generation
   const [transactionId, setTransactionId] = useState('');
   const [createdAt, setCreatedAt] = useState('');
 
-  // Step 1: Accounts
   const [accounts, setAccounts] = useState([]);
   const [accountsLoading, setAccountsLoading] = useState(true);
   const [selectedAccountId, setSelectedAccountId] = useState('');
 
-  // Step 2: Recipients
   const [recipients, setRecipients] = useState([]);
   const [recipientsLoading, setRecipientsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedRecipientId, setSelectedRecipientId] = useState('');
 
-  // Step 3: Payment Details
   const [amount, setAmount] = useState('');
   const [purpose, setPurpose] = useState('Groceries');
   const [remarks, setRemarks] = useState('');
 
-  // Step 5: PIN Authorization
   const [pin, setPin] = useState('');
   const [isFailed, setIsFailed] = useState(false);
 
-  // Step 6: Final Result Transaction Object
   const [finalTransaction, setFinalTransaction] = useState(null);
 
   const selectedAccount = accounts.find((a) => a.id === selectedAccountId);
@@ -49,7 +43,6 @@ export default function PaymentFlowContainer() {
       : { 'Content-Type': 'application/json' };
   };
 
-  // Background Transaction ID initialization
   const initTransaction = async () => {
     setLoading(true);
     setErrorMsg('');
@@ -170,7 +163,6 @@ export default function PaymentFlowContainer() {
     setSearchResults(filtered);
   };
 
-  // Step 1 Submission
   const handleAccountSubmit = () => {
     setErrorMsg('');
     if (!accounts || accounts.length === 0) {
@@ -184,7 +176,6 @@ export default function PaymentFlowContainer() {
     setCurrentStep(2);
   };
 
-  // Step 2 Submission
   const handleRecipientSubmit = () => {
     setErrorMsg('');
     if (!selectedRecipientId) {
@@ -194,7 +185,6 @@ export default function PaymentFlowContainer() {
     setCurrentStep(3);
   };
 
-  // Step 3 Submission
   const handleDetailsSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -235,7 +225,6 @@ export default function PaymentFlowContainer() {
     }
   };
 
-  // Step 4 Submission
   const handleReviewConfirm = async () => {
     setLoading(true);
     setErrorMsg('');
@@ -251,7 +240,6 @@ export default function PaymentFlowContainer() {
     setCurrentStep(5);
   };
 
-  // Step 5 Submission
   const handleAuthorizePin = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -330,7 +318,6 @@ export default function PaymentFlowContainer() {
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
 
-        {/* Top Header displaying Transaction ID */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">PayGate Gateway</span>
@@ -347,10 +334,8 @@ export default function PaymentFlowContainer() {
           </button>
         </div>
 
-        {/* Persistent 6-Step Flow Pipeline */}
         <FlowPipeline currentStep={currentStep} isFailed={isFailed} />
 
-        {/* Global Inline Error Alert */}
         {errorMsg && (
           <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-medium flex items-center justify-between">
             <span>⚠️ {errorMsg}</span>
@@ -358,10 +343,8 @@ export default function PaymentFlowContainer() {
           </div>
         )}
 
-        {/* DYNAMIC STEP CONTENT AREA matching FlowPipeline */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-8 shadow-2xs">
 
-          {/* STEP 1: SELECT SOURCE ACCOUNT / WALLET */}
           {currentStep === 1 && (
             <div className="space-y-6">
               <div className="border-b border-slate-100 pb-4 flex justify-between items-center">
@@ -427,7 +410,6 @@ export default function PaymentFlowContainer() {
             </div>
           )}
 
-          {/* STEP 2: SELECT RECIPIENT */}
           {currentStep === 2 && (
             <div className="space-y-6">
               <div className="border-b border-slate-100 pb-4 flex justify-between items-center">
@@ -442,7 +424,6 @@ export default function PaymentFlowContainer() {
               </div>
 
               <div className="space-y-4">
-                {/* Search Directory Input */}
                   <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Search Saved Beneficiaries Directory
@@ -466,7 +447,6 @@ export default function PaymentFlowContainer() {
                     </div>
                   </div>
 
-                  {/* RECIPIENTS DISPLAY GRID */}
                   <div>
                     <p className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">
                       {searchQuery ? `Search Results (${searchResults.length})` : 'All Saved Beneficiaries'}
@@ -508,7 +488,6 @@ export default function PaymentFlowContainer() {
                   </div>
                 </div>
 
-              {/* Step 2 Bottom Navigation */}
               <div className="flex justify-between pt-4 border-t border-slate-100">
                 <button
                   onClick={() => setCurrentStep(1)}
@@ -531,7 +510,6 @@ export default function PaymentFlowContainer() {
             </div>
           )}
 
-          {/* STEP 3: ENTER PAYMENT DETAILS */}
           {currentStep === 3 && (
             <div className="space-y-6">
               <div className="border-b border-slate-100 pb-4 flex justify-between items-center">
@@ -620,7 +598,6 @@ export default function PaymentFlowContainer() {
             </div>
           )}
 
-          {/* STEP 4: REVIEW & CONFIRM TRANSACTION */}
           {currentStep === 4 && (
             <div className="space-y-6 max-w-2xl mx-auto">
               <div className="border-b border-slate-100 pb-4 text-center">
@@ -694,7 +671,6 @@ export default function PaymentFlowContainer() {
             </div>
           )}
 
-          {/* STEP 5: SECURITY PIN ENTRY */}
           {currentStep === 5 && (
             <div className="space-y-6 max-w-md mx-auto text-center py-4">
               <div>
@@ -738,11 +714,9 @@ export default function PaymentFlowContainer() {
             </div>
           )}
 
-          {/* STEP 6: RESULT (SUCCESSFUL OR FAILED WITH TRY AGAIN) */}
           {currentStep === 6 && (
             <div className="space-y-6 max-w-lg mx-auto text-center py-6">
 
-              {/* SUCCESS SCREEN */}
               {!isFailed ? (
                 <div className="space-y-5">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mx-auto text-3xl">
@@ -789,7 +763,6 @@ export default function PaymentFlowContainer() {
                   </button>
                 </div>
               ) : (
-                /* FAILURE SCREEN */
                 <div className="space-y-5">
                   <div className="w-16 h-16 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-bold mx-auto text-3xl">
                     ✕

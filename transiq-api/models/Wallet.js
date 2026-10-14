@@ -21,10 +21,6 @@ const WalletSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ── Compound index: one wallet per user (enforced by unique on userId) ────────
-
-
-// ── Pre-save: Reject balance changes if wallet is frozen ──────────────────────
 WalletSchema.pre('save', function (next) {
   if (this.isFrozen && this.isModified('mainBalance')) {
     return next(new Error('Cannot modify balance of a frozen wallet'));

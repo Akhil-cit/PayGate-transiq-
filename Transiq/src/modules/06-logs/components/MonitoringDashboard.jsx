@@ -22,7 +22,6 @@ const MonitoringDashboard = () => {
     <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-2xs space-y-6">
       <h2 className="text-sm font-bold text-slate-900">Dashboard Overview</h2>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
           <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Total Txns</p>
@@ -42,7 +41,6 @@ const MonitoringDashboard = () => {
         </div>
       </div>
 
-      {/* Recent Activity */}
       <div>
         <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Recent Activity</h3>
         {recentActivity.length === 0 ? (

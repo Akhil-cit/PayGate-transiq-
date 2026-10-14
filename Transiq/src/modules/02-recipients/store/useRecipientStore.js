@@ -9,14 +9,12 @@ const extractErrorMessage = (err, fallback) => {
 };
 
 export const useRecipientStore = create((set, get) => ({
-  // ── State ─────────────────────────────────────────────
   recipients: [],
   selectedRecipient: null,
   loading: false,
   error: null,
   successMessage: null,
 
-  // ── Fetch all recipients ──────────────────────────────
   fetchAll: async (params = {}) => {
     set({ loading: true, error: null });
     try {
@@ -30,7 +28,6 @@ export const useRecipientStore = create((set, get) => ({
     }
   },
 
-  // ── Get single recipient ──────────────────────────────
   fetchById: async (id) => {
     set({ loading: true, error: null });
     try {
@@ -46,7 +43,6 @@ export const useRecipientStore = create((set, get) => ({
     }
   },
 
-  // ── Create recipient ─────────────────────────────────
   create: async (payload) => {
     set({ loading: true, error: null, successMessage: null });
     try {
@@ -65,7 +61,6 @@ export const useRecipientStore = create((set, get) => ({
     }
   },
 
-  // ── Update recipient ─────────────────────────────────
   update: async (id, payload) => {
     set({ loading: true, error: null, successMessage: null });
     try {
@@ -85,7 +80,6 @@ export const useRecipientStore = create((set, get) => ({
     }
   },
 
-  // ── Delete recipient ──────────────────────────────────
   remove: async (id) => {
     set({ loading: true, error: null, successMessage: null });
     try {
@@ -110,7 +104,6 @@ export const useRecipientStore = create((set, get) => ({
     }
   },
 
-  // ── Toggle favourite ──────────────────────────────────
   toggleFavourite: async (id) => {
     set({ error: null });
     try {
@@ -128,10 +121,8 @@ export const useRecipientStore = create((set, get) => ({
     }
   },
 
-  // ── Select a recipient ────────────────────────────────
   setSelected: (recipient) => set({ selectedRecipient: recipient }),
 
-  // ── Clear messages ────────────────────────────────────
   clearError: () => set({ error: null }),
   clearSuccess: () => set({ successMessage: null }),
 }));

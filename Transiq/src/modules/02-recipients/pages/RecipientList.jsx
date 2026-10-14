@@ -128,7 +128,6 @@ const RecipientList = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header Banner */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">Beneficiary Management</span>
@@ -152,7 +151,6 @@ const RecipientList = () => {
           </div>
         </div>
 
-        {/* Alerts */}
         {successMessage && (
           <div className="p-4 rounded-xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center justify-between">
             <span className="flex items-center gap-2">
@@ -170,7 +168,6 @@ const RecipientList = () => {
           </div>
         )}
 
-        {/* Search & Filter Bar */}
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3">
           <form onSubmit={handleSearchSubmit} className="relative flex-1 w-full max-w-md">
             <Search size={15} className="absolute left-3 top-2.5 text-slate-400" />
@@ -200,7 +197,6 @@ const RecipientList = () => {
           </div>
         </div>
 
-        {/* Recipients Grid */}
         {recipients.length === 0 ? (
           <div className="py-12 text-center text-slate-500 bg-white rounded-xl border border-dashed border-slate-200">
             <User size={32} className="mx-auto text-slate-400 mb-2" />
@@ -281,7 +277,6 @@ const RecipientList = () => {
           </div>
         )}
 
-        {/* Add / Edit Recipient Modal */}
         {(showAddModal || editingRecipient) && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl border border-slate-200 max-w-lg w-full p-6 space-y-4 shadow-xl">

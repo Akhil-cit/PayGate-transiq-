@@ -5,7 +5,6 @@ from doc_builder_base import DocBuilder, Pt, Inches, WD_ALIGN_PARAGRAPH
 def build_module_5(out_path):
     b = DocBuilder()
     
-    # 1st Page
     b.build_cover_page(
         mod_num=5,
         mod_title="Security Governance, Access Control & Wallet Kill-Switch",
@@ -13,7 +12,6 @@ def build_module_5(out_path):
         student_reg="2503717672621029"
     )
     
-    # Synopsis (Strictly 1 Page)
     b.add_h1("Synopsis")
     b.add_p(
         "PayGate (Transiq) is a production-grade digital payment and wallet platform engineered to guarantee deterministic "
@@ -46,7 +44,6 @@ def build_module_5(out_path):
     )
     b.doc.add_page_break()
     
-    # Objective
     b.add_h1("Objective")
     b.add_p("The primary objectives of Module 5 (Security Governance, Access Control & Wallet Kill-Switch) are:")
     b.add_bullet(" Implement an emergency wallet freeze mechanism allowing users to instantly lock their funds upon detecting suspicious activity.", "1. Deterministic Wallet Kill-Switch:")
@@ -56,7 +53,6 @@ def build_module_5(out_path):
     b.add_bullet(" Enable secure transaction PIN updates requiring prior verification of existing secret credentials.", "5. Secure PIN Lifecycle Maintenance:")
     b.add_bullet(" Support reversible account suspension by setting isActive to false, halting unauthorized access while preserving accounting ledgers.", "6. Reversible Account Deactivation:")
 
-    # Scope
     b.add_h1("Scope")
     b.add_h2("Functional Scope")
     b.add_bullet(" Toggling emergency wallet freeze (isFrozen) on and off with immediate outbound transfer blocking.", "Emergency Wallet Freeze: ")
@@ -74,7 +70,6 @@ def build_module_5(out_path):
     b.add_bullet(" Hardware security key integration via WebAuthn / FIDO2 passkeys (fingerprint/YubiKey).", "WebAuthn / FIDO2 Hardware Passkeys: ")
     b.add_bullet(" Distributed Redis-based token revocation blacklisting across multi-region server clusters.", "Distributed Redis Token Blacklisting: ")
 
-    # Project Description
     b.add_h1("Project Description")
     b.add_p("Module 5 operates across three decoupled tiers:")
     b.add_h2("Client Tier — Security Console UI")
@@ -88,7 +83,6 @@ def build_module_5(out_path):
     b.add_h2("Data Persistence Tier — MongoDB")
     b.add_p("Monitors and updates the users and wallets collections, enforcing atomic updates and security constraints.")
 
-    # DB Design
     b.add_h1("DB Design")
     b.add_h2("5.1 users Collection (Security & Identity Schema)")
     u_rows = [
@@ -114,7 +108,6 @@ def build_module_5(out_path):
     ]
     b.add_table_data(["Field", "Type", "Constraints / Default", "Description"], w_rows, [1.4, 1.2, 1.8, 2.6])
 
-    # DFD
     b.add_h1("Data Flow Diagram (DFD)")
     b.add_p("The Data Flow Diagram models security credential updates, session validation, and wallet freeze triggers:")
     b.add_image('extracted_module_diagrams/mod5_img1_image2.png', width_in=6.2, caption="Figure 7.1 — Level 0 & Level 1 DFD: Security Governance & Wallet Kill-Switch")
@@ -123,27 +116,22 @@ def build_module_5(out_path):
     b.add_bullet(" Enforces password complexity, verifies previous secrets, and updates Bcrypt hashes.", "Process 5.2 (Credential & Password Lifecycle Engine): ")
     b.add_bullet(" Toggles isFrozen in D2 Wallets, immediately propagating freeze blocks across all payment controllers.", "Process 5.3 (Emergency Wallet Kill-Switch Governor): ")
 
-    # ER Diagram
     b.add_h1("ER Diagram")
     b.add_p("The Entity-Relationship model links Users to Wallets and Security Telemetry Entities:")
     b.add_image('extracted_module_diagrams/mod5_img2_image3.png', width_in=6.2, caption="Figure 8.1 — Entity-Relationship Diagram: Security Governance Architecture")
 
-    # Use Case Diagram
     b.add_h1("Use Case Diagram")
     b.add_p("Depicts customer capabilities within the security management console:")
     b.add_image('extracted_module_diagrams/mod5_img3_image4.png', width_in=6.2, caption="Figure 9.1 — Use Case Diagram: Security & Access Control Operations")
 
-    # Class Diagram
     b.add_h1("Class Diagram")
     b.add_p("Models the security controllers, user models, and frontend Zustand security store:")
     b.add_image('extracted_module_diagrams/mod5_img4_image5.png', width_in=6.2, caption="Figure 10.1 — Class Diagram: Module 5 Object-Oriented Architecture")
 
-    # Sequence Diagram
     b.add_h1("Sequence Diagram")
     b.add_p("Traces the execution of emergency wallet freeze triggering and subsequent payment rejection:")
     b.add_image('extracted_module_diagrams/mod5_img5_image6.png', width_in=6.2, caption="Figure 11.1 — Sequence Diagram: Emergency Wallet Kill-Switch Activation Flow")
 
-    # Screenshots (Forms)
     b.add_h1("Screenshots (Forms)")
     b.add_p("Below is a real, high-resolution screenshot captured directly from the live PayGate Chromium application session:")
     
@@ -151,7 +139,6 @@ def build_module_5(out_path):
     b.add_p("The centralized security center displaying the Emergency Wallet Freeze toggle, Change Password form, Transaction PIN setup, and Active Device Sessions.")
     b.add_image('module_screenshots/mod5_security_center.png', width_in=5.8, caption="Figure 12.1 — Live Security & Access Management Console Interface (/security)")
 
-    # Test Report
     b.add_h1("Test Report")
     b.add_p("Automated software testing was executed using Jest v30.5.2 and Supertest covering all Module 5 endpoints:")
     b.add_h2("Test Execution Summary")
@@ -178,7 +165,6 @@ def build_module_5(out_path):
     ]
     b.add_table_data(["Test ID", "Test Description", "Test Input / Condition", "Expected Output", "Actual Result", "Status"], tc_rows, [0.9, 1.4, 1.4, 1.4, 1.3, 0.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER])
 
-    # Conclusion & Enhancements
     b.build_conclusion_enhancements(
         conclusion_text=[
             "Module 5 (Security Governance, Access Control & Wallet Kill-Switch) establishes an uncompromised defensive perimeter for PayGate. "

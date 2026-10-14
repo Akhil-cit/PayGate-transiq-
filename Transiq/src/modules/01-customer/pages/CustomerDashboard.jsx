@@ -32,12 +32,10 @@ export default function CustomerDashboard() {
   const [amounts, setAmounts] = useState({});
   const [moveErrors, setMoveErrors] = useState({});
 
-  // Edit modal state
   const [editingPocket, setEditingPocket] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', targetAmount: '' });
   const [editErrors, setEditErrors] = useState({});
 
-  // Delete confirm modal state
   const [deletingPocket, setDeletingPocket] = useState(null);
   const [message, setMessage] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -148,7 +146,6 @@ export default function CustomerDashboard() {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header Banner */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">
@@ -183,10 +180,8 @@ export default function CustomerDashboard() {
           </div>
         </div>
 
-        {/* Payment Auth Verification Modal */}
         <AuthVerificationModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
 
-        {/* Alerts */}
         {(error || message) && (
           <div
             className={`p-4 rounded-xl text-xs font-medium flex items-center justify-between border ${
@@ -200,7 +195,6 @@ export default function CustomerDashboard() {
           </div>
         )}
 
-        {/* Overview Stat Cards - Show only on Dashboard */}
         {!isPocketsOnly && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -270,7 +264,6 @@ export default function CustomerDashboard() {
           </>
         )}
 
-        {/* Create Pocket Form */}
         {showCreate && (
           <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-2xs">
             <h3 className="text-sm font-bold text-slate-900 mb-4">Create New Savings Pocket</h3>
@@ -315,7 +308,6 @@ export default function CustomerDashboard() {
           </div>
         )}
 
-        {/* Recent Transactions - Show only on Dashboard */}
         {!isPocketsOnly && (
           <div className="bg-white rounded-xl border border-slate-200 shadow-2xs p-6">
             <div className="flex justify-between items-center mb-6">
@@ -358,7 +350,6 @@ export default function CustomerDashboard() {
           </div>
         )}
 
-        {/* Pockets Grid - Show only on My Pockets */}
         {isPocketsOnly && (
           <div className="bg-white rounded-xl border border-slate-200 shadow-2xs p-6">
           <div className="flex justify-between items-center mb-6">
@@ -370,7 +361,6 @@ export default function CustomerDashboard() {
               {pockets.length} Goals
             </span>
           </div>
-
 
           {pockets.length === 0 ? (
             <div className="py-12 text-center text-slate-500 bg-slate-50 rounded-xl border border-dashed border-slate-200">
@@ -418,7 +408,6 @@ export default function CustomerDashboard() {
                       </div>
                     </div>
 
-                    {/* CRED / Razorpay Style Progress Meter */}
                     <div className="space-y-1">
                       <div className="w-full bg-slate-200/80 rounded-full h-2.5 overflow-hidden p-0.5">
                         <div
@@ -428,7 +417,6 @@ export default function CustomerDashboard() {
                       </div>
                     </div>
 
-                    {/* Deposit / Withdraw Controls */}
                     <div className="flex flex-wrap sm:flex-nowrap gap-2.5 items-center pt-2">
                       <div className="relative flex-1 min-w-[130px]">
                         <input
@@ -458,7 +446,6 @@ export default function CustomerDashboard() {
                     </div>
                     {moveErrors[p._id] && <p className="text-[11px] font-semibold text-rose-600">{moveErrors[p._id]}</p>}
 
-                    {/* Footer Actions */}
                     <div className="flex justify-between items-center pt-3 border-t border-slate-200/60 text-xs text-slate-500">
                       <div className="flex items-center gap-3">
                         <button
@@ -491,7 +478,6 @@ export default function CustomerDashboard() {
         </div>
         )}
 
-        {/* Edit Modal */}
         {editingPocket && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl border border-slate-200 max-w-md w-full p-6 space-y-4 shadow-xl">
@@ -533,7 +519,6 @@ export default function CustomerDashboard() {
           </div>
         )}
 
-        {/* Delete Confirmation Modal */}
         {deletingPocket && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl border border-slate-200 max-w-sm w-full p-6 space-y-4 shadow-xl">

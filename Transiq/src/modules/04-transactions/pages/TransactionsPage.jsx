@@ -57,7 +57,6 @@ export default function TransactionsPage({ onSelectTxn }) {
 
   return (
     <div className="txn-page">
-      {/* Header */}
       <div className="txn-page-header">
         <div>
           <h1 className="txn-page-title">Transaction History</h1>
@@ -85,7 +84,6 @@ export default function TransactionsPage({ onSelectTxn }) {
         </button>
       </div>
 
-      {/* Filters Bar */}
       <div className="txn-filters">
         <div className="txn-search-wrap">
           <Search size={16} />
@@ -133,14 +131,12 @@ export default function TransactionsPage({ onSelectTxn }) {
         </button>
       </div>
 
-      {/* Error banner */}
       {error && (
         <div className="txn-error-banner" onClick={clearError}>
           ⚠️ {error} — click to dismiss
         </div>
       )}
 
-      {/* Table */}
       <div className="txn-table-card">
         {loading ? (
           <div className="txn-loading">
@@ -234,7 +230,6 @@ export default function TransactionsPage({ onSelectTxn }) {
           </div>
         )}
 
-        {/* Pagination */}
         {pages > 1 && (
           <div className="txn-pagination">
             <button

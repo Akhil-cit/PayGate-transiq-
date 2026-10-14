@@ -4,7 +4,6 @@ import * as paymentController from '../controllers/paymentController.js';
 
 const router = express.Router();
 
-// Payment Initiation flow
 router.post('/initiate', auth, paymentController.initiatePayment);
 router.post('/validate-details', auth, paymentController.validateDetails);
 router.post('/confirm', auth, paymentController.confirmPayment);

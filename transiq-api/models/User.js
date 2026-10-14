@@ -46,7 +46,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ── Pre-save: Hash password if modified ──────────────────────────────────────
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   const salt = await bcrypt.genSalt(parseInt(process.env.BCRYPT_SALT_ROUNDS || '12', 10));
@@ -54,7 +53,6 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
-// ── Pre-findOneAndUpdate: Hash password if being updated ─────────────────────
 UserSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate();
   if (update && update.password) {
@@ -64,7 +62,6 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
   next();
 });
 
-// ── Post-save: Auto-create Wallet for new users ───────────────────────────────
 UserSchema.post('save', async function (doc) {
   if (this.isNew) {
     try {
@@ -74,12 +71,10 @@ UserSchema.post('save', async function (doc) {
         await Wallet.create({ userId: doc._id, mainBalance: 0, currency: 'INR', isFrozen: false });
       }
     } catch (_) {
-      // Wallet model may not be loaded yet in some test scenarios
     }
   }
 });
 
-// ── Instance method: Compare password ────────────────────────────────────────
 UserSchema.methods.comparePassword = async function (candidate) {
   return bcrypt.compare(candidate, this.password);
 };

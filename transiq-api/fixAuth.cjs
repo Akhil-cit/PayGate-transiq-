@@ -1,7 +1,6 @@
 const fs = require('fs');
 let code = fs.readFileSync('D:\\Clg\\python lab\\MERN PROJECT\\transiq-api\\routes\\auth.js', 'utf8');
 
-// 1. Force customer role
 code = code.replace(
   /const { firstName, lastName, email, password, phone, role } = req.body;\s*const exists = await User.findOne\({ \$or: \[{ email }, { phone }\] }\);\s*if \(exists\) {\s*return res.status\(409\).json\({ success: false, message: 'Email or phone already registered' }\);\s*}\s*const user = await User.create\({ firstName, lastName, email, password, phone, role: role \|\| 'customer' }\);/,
   `const { firstName, lastName, email, password, phone } = req.body;
@@ -12,7 +11,6 @@ code = code.replace(
       const user = await User.create({ firstName, lastName, email, password, phone, role: 'customer' });`
 );
 
-// 2. Add escape function and use it
 if (!code.includes('escapeRegex')) {
   code = code.replace(
     'router.post(\'/verify-user\', async (req, res) => {',
@@ -28,7 +26,6 @@ router.post('/verify-user', async (req, res) => {`
   );
 }
 
-// 3. Minimise verify-user return data
 code = code.replace(
   /data: \{ id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, phone: user.phone, role: user.role \},/,
   `data: { firstName: user.firstName, lastName: user.lastName },`

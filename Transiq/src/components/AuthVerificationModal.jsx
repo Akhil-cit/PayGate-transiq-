@@ -13,7 +13,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
   const [userFound, setUserFound] = useState(null);
   const [showSignUp, setShowSignUp] = useState(false);
 
-  // Sign up form
   const [regForm, setRegForm] = useState({
     firstName: '',
     lastName: '',
@@ -65,7 +64,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
   };
 
   const handleSelectUser = async (u) => {
-    // Save user info and trigger fresh DB fetch
     localStorage.setItem(
       'paygate_user',
       JSON.stringify({
@@ -134,7 +132,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-        {/* Payment Gateway Header */}
         <div className="bg-slate-900 text-white p-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-xs">
@@ -152,7 +149,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Form Body */}
         <div className="p-6 space-y-4">
           {!showSignUp ? (
             <form onSubmit={handleVerify} className="space-y-4">
@@ -192,7 +188,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
               </button>
             </form>
           ) : (
-            /* Sign Up Form when user not found */
             <form onSubmit={handleSignUp} className="space-y-3">
               <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs font-medium text-amber-900 flex items-center gap-2">
                 <AlertCircle size={16} className="text-amber-600 shrink-0" />
@@ -278,7 +273,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
             </form>
           )}
 
-          {/* User Found Result */}
           {userFound && !showSignUp && (
             <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl space-y-3">
               <div className="flex items-start gap-3">
@@ -307,7 +301,6 @@ export default function AuthVerificationModal({ isOpen, onClose }) {
             </div>
           )}
 
-          {/* Status Alert */}
           {statusMsg && !userFound && !showSignUp && (
             <div className="p-3 bg-slate-100 border border-slate-200 rounded-xl text-xs text-slate-700 flex items-center gap-2">
               <AlertCircle size={15} className="text-slate-500 shrink-0" />

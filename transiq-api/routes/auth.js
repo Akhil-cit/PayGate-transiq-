@@ -12,7 +12,6 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
 
-// ── POST /api/auth/register ───────────────────────────────────────────────────
 router.post(
   '/register',
   [
@@ -44,7 +43,6 @@ router.post(
   }
 );
 
-// ── POST /api/auth/login ──────────────────────────────────────────────────────
 router.post(
   '/login',
   [
@@ -74,7 +72,6 @@ router.post(
   }
 );
 
-// ── POST /api/auth/verify-user ─────────────────────────────────────────────────
 router.post('/verify-user', async (req, res) => {
   try {
     const { identifier } = req.body;

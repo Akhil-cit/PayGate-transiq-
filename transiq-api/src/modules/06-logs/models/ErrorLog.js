@@ -68,7 +68,6 @@ const errorLogSchema = new mongoose.Schema(
   }
 );
 
-// Index for queries
 errorLogSchema.index({ errorCode: 1, timestamp: -1 });
 errorLogSchema.index({ severity: 1, timestamp: -1 });
 errorLogSchema.index({ resolved: 1, timestamp: -1 });

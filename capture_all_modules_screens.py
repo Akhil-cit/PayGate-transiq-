@@ -47,15 +47,11 @@ def main():
             context = browser.new_context(viewport={"width": 1440, "height": 900}, device_scale_factor=1.5)
             page = context.new_page()
             
-            # -------------------------------------------------------------
-            # MODULE 1: Customer Auth, Dashboard & Smart Pockets
-            # -------------------------------------------------------------
             print("Capturing Module 1: Customer Login...")
             page.goto("http://localhost:5173/login", wait_until="networkidle")
             page.wait_for_timeout(1000)
             page.screenshot(path="module_screenshots/mod1_customer_login.png")
             
-            # Log in as Customer
             print("Logging in as Customer Arjun Mehta...")
             page.fill('input[type="email"]', 'arjun@paygate.com')
             page.fill('input[type="password"]', 'Password@123')
@@ -67,36 +63,27 @@ def main():
             page.wait_for_timeout(1500)
             page.screenshot(path="module_screenshots/mod1_customer_dashboard.png")
             
-            # -------------------------------------------------------------
-            # MODULE 2: Recipient / Beneficiary Management
-            # -------------------------------------------------------------
             print("Capturing Module 2: Recipient Directory...")
             page.goto("http://localhost:5173/recipients", wait_until="networkidle")
             page.wait_for_timeout(1500)
             page.screenshot(path="module_screenshots/mod2_recipient_list.png")
             
-            # Click 'Add Beneficiary' or 'Add Recipient' if button exists
             try:
                 add_btn = page.locator('button:has-text("Add"), button:has-text("New Recipient")').first
                 if add_btn.is_visible():
                     add_btn.click()
                     page.wait_for_timeout(1000)
                     page.screenshot(path="module_screenshots/mod2_add_recipient_modal.png")
-                    # Close modal if escape or close
                     page.keyboard.press("Escape")
                     page.wait_for_timeout(500)
             except Exception as e:
                 print("Could not open Add Recipient modal:", e)
                 
-            # -------------------------------------------------------------
-            # MODULE 3: Payment Initiation & My Wallet
-            # -------------------------------------------------------------
             print("Capturing Module 3: Payment Initiation Wizard...")
             page.goto("http://localhost:5173/send-money", wait_until="networkidle")
             page.wait_for_timeout(1500)
             page.screenshot(path="module_screenshots/mod3_payment_step1.png")
             
-            # Step through wizard if possible
             try:
                 recip_card = page.locator('.recipient-card, .participant-card, [role="button"]').first
                 if recip_card.is_visible():
@@ -106,13 +93,11 @@ def main():
             except Exception as e:
                 print("Could not advance payment step:", e)
                 
-            # My Wallet page (wallet / accounts)
             print("Capturing Module 3: My Wallet & Bank Linking...")
             page.goto("http://localhost:5173/my-wallet", wait_until="networkidle")
             page.wait_for_timeout(1500)
             page.screenshot(path="module_screenshots/mod3_my_wallet.png")
             
-            # Try to open Add Bank Account modal on My Wallet
             try:
                 add_bank_btn = page.locator('button:has-text("Add Bank"), button:has-text("Link Account"), button:has-text("Connect")').first
                 if add_bank_btn.is_visible():
@@ -123,15 +108,11 @@ def main():
             except Exception as e:
                 print("Could not open bank modal:", e)
 
-            # -------------------------------------------------------------
-            # MODULE 4: Transactions, Financial Analytics & Insights
-            # -------------------------------------------------------------
             print("Capturing Module 4: Transactions Ledger...")
             page.goto("http://localhost:5173/transactions", wait_until="networkidle")
             page.wait_for_timeout(1500)
             page.screenshot(path="module_screenshots/mod4_transactions_ledger.png")
             
-            # View detail (Eye icon)
             try:
                 eye_btn = page.locator('button.view, button:has(.lucide-eye)').first
                 if eye_btn.is_visible():
@@ -151,9 +132,6 @@ def main():
             page.wait_for_timeout(1500)
             page.screenshot(path="module_screenshots/mod4_insights.png")
 
-            # -------------------------------------------------------------
-            # MODULE 5: Security Governance & Controls
-            # -------------------------------------------------------------
             print("Capturing Module 5: Security Center...")
             page.goto("http://localhost:5173/security", wait_until="networkidle")
             page.wait_for_timeout(1500)

@@ -111,7 +111,6 @@ const LogViewer = () => {
         </div>
       </div>
 
-      {/* Filter Row */}
       <div className="flex flex-wrap gap-3 mb-5 items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-200">
         <div className="flex gap-1 bg-white p-1 rounded-md border border-slate-200">
           {['ALL', 'SUCCESS', 'FAILED', 'PENDING'].map((st) => (
@@ -138,9 +137,7 @@ const LogViewer = () => {
         />
       </div>
 
-      {/* 2-Column Split View */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Side: Log List */}
         <div className="lg:col-span-5 space-y-2.5 max-h-[600px] overflow-y-auto pr-1">
           {filteredLogs.length === 0 ? (
             <div className="p-8 text-center text-slate-400 text-xs border border-dashed rounded-xl">
@@ -184,7 +181,6 @@ const LogViewer = () => {
           )}
         </div>
 
-        {/* Right Side: Log Details Inspector */}
         <div className="lg:col-span-7">
           {selectedLog ? (
             <div className="bg-slate-900 text-slate-200 rounded-xl p-5 border border-slate-800 shadow-md sticky top-4">
@@ -201,7 +197,6 @@ const LogViewer = () => {
                 </span>
               </div>
 
-              {/* Grid Properties */}
               <div className="grid grid-cols-2 gap-3 text-xs mb-4 font-mono">
                 <div className="bg-slate-800/70 p-3 rounded-lg border border-slate-700">
                   <span className="text-slate-400 text-[10px] block uppercase">Remitter Account</span>
@@ -227,7 +222,6 @@ const LogViewer = () => {
                 </div>
               </div>
 
-              {/* Gateway Technical Clearance & Security Audit */}
               <div className="space-y-3 pt-2 border-t border-slate-800">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gateway Audit & Security Clearance</p>
                 <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
@@ -265,7 +259,6 @@ const LogViewer = () => {
                   </div>
                 </div>
 
-                {/* Failure or Settlement Note */}
                 {selectedLog.failureReason ? (
                   <div className="p-3 bg-rose-950/40 border border-rose-800/50 rounded-lg text-xs">
                     <span className="text-rose-400 font-bold block text-[10px] uppercase tracking-wider">Failure Diagnosis</span>

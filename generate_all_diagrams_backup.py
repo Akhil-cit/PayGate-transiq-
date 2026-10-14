@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-# -------------------------------------------------------------
-# 1. ER DIAGRAM
-# -------------------------------------------------------------
 def create_er():
     fig, ax = plt.subplots(figsize=(11, 8.5), dpi=300)
     ax.set_xlim(0, 11)
@@ -75,34 +72,27 @@ def create_er():
             ax.text(x + 0.12, line_y, a, fontsize=7.8, fontweight=weight, color=txt_color, va='center')
             line_y -= 0.32
 
-    # Connectors
-    # USER (1) -> (1) WALLET
     ax.annotate('', xy=(4.2, 2.5), xytext=(3.4, 2.5), arrowprops=dict(arrowstyle='-', color='#0F2747', lw=1.5))
     ax.text(3.5, 2.65, '1', fontsize=9, fontweight='bold', color='#0F2747')
     ax.text(4.0, 2.65, '1', fontsize=9, fontweight='bold', color='#0F2747')
     ax.text(3.8, 2.2, 'owns', fontsize=8, fontstyle='italic', ha='center', color='#64748B')
     
-    # WALLET (1) -> (N) TRANSACTION
     ax.annotate('', xy=(5.5, 4.6), xytext=(5.5, 3.8), arrowprops=dict(arrowstyle='-', color='#0F2747', lw=1.5))
     ax.text(5.65, 3.9, '1', fontsize=9, fontweight='bold', color='#0F2747')
     ax.text(5.65, 4.4, 'N', fontsize=9, fontweight='bold', color='#0F2747')
     ax.text(5.1, 4.15, 'originates', fontsize=8, fontstyle='italic', ha='center', color='#64748B')
     
-    # TRANSACTION (1) -> (0..1) ERROR_LOG
     ax.annotate('', xy=(7.6, 5.95), xytext=(6.8, 5.95), arrowprops=dict(arrowstyle='-', color='#B91C1C', lw=1.5))
     ax.text(6.9, 6.1, '1', fontsize=9, fontweight='bold', color='#B91C1C')
     ax.text(7.4, 6.1, '0..1', fontsize=9, fontweight='bold', color='#B91C1C')
     ax.text(7.2, 5.65, 'triggers failure', fontsize=8, fontstyle='italic', ha='center', color='#B91C1C')
     
-    # ADMIN_USER (1) -> (N) ERROR_LOG
     ax.annotate('', xy=(7.6, 6.9), xytext=(3.4, 6.9), arrowprops=dict(arrowstyle='->', color='#0F2747', lw=1.5, ls='--'))
     ax.text(5.5, 7.05, '1 : N audits & resolves', fontsize=8.5, fontweight='bold', ha='center', color='#0F2747')
     
-    # ADMIN_USER (1) -> (N) WALLET Freeze
     ax.annotate('', xy=(4.2, 3.4), xytext=(2.1, 4.6), arrowprops=dict(arrowstyle='->', color='#B45309', lw=1.5, ls=':'))
     ax.text(3.3, 4.1, 'toggles freeze / security', fontsize=8, fontweight='bold', color='#B45309', rotation=-30)
 
-    # Legend
     leg_box = patches.Rectangle((7.6, 1.2), 2.8, 2.5, facecolor='#F8FAFC', edgecolor='#CBD5E1', lw=1)
     ax.add_patch(leg_box)
     ax.text(7.8, 3.4, 'Cardinality & Notes:', fontweight='bold', fontsize=9, color='#0F2747')
@@ -116,10 +106,6 @@ def create_er():
     plt.close()
     print('Generated mod6_er.png')
 
-
-# -------------------------------------------------------------
-# 2. USE CASE DIAGRAM
-# -------------------------------------------------------------
 def create_usecase():
     fig, ax = plt.subplots(figsize=(11, 8.5), dpi=300)
     ax.set_xlim(0, 11)
@@ -130,12 +116,10 @@ def create_usecase():
     ax.text(5.5, 7.8, 'Administrator Privileges, Telemetry Monitoring & Error Resolution', fontsize=11, fontstyle='italic', ha='center', color='#1C4670')
     ax.plot([0.5, 10.5], [7.6, 7.6], color='#0F2747', lw=1.5)
     
-    # Boundary box
     system_box = patches.FancyBboxPatch((3.2, 0.6), 7.2, 6.7, boxstyle='square,pad=0', facecolor='#F8FAFC', edgecolor='#0F2747', lw=1.8)
     ax.add_patch(system_box)
     ax.text(6.8, 7.05, 'Module 6 Subsystem Boundary: Admin & Monitoring Console', ha='center', fontsize=10.5, fontweight='bold', color='#0F2747')
     
-    # Stick figure for System Admin
     ax.plot([1.5], [5.8], 'o', ms=18, mfc='#0F2747', mec='#0F2747') # Head
     ax.plot([1.5, 1.5], [5.6, 4.6], color='#0F2747', lw=3)          # Body
     ax.plot([1.1, 1.9], [5.2, 5.2], color='#0F2747', lw=3)          # Arms
@@ -160,11 +144,9 @@ def create_usecase():
         ax.add_patch(ellipse)
         ax.text(ux, uy, title, ha='center', va='center', fontsize=7.8, fontweight='bold', color='#0F2747')
         
-        # Connect primary actor to core use cases
         if ux == 5.0:
             ax.plot([1.9, 3.55], [5.0, uy], color='#64748B', lw=1.2, ls='-')
 
-    # <<extend>> and <<include>> relationships
     ax.annotate('', xy=(7.05, 4.6), xytext=(6.45, 4.6), arrowprops=dict(arrowstyle='->', color='#B91C1C', lw=1.2, ls='--'))
     ax.text(6.75, 4.8, '<<include>>', fontsize=7.5, color='#B91C1C', ha='center', fontweight='bold')
     
@@ -175,10 +157,6 @@ def create_usecase():
     plt.close()
     print('Generated mod6_usecase.png')
 
-
-# -------------------------------------------------------------
-# 3. CLASS DIAGRAM
-# -------------------------------------------------------------
 def create_class():
     fig, ax = plt.subplots(figsize=(11, 8.5), dpi=300)
     ax.set_xlim(0, 11)
@@ -261,16 +239,12 @@ def create_class():
             ax.text(x + 0.1, line_y, m, fontsize=7.2, color=txt_color, fontweight=weight, va='center')
             line_y -= 0.24
 
-    # Connectors
-    # AdminController -> ErrorLog
     ax.annotate('', xy=(4.2, 5.9), xytext=(3.9, 5.9), arrowprops=dict(arrowstyle='->', color='#0F2747', lw=1.5))
     ax.text(4.05, 6.05, '1..*', fontsize=8, fontweight='bold', color='#0F2747')
     
-    # ErrorLog -> Transaction
     ax.annotate('', xy=(7.6, 5.9), xytext=(7.4, 5.9), arrowprops=dict(arrowstyle='->', color='#B91C1C', lw=1.5))
     ax.text(7.5, 6.05, '1', fontsize=8, fontweight='bold', color='#B91C1C')
     
-    # AdminController -> User / Wallet
     ax.annotate('', xy=(2.0, 3.4), xytext=(2.0, 4.4), arrowprops=dict(arrowstyle='->', color='#0F2747', lw=1.5))
     ax.annotate('', xy=(4.5, 3.4), xytext=(3.5, 4.4), arrowprops=dict(arrowstyle='->', color='#0369A1', lw=1.5))
 
@@ -278,10 +252,6 @@ def create_class():
     plt.close()
     print('Generated mod6_class.png')
 
-
-# -------------------------------------------------------------
-# 4. SEQUENCE DIAGRAM
-# -------------------------------------------------------------
 def create_sequence():
     fig, ax = plt.subplots(figsize=(11, 8.5), dpi=300)
     ax.set_xlim(0, 11)
@@ -304,47 +274,35 @@ def create_sequence():
         box = patches.FancyBboxPatch((lx-0.85, 6.7), 1.7, 0.7, boxstyle='square,pad=0', facecolor='#0F2747', edgecolor='#0F2747')
         ax.add_patch(box)
         ax.text(lx, 7.05, label, ha='center', va='center', color='white', fontweight='bold', fontsize=7.8)
-        # Lifeline dash
         ax.plot([lx, lx], [6.7, 0.8], color='#94A3B8', lw=1.2, ls='--')
 
-    # Steps
-    # Step 1: Payment Fails
     ax.annotate('', xy=(3.2, 6.2), xytext=(1.2, 6.2), arrowprops=dict(arrowstyle='->', color='#DC2626', lw=1.5))
     ax.text(2.2, 6.35, '1. Txn status="failure"\n(e.g. BANK_TIMEOUT)', ha='center', fontsize=7.5, color='#B91C1C', fontweight='bold')
 
-    # Step 2: Post-save hook calculates severity
     ax.annotate('', xy=(3.2, 5.5), xytext=(3.2, 5.9), arrowprops=dict(arrowstyle='->', color='#B91C1C', lw=1.2, connectionstyle='arc3,rad=0.4'))
     ax.text(3.7, 5.7, '2. Map failureReason\nto Severity (CRITICAL)', fontsize=7.2, color='#B91C1C')
 
-    # Step 3: Insert ErrorLog
     ax.annotate('', xy=(5.2, 5.1), xytext=(3.2, 5.1), arrowprops=dict(arrowstyle='->', color='#B91C1C', lw=1.5))
     ax.text(4.2, 5.25, '3. ErrorLog.create({...})', ha='center', fontsize=7.5, color='#B91C1C', fontweight='bold')
 
-    # Step 4: Admin Opens Console
     ax.annotate('', xy=(7.4, 4.4), xytext=(9.5, 4.4), arrowprops=dict(arrowstyle='->', color='#0F2747', lw=1.5))
     ax.text(8.45, 4.55, '4. Open /admin/monitoring', ha='center', fontsize=7.5, color='#0F2747', fontweight='bold')
 
-    # Step 5: UI Fetches Stats & Errors
     ax.annotate('', xy=(5.2, 3.8), xytext=(7.4, 3.8), arrowprops=dict(arrowstyle='->', color='#0369A1', lw=1.5))
     ax.text(6.3, 3.95, '5. GET /api/admin/errors?resolved=false', ha='center', fontsize=7.2, color='#0369A1')
 
-    # Step 6: Database returns unresolved logs
     ax.annotate('', xy=(7.4, 3.2), xytext=(5.2, 3.2), arrowprops=dict(arrowstyle='->', color='#0369A1', lw=1.5, ls='--'))
     ax.text(6.3, 3.35, '6. Return 200 OK [Unresolved ErrorLogs]', ha='center', fontsize=7.2, color='#0369A1')
 
-    # Step 7: UI renders error incident table
     ax.annotate('', xy=(9.5, 2.6), xytext=(7.4, 2.6), arrowprops=dict(arrowstyle='->', color='#0F2747', lw=1.5))
     ax.text(8.45, 2.75, '7. Render Telemetry & Error Table', ha='center', fontsize=7.5, color='#0F2747')
 
-    # Step 8: Admin triggers Resolve Error
     ax.annotate('', xy=(7.4, 2.0), xytext=(9.5, 2.0), arrowprops=dict(arrowstyle='->', color='#0D9488', lw=1.5))
     ax.text(8.45, 2.15, '8. Click "Resolve" + Enter Notes', ha='center', fontsize=7.5, color='#0D9488', fontweight='bold')
 
-    # Step 9: UI calls resolve endpoint
     ax.annotate('', xy=(5.2, 1.4), xytext=(7.4, 1.4), arrowprops=dict(arrowstyle='->', color='#0D9488', lw=1.5))
     ax.text(6.3, 1.55, '9. POST /api/admin/errors/:id/resolve', ha='center', fontsize=7.2, color='#0D9488', fontweight='bold')
 
-    # Step 10: ErrorLog updated
     ax.annotate('', xy=(7.4, 0.9), xytext=(5.2, 0.9), arrowprops=dict(arrowstyle='->', color='#0D9488', lw=1.5, ls='--'))
     ax.text(6.3, 1.05, '10. Incident Marked Resolved (Audit Complete)', ha='center', fontsize=7.2, color='#0D9488')
 

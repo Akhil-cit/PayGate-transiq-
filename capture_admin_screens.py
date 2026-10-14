@@ -52,17 +52,14 @@ def main():
         
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
-            # Create a 1440x900 viewport for clean enterprise UI screenshots
             context = browser.new_context(viewport={"width": 1440, "height": 900}, device_scale_factor=1.5)
             page = context.new_page()
             
-            # 1. Admin Login Page
             print("Capturing Admin Login...")
             page.goto("http://localhost:5173/admin/login", wait_until="networkidle")
             page.wait_for_timeout(1000)
             page.screenshot(path="real_screenshots/01_admin_login.png")
             
-            # Login
             print("Logging in as Admin...")
             page.fill('input[type="email"]', 'admin@paygate.internal')
             page.fill('input[type="password"]', 'Password@123')
@@ -71,32 +68,27 @@ def main():
             page.wait_for_timeout(2500)
             print("Current URL:", page.url)
             
-            # 2. Admin Monitoring Dashboard
             print("Capturing Admin Monitoring Dashboard...")
             if not "admin" in page.url:
                 page.goto("http://localhost:5173/admin/monitoring", wait_until="networkidle")
             page.wait_for_timeout(2000)
             page.screenshot(path="real_screenshots/02_admin_monitoring_dashboard.png")
             
-            # 3. Error Logs Page
             print("Capturing Error Logs...")
             page.goto("http://localhost:5173/admin/errors", wait_until="networkidle")
             page.wait_for_timeout(2000)
             page.screenshot(path="real_screenshots/03_admin_error_logs.png")
             
-            # 4. Pending Transactions
             print("Capturing Pending Transactions...")
             page.goto("http://localhost:5173/admin/pending", wait_until="networkidle")
             page.wait_for_timeout(2000)
             page.screenshot(path="real_screenshots/04_admin_pending_transactions.png")
             
-            # 5. Audit History / Ledger
             print("Capturing Transaction Audit History...")
             page.goto("http://localhost:5173/admin/history", wait_until="networkidle")
             page.wait_for_timeout(2000)
             page.screenshot(path="real_screenshots/05_admin_audit_history.png")
             
-            # 6. Admin Settings & Account Governance
             print("Capturing User & Wallet Governance...")
             page.goto("http://localhost:5173/admin/settings", wait_until="networkidle")
             page.wait_for_timeout(2000)
@@ -107,10 +99,8 @@ def main():
             
     finally:
         print("Cleaning up processes...")
-        # Terminate node and vite
         subprocess.run(["taskkill", "/F", "/T", "/PID", str(backend_proc.pid)], capture_output=True)
         subprocess.run(["taskkill", "/F", "/T", "/PID", str(frontend_proc.pid)], capture_output=True)
-        # Also clean up any orphan node processes on ports
         subprocess.run(["taskkill", "/F", "/IM", "node.exe"], capture_output=True)
         print("Processes cleaned up.")
 

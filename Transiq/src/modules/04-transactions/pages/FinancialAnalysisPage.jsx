@@ -12,7 +12,6 @@ import {
 
 const PIE_COLORS = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#f43f5e'];
 
-
 const CustomTooltip = ({ active, payload, label, prefix = '₹', suffix = '' }) => {
   if (active && payload && payload.length) {
     return (
@@ -93,7 +92,6 @@ export default function FinancialAnalysisPage() {
 
       {error && <div className="txn-error-banner">⚠️ {error}</div>}
 
-      {/* Summary KPI Cards */}
       <div className="analytics-kpi-grid">
         <KPICard
           icon={DollarSign} color="#6366f1"
@@ -129,9 +127,7 @@ export default function FinancialAnalysisPage() {
         />
       </div>
 
-      {/* Charts Row */}
       <div className="analytics-charts-grid">
-        {/* Monthly Volume Chart */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">Monthly Transaction Volume</h2>
           {byMonth.length === 0 ? (
@@ -161,7 +157,6 @@ export default function FinancialAnalysisPage() {
           )}
         </div>
 
-        {/* Monthly Count Line Chart */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">Monthly Transaction Count</h2>
           {byMonth.length === 0 ? (
@@ -192,9 +187,7 @@ export default function FinancialAnalysisPage() {
         </div>
       </div>
 
-      {/* Method Breakdown + Insights */}
       <div className="analytics-bottom-grid">
-        {/* Payment Method Breakdown */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">By Payment Method</h2>
           {byMethod.length === 0 ? (
@@ -243,7 +236,6 @@ export default function FinancialAnalysisPage() {
           )}
         </div>
 
-        {/* Transaction Status Breakdown */}
         <div className="analytics-chart-card">
           <h2 className="analytics-chart-title">Transaction Status</h2>
           {!summary || summary.totalCount === 0 ? (

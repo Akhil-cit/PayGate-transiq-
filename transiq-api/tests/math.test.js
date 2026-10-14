@@ -1,10 +1,8 @@
-// White box unit testing example for core utilities
 
-// Example utility function (in a real app, import from utils)
 const calculateTransactionFee = (amount) => {
   if (amount <= 0) throw new Error('Invalid amount');
   if (amount < 1000) return 0;
-  return amount * 0.01; // 1% fee for > 1000
+  return amount * 0.01;
 };
 
 describe('White Box Unit Testing: calculateTransactionFee', () => {

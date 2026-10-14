@@ -12,9 +12,8 @@ export default function MyWalletPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Add Bank Account Form State
   const [showAddModal, setShowAddModal] = useState(false);
-  const [addStep, setAddStep] = useState(1); // 1 = Enter details, 2 = Enter OTP
+  const [addStep, setAddStep] = useState(1);
   const [accountNumber, setAccountNumber] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [otpCode, setOtpCode] = useState('');
@@ -50,7 +49,6 @@ export default function MyWalletPage() {
         setConnectedAccounts(Array.isArray(data) ? data : []);
       }
     } catch {
-      // Fallback
     } finally {
       setLoading(false);
     }
@@ -68,7 +66,6 @@ export default function MyWalletPage() {
     } catch {}
   };
 
-  // Step 1: Send OTP to associated phone number
   const handleSendOtp = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -114,7 +111,6 @@ export default function MyWalletPage() {
     }
   };
 
-  // Step 2: Verify OTP & Connect Account
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -159,14 +155,12 @@ export default function MyWalletPage() {
     }
   };
 
-  // Select an available account to fill the form
   const fillDummyDetails = (acc) => {
     setAccountNumber(acc.accountNumber);
     setPhoneNumber(acc.associatedPhoneNumber);
     setErrorMsg('');
   };
 
-  // Separate accounts into Main Wallet, actual Bank Accounts, and Savings Pockets
   const mainWallet = connectedAccounts.find((a) => a.type === 'WALLET') || {
     id: 'WALLET_PRIMARY',
     name: 'Main Wallet',
@@ -186,7 +180,6 @@ export default function MyWalletPage() {
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
 
-        {/* Header Banner */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">PayGate Gateway — Account Management</span>
@@ -234,7 +227,6 @@ export default function MyWalletPage() {
           </div>
         )}
 
-        {/* Global Success / Error Toast Banners */}
         {successMsg && (
           <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 font-semibold flex justify-between items-center">
             <span>✓ {successMsg}</span>
@@ -249,7 +241,6 @@ export default function MyWalletPage() {
           </div>
         )}
 
-        {/* Persistent Summary KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Main Wallet Balance</p>
@@ -270,7 +261,6 @@ export default function MyWalletPage() {
           </div>
         </div>
 
-        {/* SECTION 1: PAYGATE DIGITAL WALLET HERO CARD */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-7 shadow-2xs space-y-4">
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 border-b border-slate-100 pb-4">
             <div>
@@ -314,7 +304,6 @@ export default function MyWalletPage() {
           </div>
         </div>
 
-        {/* SECTION 2: CONNECTED BANK ACCOUNTS */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-8 shadow-2xs space-y-6">
           <div className="border-b border-slate-100 pb-4 flex justify-between items-center">
             <div>
@@ -383,7 +372,6 @@ export default function MyWalletPage() {
                 </div>
               ))}
 
-              {/* Add New Account Card */}
               <div
                 onClick={() => {
                   setShowAddModal(true);
@@ -405,7 +393,6 @@ export default function MyWalletPage() {
           )}
         </div>
 
-        {/* SECTION 3: SAVINGS POCKETS OVERVIEW */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 md:p-8 shadow-2xs space-y-4">
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-100 pb-3">
             <div>
@@ -463,7 +450,6 @@ export default function MyWalletPage() {
           )}
         </div>
 
-        {/* ADD BANK ACCOUNT MODAL (2-STEP OTP FLOW) */}
         {showAddModal && (
           <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
             <div className="bg-white rounded-xl border border-slate-200 max-w-md w-full p-6 shadow-2xl space-y-5">
@@ -485,7 +471,6 @@ export default function MyWalletPage() {
                 </div>
               )}
 
-              {/* STEP 1: Enter Bank Account Details */}
               {addStep === 1 && (
                 <form onSubmit={handleSendOtp} className="space-y-4">
                   <p className="text-xs text-slate-500">
@@ -523,7 +508,6 @@ export default function MyWalletPage() {
                     </div>
                   </div>
 
-                  {/* Available bank accounts */}
                   {dummyAccounts.length > 0 && (
                     <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-2">
                       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
@@ -563,7 +547,6 @@ export default function MyWalletPage() {
                 </form>
               )}
 
-              {/* STEP 2: Enter OTP Code */}
               {addStep === 2 && (
                 <form onSubmit={handleVerifyOtp} className="space-y-4">
                   <div className="bg-blue-50/70 p-3.5 rounded-lg border border-blue-200 text-xs text-blue-900 space-y-1">

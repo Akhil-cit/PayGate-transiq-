@@ -1,6 +1,5 @@
 import http from 'http';
 
-// Simple stress test script for demonstration
 const STRESS_URL = 'http://localhost:5000/api/health';
 const CONCURRENT_REQUESTS = 100;
 
@@ -15,7 +14,7 @@ const makeRequest = () => {
     http.get(STRESS_URL, (res) => {
       if (res.statusCode === 200) successCount++;
       else errorCount++;
-      res.resume(); // consume response data to free up memory
+      res.resume();
       resolve();
     }).on('error', (err) => {
       errorCount++;

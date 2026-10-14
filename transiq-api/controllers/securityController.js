@@ -56,7 +56,6 @@ export const getActivityLog = async (req, res) => {
 
     const wallet = await Wallet.findOne({ userId });
 
-    // Seed default DB sessions if none exist yet
     if (!user.activeSessions || user.activeSessions.length === 0) {
       user.activeSessions = [
         {
@@ -83,7 +82,6 @@ export const getActivityLog = async (req, res) => {
       ];
     }
 
-    // Seed default DB security logs if none exist yet
     if (!user.securityLogs || user.securityLogs.length === 0) {
       user.securityLogs = [
         {

@@ -9,7 +9,6 @@ import os
 def create_document():
     doc = docx.Document()
     
-    # Page setup: Letter size with 0.65" top/bottom, 0.75" left/right
     for s in doc.sections:
         s.page_width = Inches(8.5)
         s.page_height = Inches(11.0)
@@ -18,7 +17,6 @@ def create_document():
         s.left_margin = Inches(0.75)
         s.right_margin = Inches(0.75)
         
-    # Color palette
     NAVY = RGBColor(15, 39, 71)      # 0F2747
     SLATE = RGBColor(28, 70, 112)    # 1C4670
     TEAL = RGBColor(13, 148, 136)    # 0D9488
@@ -31,7 +29,6 @@ def create_document():
     HEX_LIGHT_BG = "F8FAFC"
     HEX_BORDER = "CBD5E1"
     
-    # Configure base styles
     style_normal = doc.styles['Normal']
     style_normal.font.name = 'Aptos'
     style_normal.font.size = Pt(10.5)
@@ -172,11 +169,7 @@ def create_document():
                             r.font.size = Pt(9)
                             r.font.color.rgb = DARK
 
-    # =========================================================================
-    # 1ST PAGE: COLLEGE LOGO, PROJECT TITLE AND TEAM DETAILS
-    # =========================================================================
     
-    # College Logo
     p_logo = doc.add_paragraph()
     p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_logo.paragraph_format.space_before = Pt(10)
@@ -185,7 +178,6 @@ def create_document():
         run_logo = p_logo.add_run()
         run_logo.add_picture('cit_logo.png', width=Inches(1.2))
 
-    # College Name
     p_clg = doc.add_paragraph()
     p_clg.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_clg.paragraph_format.space_after = Pt(2)
@@ -203,7 +195,6 @@ def create_document():
     r_sub.font.size = Pt(9.5)
     r_sub.font.color.rgb = SLATE
 
-    # Divider bar
     p_bar = doc.add_paragraph()
     p_bar.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_bar.paragraph_format.space_after = Pt(12)
@@ -211,7 +202,6 @@ def create_document():
     r_bar.font.color.rgb = NAVY
     r_bar.font.size = Pt(10)
 
-    # Project Title
     p_rec = doc.add_paragraph()
     p_rec.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_rec.paragraph_format.space_after = Pt(3)
@@ -248,7 +238,6 @@ def create_document():
     r_sub2.font.italic = True
     r_sub2.font.color.rgb = MUTED
 
-    # Module Focus Badge
     p_mod = doc.add_paragraph()
     p_mod.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_mod.paragraph_format.space_after = Pt(14)
@@ -258,7 +247,6 @@ def create_document():
     r_mod.font.bold = True
     r_mod.font.color.rgb = NAVY
 
-    # Project Details Table
     p_dth = doc.add_paragraph()
     p_dth.paragraph_format.space_after = Pt(4)
     r_dth = p_dth.add_run("PROJECT DETAILS")
@@ -282,7 +270,6 @@ def create_document():
         t_details.rows[r_i].cells[1].paragraphs[0].text = c1
     style_table(t_details, [2.2, 4.8], [WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT])
 
-    # Team Details
     p_tmh = doc.add_paragraph()
     p_tmh.paragraph_format.space_before = Pt(10)
     p_tmh.paragraph_format.space_after = Pt(4)
@@ -309,7 +296,6 @@ def create_document():
         t_team.rows[r_i].cells[3].paragraphs[0].text = c3
     style_table(t_team, [0.6, 2.2, 1.6, 2.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT])
 
-    # Guide Signatures
     p_gd = doc.add_paragraph()
     p_gd.paragraph_format.space_before = Pt(14)
     p_gd.paragraph_format.space_after = Pt(4)
@@ -322,9 +308,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # SYNOPSIS (STRICTLY IN 1 PAGE, NOT IN MORE THAN 1 PAGE)
-    # =========================================================================
     add_h1("Synopsis")
     
     p_syn1 = doc.add_paragraph()
@@ -367,9 +350,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # OBJECTIVE
-    # =========================================================================
     add_h1("Objective")
     p_obj = doc.add_paragraph()
     p_obj.paragraph_format.space_after = Pt(6)
@@ -386,9 +366,6 @@ def create_document():
     add_bullet(" Provide rapid-response fraud mitigation tools enabling administrators to instantly freeze customer wallets (isFrozen) or deactivate suspicious user profiles (isActive) upon detecting security threats.", "6. Proactive Account & Wallet Security Controls:")
     add_bullet(" Allow administrators to extract filtered historical transaction ledgers into structured CSV spreadsheets for offline compliance, regulatory reporting, and forensic accounting.", "7. Compliance & Forensic Audit Trail Export:")
 
-    # =========================================================================
-    # SCOPE
-    # =========================================================================
     add_h1("Scope")
 
     add_h2("Functional Scope")
@@ -412,9 +389,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # PROJECT DESCRIPTION
-    # =========================================================================
     add_h1("Project Description")
     p_pd = doc.add_paragraph()
     p_pd.paragraph_format.space_after = Pt(6)
@@ -456,9 +430,6 @@ def create_document():
         "and credentials), and wallets (balance records and freeze flags)."
     )
 
-    # =========================================================================
-    # DB DESIGN
-    # =========================================================================
     add_h1("DB Design")
     p_dbd = doc.add_paragraph()
     p_dbd.paragraph_format.space_after = Pt(6)
@@ -545,9 +516,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # DATA FLOW DIAGRAM (DFD)
-    # =========================================================================
     add_h1("Data Flow Diagram (DFD)")
     p_dfdd = doc.add_paragraph()
     p_dfdd.paragraph_format.space_after = Pt(6)
@@ -573,9 +541,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # ER DIAGRAM
-    # =========================================================================
     add_h1("ER Diagram")
     p_erd = doc.add_paragraph()
     p_erd.paragraph_format.space_after = Pt(6)
@@ -601,9 +566,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # USE CASE DIAGRAM
-    # =========================================================================
     add_h1("Use Case Diagram")
     p_ucd = doc.add_paragraph()
     p_ucd.paragraph_format.space_after = Pt(6)
@@ -631,9 +593,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # CLASS DIAGRAM
-    # =========================================================================
     add_h1("Class Diagram")
     p_cld = doc.add_paragraph()
     p_cld.paragraph_format.space_after = Pt(6)
@@ -659,9 +618,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # SEQUENCE DIAGRAM
-    # =========================================================================
     add_h1("Sequence Diagram")
     p_sqd = doc.add_paragraph()
     p_sqd.paragraph_format.space_after = Pt(6)
@@ -689,9 +645,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # SCREENSHOTS (FORMS)
-    # =========================================================================
     add_h1("Screenshots (Forms)")
     p_scd = doc.add_paragraph()
     p_scd.paragraph_format.space_after = Pt(6)
@@ -730,9 +683,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # TEST REPORT
-    # =========================================================================
     add_h1("Test Report")
     p_trd = doc.add_paragraph()
     p_trd.paragraph_format.space_after = Pt(6)
@@ -782,9 +732,6 @@ def create_document():
 
     doc.add_page_break()
 
-    # =========================================================================
-    # CONCLUSION AND FURTHER ENHANCEMENTS
-    # =========================================================================
     add_h1("Conclusion and Further Enhancements")
 
     add_h2("Conclusion")
@@ -820,7 +767,6 @@ def create_document():
     r_end.font.bold = True
     r_end.font.color.rgb = MUTED
 
-    # Save to both workspace and Downloads
     out_ws = r'D:\Clg\python lab\MERN PROJECT\PayGate_Module_6_Admin_and_Monitoring_Documentation.docx'
     out_dl = r'C:\Users\dell\Downloads\PayGate_Module_6_Admin_and_Monitoring_Documentation.docx'
     

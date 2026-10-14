@@ -5,9 +5,6 @@ import Transaction from '../models/Transaction.js';
 import BankAccount from '../models/BankAccount.js';
 import User from '../models/User.js';
 
-// External bank simulator registry (these are mock external bank records, NOT stored in our DB)
-// They represent what partner banks expose via their API. When a user "links" one, we create
-// a BankAccount document in MongoDB tied to their userId.
 const EXTERNAL_BANK_REGISTRY = [
   { accountNumber: 'BANK10001', accountHolderName: 'Primary User', associatedPhoneNumber: '9876543210', accountType: 'Savings', availableBalance: 25000.0, bankName: 'HDFC Bank', ifscCode: 'HDFC0001001' },
   { accountNumber: 'BANK10002', accountHolderName: 'Primary User', associatedPhoneNumber: '9812345678', accountType: 'Salary', availableBalance: 48000.0, bankName: 'ICICI Bank', ifscCode: 'ICIC0002002' },
@@ -16,14 +13,10 @@ const EXTERNAL_BANK_REGISTRY = [
   { accountNumber: 'BANK10005', accountHolderName: 'Primary User', associatedPhoneNumber: '9734567890', accountType: 'NRI', availableBalance: 350000.0, bankName: 'Kotak Mahindra Bank', ifscCode: 'KKBK0005005' },
 ];
 
-// ── GET /api/bank/dummy-accounts ──────────────────────────────────────────────
-// Returns the external bank registry (mock partner bank API response)
 export const getDummyBanks = (req, res) => {
   res.json(EXTERNAL_BANK_REGISTRY);
 };
 
-// ── GET /api/accounts ──────────────────────────────────────────────────────────
-// Returns user's Transiq Wallet + all linked BankAccounts + Pockets — all from DB
 export const getAccounts = async (req, res) => {
   try {
     const [wallet, bankAccounts, pockets] = await Promise.all([
@@ -37,7 +30,6 @@ export const getAccounts = async (req, res) => {
     }
 
     const accounts = [
-      // 1. Main Wallet (from Wallet collection)
       {
         id: `WALLET_${wallet._id}`,
         name: 'Main Wallet',
@@ -48,7 +40,6 @@ export const getAccounts = async (req, res) => {
         status: wallet.isFrozen ? 'FROZEN' : 'ACTIVE',
         isVerified: true,
       },
-      // 2. Linked Bank Accounts (from BankAccount collection)
       ...bankAccounts.map((acc) => ({
         id: acc._id.toString(),
         name: acc.name,
@@ -59,7 +50,6 @@ export const getAccounts = async (req, res) => {
         status: acc.status,
         isVerified: acc.isVerified,
       })),
-      // 3. Pockets (from Pocket collection)
       ...pockets.map((p) => ({
         id: p._id.toString(),
         name: `${p.name} (Pocket)`,
@@ -79,8 +69,6 @@ export const getAccounts = async (req, res) => {
   }
 };
 
-// ── POST /api/wallet/accounts/add ─────────────────────────────────────────────
-// Step 1: Look up the account in the external bank registry and send OTP
 export const addBankAccount = async (req, res) => {
   try {
     const { accountNumber, phone } = req.body;
@@ -95,18 +83,16 @@ export const addBankAccount = async (req, res) => {
       });
     }
 
-    // Check if already linked
     const existing = await BankAccount.findOne({ userId: req.user._id, accountNumber: accountNumber.trim() });
     if (existing) {
       return res.status(409).json({ message: 'This bank account is already linked to your profile.' });
     }
 
-    // In production: call real bank OTP API. Here we use a fixed demo OTP.
     const generatedOtp = '458921';
     res.json({
       success: true,
       message: `OTP sent to linked mobile ending with ${phone.slice(-4)}.`,
-      verificationCode: generatedOtp, // Only exposed in demo mode
+      verificationCode: generatedOtp,
     });
   } catch (err) {
     console.error('addBankAccount error:', err);
@@ -114,8 +100,6 @@ export const addBankAccount = async (req, res) => {
   }
 };
 
-// ── POST /api/wallet/accounts/verify-otp ──────────────────────────────────────
-// Step 2: Verify OTP and persist the linked bank account to MongoDB
 export const verifyOtp = async (req, res) => {
   try {
     const { accountNumber, phone, otp } = req.body;
@@ -129,13 +113,11 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ message: 'Bank account data not found.' });
     }
 
-    // Already linked?
     const existing = await BankAccount.findOne({ userId: req.user._id, accountNumber: accountNumber.trim() });
     if (existing) {
       return res.status(409).json({ message: 'Bank account already linked.' });
     }
 
-    // Save to DB
     const newAcc = await BankAccount.create({
       userId: req.user._id,
       name: `${bankData.bankName} ${bankData.accountType} Account`,
@@ -169,7 +151,6 @@ export const verifyOtp = async (req, res) => {
   }
 };
 
-// ── POST /api/wallet/accounts/split & /api/wallet/split ────────────────────────
 export const splitWallet = async (req, res) => {
   try {
     const { accountId, allocations } = req.body;
@@ -194,7 +175,6 @@ export const splitWallet = async (req, res) => {
       return res.status(403).json({ success: false, message: 'Your wallet is frozen. Cannot modify balance allocation.' });
     }
 
-    // Check account if provided
     if (accountId && !accountId.startsWith('WALLET_')) {
       const bankAcc = await BankAccount.findOne({ _id: accountId, userId: user._id });
       if (bankAcc) {
@@ -205,11 +185,9 @@ export const splitWallet = async (req, res) => {
       }
     }
 
-    // Update wallet main balance
     wallet.mainBalance = mainAlloc;
     await wallet.save({ validateModifiedOnly: true });
 
-    // Store savings allocation in a dedicated pocket
     if (savingsAlloc > 0) {
       let savingsPocket = await Pocket.findOne({ userId: user._id, name: 'Savings Wallet' });
       if (!savingsPocket) {
@@ -240,8 +218,6 @@ export const splitWallet = async (req, res) => {
   }
 };
 
-// ── POST /api/payment/resolve-recipient ───────────────────────────────────────
-// ── POST /api/payment/initiate ────────────────────────────────────────────────
 export const initiatePayment = async (req, res) => {
   const now = new Date();
   const dateStr =
@@ -256,7 +232,6 @@ export const initiatePayment = async (req, res) => {
   res.json({ transactionId, status: 'INITIATED', createdAt });
 };
 
-// ── POST /api/payment/validate-details ─────────────────────────────────────────
 export const validateDetails = async (req, res) => {
   const { accountId, amount } = req.body;
   const numAmt = Number(amount);
@@ -265,7 +240,6 @@ export const validateDetails = async (req, res) => {
     return res.status(400).json({ detail: 'Please enter a valid amount greater than ₹0.' });
   }
 
-  // Check balance from DB based on accountId
   try {
     if (accountId && accountId.startsWith('WALLET_')) {
       const wallet = await Wallet.findOne({ userId: req.user._id });
@@ -279,18 +253,15 @@ export const validateDetails = async (req, res) => {
       }
     }
   } catch (_) {
-    // Non-blocking — allow if account not found by ID
   }
 
   res.json({ status: 'VALIDATED', message: 'Details verified successfully.' });
 };
 
-// ── POST /api/payment/confirm ─────────────────────────────────────────────────
 export const confirmPayment = async (req, res) => {
   res.json({ status: 'CONFIRMED', message: 'Transaction ready for PIN authorization.' });
 };
 
-// ── POST /api/payment/authorize-pin ───────────────────────────────────────────
 export const authorizePin = async (req, res) => {
   const { transactionId, pin, accountId, amount, recipientId, purpose, remarks } = req.body;
 
@@ -307,13 +278,11 @@ export const authorizePin = async (req, res) => {
       return res.status(400).json({ status: 'FAILED', reason: 'Invalid amount. Must be between ₹0.01 and ₹1,00,00,000.' });
     }
 
-    // 1. Get wallet
     const wallet = await Wallet.findOne({ userId: req.user._id });
     if (!wallet) {
       return res.status(404).json({ status: 'FAILED', reason: 'Wallet not found.' });
     }
 
-    // 2. Determine recipient — strict ownership check
     if (!recipientId) {
       return res.status(400).json({ status: 'FAILED', reason: 'Recipient is required.' });
     }
@@ -322,15 +291,12 @@ export const authorizePin = async (req, res) => {
       return res.status(404).json({ status: 'FAILED', reason: 'Recipient not found or does not belong to your account.' });
     }
 
-    // 3. Determine payment method by amount
     const method = numAmt > 200000 ? 'RTGS' : numAmt > 100000 ? 'NEFT' : numAmt > 50000 ? 'IMPS' : 'UPI';
 
-    // Block frozen wallets completely
     if (wallet.isFrozen && (!accountId || accountId.startsWith('WALLET_'))) {
       return res.status(403).json({ status: 'FAILED', reason: 'Your wallet is frozen. Outgoing payments are blocked.' });
     }
 
-    // 4. Deduct balance from the source account
     if (accountId && !accountId.startsWith('WALLET_')) {
       const bankAcc = await BankAccount.findOne({ _id: accountId, userId: req.user._id });
       if (!bankAcc) {
@@ -352,7 +318,6 @@ export const authorizePin = async (req, res) => {
       await wallet.save({ validateModifiedOnly: true });
     }
 
-    // 5. Record the transaction
     const rawIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress;
     const isLocal = !rawIp || rawIp === '127.0.0.1' || rawIp === '::1' || rawIp.includes('127.0.0.1');
     const ipAddress = isLocal ? '103.21.124.89' : rawIp;
@@ -380,7 +345,6 @@ export const authorizePin = async (req, res) => {
   }
 };
 
-// ── POST /api/payment/retry ────────────────────────────────────────────────────
 export const retryPayment = (req, res) => {
   const { transactionId } = req.body;
   res.json({

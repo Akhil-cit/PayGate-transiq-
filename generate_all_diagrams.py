@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-# Global visual style settings
 FONT_FAMILY = 'DejaVu Sans'
 plt.rcParams['font.sans-serif'] = [FONT_FAMILY, 'Arial', 'Helvetica']
 plt.rcParams['font.family'] = 'sans-serif'
@@ -16,30 +15,21 @@ COLOR_BORDER = '#CBD5E1'
 COLOR_MUTED = '#64748B'
 COLOR_DARK = '#1E293B'
 
-
-# =============================================================================
-# 1. DATA FLOW DIAGRAM (DFD Level 0 & Level 1)
-# =============================================================================
 def create_dfd():
     fig, ax = plt.subplots(figsize=(12, 8.5), dpi=300)
     ax.set_xlim(0, 12)
     ax.set_ylim(0, 8.5)
     ax.axis('off')
 
-    # Header Titles
     ax.text(6.0, 8.18, 'Module 6 — Data Flow Diagram (DFD Level 0 & Level 1)',
             fontsize=15, fontweight='bold', ha='center', color=COLOR_NAVY)
     ax.text(6.0, 7.88, 'Admin Operations, Monitoring & Error Audit Telemetry Flow',
             fontsize=10.5, fontstyle='italic', ha='center', color=COLOR_SLATE)
     ax.plot([0.5, 11.5], [7.68, 7.68], color=COLOR_NAVY, lw=1.5)
 
-    # -------------------------------------------------------------
-    # LEVEL 0: CONTEXT DIAGRAM
-    # -------------------------------------------------------------
     ax.text(0.6, 7.42, 'Level 0 — Context Diagram (Admin Monitoring Boundary)',
             fontsize=11, fontweight='bold', color=COLOR_NAVY)
 
-    # External Entity: System Administrator
     rect_admin = patches.FancyBboxPatch((0.6, 5.5), 2.4, 1.4,
                                         boxstyle='round,pad=0.05,rounding_size=0.15',
                                         facecolor=COLOR_NAVY, edgecolor=COLOR_NAVY, lw=1.5)
@@ -47,7 +37,6 @@ def create_dfd():
     ax.text(1.8, 6.2, 'System Administrator\n(Authenticated Role)',
             ha='center', va='center', color='white', fontweight='bold', fontsize=9.2)
 
-    # Center Process: 0.0 PayGate Admin & Telemetry Console
     proc_0 = patches.Circle((6.0, 6.2), 0.92,
                             facecolor='#F0F9FF', edgecolor=COLOR_BLUE, lw=2.2)
     ax.add_patch(proc_0)
@@ -57,7 +46,6 @@ def create_dfd():
     ax.text(6.0, 6.1, 'PayGate Admin &\nTelemetry Console',
             ha='center', va='center', color=COLOR_NAVY, fontweight='bold', fontsize=8.8)
 
-    # External Entity: Transaction Engine & Mock Bank API
     rect_bank = patches.FancyBboxPatch((9.0, 5.5), 2.4, 1.4,
                                        boxstyle='round,pad=0.05,rounding_size=0.15',
                                        facecolor=COLOR_NAVY, edgecolor=COLOR_NAVY, lw=1.5)
@@ -65,46 +53,35 @@ def create_dfd():
     ax.text(10.2, 6.2, 'Transaction Engine\n& Mock Bank API',
             ha='center', va='center', color='white', fontweight='bold', fontsize=9.2)
 
-    # Flows between Admin and 0.0
-    # Top arrow: Admin -> 0.0
     ax.annotate('', xy=(5.08, 6.55), xytext=(3.0, 6.55),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.6))
     ax.text(4.04, 6.75, 'Audit Queries &\nFreeze Commands',
             ha='center', va='bottom', fontsize=7.8, fontweight='bold', color=COLOR_NAVY,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Bottom arrow: 0.0 -> Admin
     ax.annotate('', xy=(3.0, 5.85), xytext=(5.08, 5.85),
                 arrowprops=dict(arrowstyle='->', color=COLOR_BLUE, lw=1.6))
     ax.text(4.04, 5.65, 'Telemetry, KPIs\n& Error Feeds',
             ha='center', va='top', fontsize=7.8, fontweight='bold', color=COLOR_BLUE,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Flows between 0.0 and Engine
-    # Top arrow: Engine -> 0.0
     ax.annotate('', xy=(6.92, 6.55), xytext=(9.0, 6.55),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.6))
     ax.text(7.96, 6.75, 'Failure Signals\n& Stacks',
             ha='center', va='bottom', fontsize=7.8, fontweight='bold', color=COLOR_RED,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Bottom arrow: 0.0 -> Engine
     ax.annotate('', xy=(9.0, 5.85), xytext=(6.92, 5.85),
                 arrowprops=dict(arrowstyle='->', color=COLOR_TEAL, lw=1.6))
     ax.text(7.96, 5.65, 'Retry & Force\nResolution',
             ha='center', va='top', fontsize=7.8, fontweight='bold', color=COLOR_TEAL,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Divider line between Level 0 and Level 1
     ax.plot([0.5, 11.5], [4.9, 4.9], color='#94A3B8', lw=1.2, ls='--')
 
-    # -------------------------------------------------------------
-    # LEVEL 1: SUBSYSTEM DECOMPOSITION
-    # -------------------------------------------------------------
     ax.text(0.6, 4.65, 'Level 1 — Subsystem Decomposition: Admin Operations & Telemetry Processes',
             fontsize=11, fontweight='bold', color=COLOR_NAVY)
 
-    # Process Bubble Helper
     def draw_process(cx, cy, p_num, p_name, color, fill_color='#FFFFFF'):
         bubble = patches.Circle((cx, cy), 0.72,
                                 facecolor=fill_color, edgecolor=color, lw=2.0)
@@ -115,7 +92,6 @@ def create_dfd():
         ax.text(cx, cy - 0.08, p_name, ha='center', va='center',
                 fontsize=7.2, fontweight='bold', color=COLOR_NAVY)
 
-    # Data Store Helper
     def draw_datastore(x, y, w, h, ds_id, ds_name):
         rect = patches.Rectangle((x, y), w, h, facecolor='#F8FAFC', edgecolor=COLOR_NAVY, lw=1.6)
         ax.add_patch(rect)
@@ -125,28 +101,22 @@ def create_dfd():
         ax.text(x + 0.65 + (w - 0.65)/2, y + h/2, ds_name, ha='center', va='center',
                 fontweight='bold', fontsize=8, color=COLOR_NAVY)
 
-    # Placement coordinates for Level 1:
-    # Row 1:
     draw_process(1.6, 3.3, '6.1', 'Metric & KPI\nAggregator', COLOR_BLUE, '#EFF6FF')
     draw_datastore(3.8, 2.9, 2.2, 0.8, 'D4', 'Transactions\nLedger')
     draw_process(7.8, 3.3, '6.2', 'Transaction &\nPending Auditor', COLOR_TEAL, '#F0FDFA')
     draw_process(10.5, 3.3, '6.3', 'Failure Ingestion &\nSeverity Classifier', COLOR_RED, '#FEF2F2')
 
-    # Row 2:
     draw_datastore(0.6, 0.9, 2.1, 0.8, 'D1/D2', 'Users &\nWallets')
     draw_process(4.6, 1.3, '6.5', 'Account Freeze &\nSecurity Governor', COLOR_AMBER, '#FFFBEB')
     draw_process(7.4, 1.3, '6.4', 'Incident Triage &\nResolution Manager', COLOR_BLUE, '#EFF6FF')
     draw_datastore(9.5, 0.9, 2.0, 0.8, 'D5', 'ErrorLogs\nRepository')
 
-    # Data flows in Level 1 (Completely non-overlapping):
-    # 1. D4 -> 6.1 (Horizontal arrow left)
     ax.annotate('', xy=(2.32, 3.3), xytext=(3.8, 3.3),
                 arrowprops=dict(arrowstyle='->', color=COLOR_BLUE, lw=1.5))
     ax.text(3.06, 3.52, 'Aggregate counts', ha='center', va='bottom',
             fontsize=7.5, color=COLOR_BLUE, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # 2. 6.2 <-> D4 (Bidirectional arrows cleanly centered in gap between 6.0 and 7.08)
     ax.annotate('', xy=(6.0, 3.45), xytext=(7.08, 3.45),
                 arrowprops=dict(arrowstyle='->', color=COLOR_TEAL, lw=1.5))
     ax.annotate('', xy=(7.08, 3.15), xytext=(6.0, 3.15),
@@ -155,14 +125,12 @@ def create_dfd():
             fontsize=7.4, color=COLOR_TEAL, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # 3. 6.3 -> D5 (Vertical arrow straight down)
     ax.annotate('', xy=(10.5, 1.7), xytext=(10.5, 2.58),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.6))
     ax.text(10.65, 2.14, 'Log Incident\n& Severity', ha='left', va='center',
             fontsize=7.5, color=COLOR_RED, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # 4. 6.4 <-> D5 (Horizontal arrows cleanly centered in gap between 8.12 and 9.5)
     ax.annotate('', xy=(8.12, 1.45), xytext=(9.5, 1.45),
                 arrowprops=dict(arrowstyle='->', color=COLOR_BLUE, lw=1.5))
     ax.annotate('', xy=(9.5, 1.15), xytext=(8.12, 1.15),
@@ -171,14 +139,12 @@ def create_dfd():
             fontsize=7.4, color=COLOR_BLUE, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # 5. 6.5 -> D1/D2 (Horizontal arrow straight left from 3.88 to 2.7)
     ax.annotate('', xy=(2.7, 1.3), xytext=(3.88, 1.3),
                 arrowprops=dict(arrowstyle='->', color=COLOR_AMBER, lw=1.6))
     ax.text(3.29, 1.52, 'Update isFrozen\n& isActive', ha='center', va='bottom',
             fontsize=7.4, color=COLOR_AMBER, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Clean border around canvas
     rect_frame = patches.Rectangle((0.2, 0.3), 11.6, 8.0,
                                    facecolor='none', edgecolor=COLOR_BORDER, lw=1.2)
     ax.add_patch(rect_frame)
@@ -188,17 +154,12 @@ def create_dfd():
     plt.close()
     print('Generated mod6_dfd.png successfully.')
 
-
-# =============================================================================
-# 2. ENTITY-RELATIONSHIP DIAGRAM (ERD)
-# =============================================================================
 def create_er():
     fig, ax = plt.subplots(figsize=(12, 8.5), dpi=300)
     ax.set_xlim(0, 12)
     ax.set_ylim(0, 8.5)
     ax.axis('off')
 
-    # Titles
     ax.text(6.0, 8.18, 'Module 6 — Entity-Relationship Diagram (ERD)',
             fontsize=15, fontweight='bold', ha='center', color=COLOR_NAVY)
     ax.text(6.0, 7.88, 'Admin Operations, Transaction Audit & Error Telemetry Schema',
@@ -206,7 +167,6 @@ def create_er():
     ax.plot([0.5, 11.5], [7.68, 7.68], color=COLOR_NAVY, lw=1.5)
 
     entities = [
-        # Top Row: USER (Customer), WALLET, TRANSACTION
         ('USER (Customer)', 0.6, 4.4, 2.6, 2.9, '#1E293B', [
             'PK _id : ObjectId',
             'firstName : String',
@@ -234,7 +194,6 @@ def create_er():
             'createdAt : Date'
         ]),
 
-        # Bottom Row: ADMIN_USER, ERROR_LOG
         ('ADMIN_USER', 4.1, 0.7, 2.6, 2.9, '#0F2747', [
             'PK _id : ObjectId',
             'email : String (Unique)',
@@ -272,47 +231,35 @@ def create_er():
             ax.text(x + 0.12, line_y, a, fontsize=7.8, fontweight=weight, color=txt_color, va='center')
             line_y -= 0.31
 
-    # -------------------------------------------------------------
-    # ORTHOGONAL CONNECTORS (Zero Overlaps, Zero Collisions)
-    # -------------------------------------------------------------
-
-    # 1. USER (1) -> (1) WALLET: Clean horizontal connector
     ax.annotate('', xy=(4.1, 5.85), xytext=(3.2, 5.85),
                 arrowprops=dict(arrowstyle='-', color=COLOR_NAVY, lw=1.6))
     ax.text(3.35, 6.05, '1', fontsize=9, fontweight='bold', color=COLOR_NAVY)
     ax.text(3.95, 6.05, '1', fontsize=9, fontweight='bold', color=COLOR_NAVY)
     ax.text(3.65, 5.6, 'owns', fontsize=8, fontstyle='italic', ha='center', color=COLOR_MUTED)
 
-    # 2. WALLET (1) -> (N) TRANSACTION: Clean horizontal connector
     ax.annotate('', xy=(7.9, 5.85), xytext=(6.7, 5.85),
                 arrowprops=dict(arrowstyle='-', color=COLOR_NAVY, lw=1.6))
     ax.text(6.85, 6.05, '1', fontsize=9, fontweight='bold', color=COLOR_NAVY)
     ax.text(7.75, 6.05, 'N', fontsize=9, fontweight='bold', color=COLOR_NAVY)
     ax.text(7.3, 5.6, 'originates', fontsize=8, fontstyle='italic', ha='center', color=COLOR_MUTED)
 
-    # 3. TRANSACTION (1) -> (0..1) ERROR_LOG: Clean vertical connector in 0.7 unit gap
     ax.annotate('', xy=(9.65, 3.7), xytext=(9.65, 4.4),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.6))
     ax.text(9.8, 4.05, '1 : 0..1 triggers on failure',
             fontsize=8, fontweight='bold', color=COLOR_RED, va='center')
 
-    # 4. ADMIN_USER (1) -> (N) WALLET: Clean vertical connector in 0.8 unit gap
     ax.annotate('', xy=(5.4, 4.4), xytext=(5.4, 3.6),
                 arrowprops=dict(arrowstyle='->', color=COLOR_AMBER, lw=1.6, ls=':'))
     ax.text(5.4, 4.0, 'toggles freeze\n/ security',
             fontsize=7.8, fontweight='bold', color=COLOR_AMBER, ha='center',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # 5. ADMIN_USER (1) -> (N) ERROR_LOG: Clean horizontal connector in 1.2 unit gap
     ax.annotate('', xy=(7.9, 2.15), xytext=(6.7, 2.15),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.6, ls='--'))
     ax.text(7.3, 2.4, '1 : N audits\n& resolves',
             fontsize=8.0, fontweight='bold', ha='center', color=COLOR_NAVY,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # -------------------------------------------------------------
-    # LEGEND BOX (Bottom Left)
-    # -------------------------------------------------------------
     leg_box = patches.FancyBboxPatch((0.6, 0.7), 2.6, 2.9,
                                     boxstyle='round,pad=0.05,rounding_size=0.1',
                                     facecolor='#F8FAFC', edgecolor=COLOR_BORDER, lw=1.2)
@@ -326,7 +273,6 @@ def create_er():
     ax.text(0.8, 1.15, 'Severity Levels:\nLOW, MEDIUM, HIGH, CRITICAL',
             fontsize=7.8, color=COLOR_RED, fontweight='bold')
 
-    # Clean outer frame
     rect_frame = patches.Rectangle((0.2, 0.3), 11.6, 8.0,
                                    facecolor='none', edgecolor=COLOR_BORDER, lw=1.2)
     ax.add_patch(rect_frame)
@@ -336,24 +282,18 @@ def create_er():
     plt.close()
     print('Generated mod6_er.png successfully.')
 
-
-# =============================================================================
-# 3. USE CASE DIAGRAM
-# =============================================================================
 def create_usecase():
     fig, ax = plt.subplots(figsize=(12, 8.5), dpi=300)
     ax.set_xlim(0, 12)
     ax.set_ylim(0, 8.5)
     ax.axis('off')
 
-    # Titles
     ax.text(6.0, 8.18, 'Module 6 — Use Case Diagram',
             fontsize=15, fontweight='bold', ha='center', color=COLOR_NAVY)
     ax.text(6.0, 7.88, 'Administrator Privileges, Telemetry Monitoring & Error Resolution',
             fontsize=10.5, fontstyle='italic', ha='center', color=COLOR_SLATE)
     ax.plot([0.5, 11.5], [7.68, 7.68], color=COLOR_NAVY, lw=1.5)
 
-    # System boundary box
     system_box = patches.FancyBboxPatch((3.3, 0.5), 8.3, 7.0,
                                         boxstyle='square,pad=0',
                                         facecolor='#F8FAFC', edgecolor=COLOR_NAVY, lw=1.8)
@@ -361,24 +301,17 @@ def create_usecase():
     ax.text(7.45, 7.22, 'Module 6 Subsystem Boundary: Admin & Monitoring Console',
             ha='center', fontsize=10.5, fontweight='bold', color=COLOR_NAVY)
 
-    # Actor: System Administrator
     actor_x = 1.65
     actor_y = 4.2
-    # Head
     head = patches.Circle((actor_x, actor_y + 1.2), 0.28, facecolor=COLOR_NAVY, edgecolor=COLOR_NAVY)
     ax.add_patch(head)
-    # Body
     ax.plot([actor_x, actor_x], [actor_y + 0.92, actor_y + 0.0], color=COLOR_NAVY, lw=3)
-    # Arms
     ax.plot([actor_x - 0.55, actor_x + 0.55], [actor_y + 0.55, actor_y + 0.55], color=COLOR_NAVY, lw=3)
-    # Legs
     ax.plot([actor_x, actor_x - 0.45], [actor_y, actor_y - 0.95], color=COLOR_NAVY, lw=3)
     ax.plot([actor_x, actor_x + 0.45], [actor_y, actor_y - 0.95], color=COLOR_NAVY, lw=3)
-    # Label
     ax.text(actor_x, actor_y - 1.35, 'System Administrator\n(Authenticated Role)',
             ha='center', va='center', fontweight='bold', fontsize=9.2, color=COLOR_NAVY)
 
-    # Core Use Cases (Left Column)
     core_use_cases = [
         ('View Platform Telemetry\n& Volume KPIs', 5.4, 6.55),
         ('Inspect System\nTransaction Ledger', 5.4, 5.65),
@@ -389,39 +322,32 @@ def create_usecase():
         ('Export Audit Ledger\nto CSV', 5.4, 1.15)
     ]
 
-    # Extension / Included Use Cases (Right Column)
     ext_use_cases = [
         ('Force-Success / Force-Fail\nPending Txn', 9.8, 4.75),
         ('Filter Incidents by Severity\n(LOW – CRITICAL)', 9.8, 3.85)
     ]
 
-    # Draw Core Use Cases
     for title, ux, uy in core_use_cases:
         ellipse = patches.Ellipse((ux, uy), 3.4, 0.72, facecolor='#FFFFFF', edgecolor=COLOR_BLUE, lw=1.6)
         ax.add_patch(ellipse)
         ax.text(ux, uy, title, ha='center', va='center', fontsize=8.0, fontweight='bold', color=COLOR_NAVY)
-        # Connection line from actor to core use case
         ax.plot([actor_x + 0.55, ux - 1.7], [actor_y + 0.35, uy], color='#64748B', lw=1.3, ls='-')
 
-    # Draw Extension Use Cases
     for title, ux, uy in ext_use_cases:
         ellipse = patches.Ellipse((ux, uy), 3.2, 0.72, facecolor='#FFFFFF', edgecolor=COLOR_TEAL, lw=1.6)
         ax.add_patch(ellipse)
         ax.text(ux, uy, title, ha='center', va='center', fontsize=8.0, fontweight='bold', color=COLOR_NAVY)
 
-    # <<include>> arrow from "Audit & Review Pending" to "Force-Success / Force-Fail"
     ax.annotate('', xy=(8.2, 4.75), xytext=(7.1, 4.75),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.4, ls='--'))
     ax.text(7.65, 4.96, '<<include>>', fontsize=8.2, color=COLOR_RED, ha='center', fontweight='bold',
             bbox=dict(facecolor='#F8FAFC', edgecolor='none', pad=1))
 
-    # <<extend>> arrow from "Inspect Error Logs" to "Filter Incidents by Severity"
     ax.annotate('', xy=(8.2, 3.85), xytext=(7.1, 3.85),
                 arrowprops=dict(arrowstyle='->', color=COLOR_TEAL, lw=1.4, ls='--'))
     ax.text(7.65, 4.06, '<<extend>>', fontsize=8.2, color=COLOR_TEAL, ha='center', fontweight='bold',
             bbox=dict(facecolor='#F8FAFC', edgecolor='none', pad=1))
 
-    # Clean outer frame
     rect_frame = patches.Rectangle((0.2, 0.3), 11.6, 8.0,
                                    facecolor='none', edgecolor=COLOR_BORDER, lw=1.2)
     ax.add_patch(rect_frame)
@@ -431,17 +357,12 @@ def create_usecase():
     plt.close()
     print('Generated mod6_usecase.png successfully.')
 
-
-# =============================================================================
-# 4. CLASS DIAGRAM
-# =============================================================================
 def create_class():
     fig, ax = plt.subplots(figsize=(12.5, 8.5), dpi=300)
     ax.set_xlim(0, 12.5)
     ax.set_ylim(0, 8.5)
     ax.axis('off')
 
-    # Titles
     ax.text(6.25, 8.18, 'Module 6 — Class Diagram',
             fontsize=15, fontweight='bold', ha='center', color=COLOR_NAVY)
     ax.text(6.25, 7.88, 'Controllers, Persistence Domain Models & Telemetry Store',
@@ -449,7 +370,6 @@ def create_class():
     ax.plot([0.5, 12.0], [7.68, 7.68], color=COLOR_NAVY, lw=1.5)
 
     classes = [
-        # Top Row
         ('AdminController (Express Service)', 0.5, 4.2, 3.5, 3.4, COLOR_NAVY, [
             '<<service>>',
             '+ getStats(req, res) : Promise<JSON>',
@@ -488,7 +408,6 @@ def create_class():
             '+ post("save") : failureTelemetryHook()'
         ]),
 
-        # Bottom Row
         ('User (Account Model)', 0.5, 0.8, 3.5, 2.5, '#1E293B', [
             '- _id : ObjectId',
             '- email : String',
@@ -535,39 +454,31 @@ def create_class():
             ax.text(x + 0.12, line_y, m, fontsize=7.2, color=txt_color, fontweight=weight, va='center')
             line_y -= 0.23
 
-    # Connectors
-    # 1. AdminController -> ErrorLog (Horizontal)
     ax.annotate('', xy=(4.5, 5.9), xytext=(4.0, 5.9),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.5))
     ax.text(4.25, 6.08, '1..*', fontsize=8, fontweight='bold', color=COLOR_NAVY, ha='center')
 
-    # 2. ErrorLog -> Transaction (Horizontal)
     ax.annotate('', xy=(8.5, 5.9), xytext=(8.0, 5.9),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.5))
     ax.text(8.25, 6.08, '1', fontsize=8, fontweight='bold', color=COLOR_RED, ha='center')
 
-    # 3. AdminController -> User (Vertical)
     ax.annotate('', xy=(2.25, 3.3), xytext=(2.25, 4.2),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.5))
     ax.text(2.35, 3.75, 'manages', fontsize=7.5, color=COLOR_NAVY, fontweight='bold')
 
-    # 4. AdminController -> Wallet (Diagonal)
     ax.annotate('', xy=(4.5, 3.3), xytext=(3.5, 4.2),
                 arrowprops=dict(arrowstyle='->', color='#0369A1', lw=1.5))
     ax.text(4.2, 3.82, 'governs / freeze', fontsize=7.5, color='#0369A1', fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # 5. User -> Wallet (Horizontal)
     ax.annotate('', xy=(4.5, 2.05), xytext=(4.0, 2.05),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.5))
     ax.text(4.25, 2.22, '1 : 1', fontsize=7.5, color=COLOR_NAVY, fontweight='bold', ha='center')
 
-    # 6. logsStore -> ErrorLog (Vertical)
     ax.annotate('', xy=(10.25, 4.2), xytext=(10.25, 3.3),
                 arrowprops=dict(arrowstyle='->', color='#475569', lw=1.5, ls='--'))
     ax.text(10.35, 3.75, 'subscribes / updates', fontsize=7.5, color='#475569', fontweight='bold')
 
-    # Clean outer frame
     rect_frame = patches.Rectangle((0.2, 0.3), 12.1, 8.0,
                                    facecolor='none', edgecolor=COLOR_BORDER, lw=1.2)
     ax.add_patch(rect_frame)
@@ -577,17 +488,12 @@ def create_class():
     plt.close()
     print('Generated mod6_class.png successfully.')
 
-
-# =============================================================================
-# 5. SEQUENCE DIAGRAM
-# =============================================================================
 def create_sequence():
     fig, ax = plt.subplots(figsize=(12, 8.5), dpi=300)
     ax.set_xlim(0, 12)
     ax.set_ylim(0, 8.5)
     ax.axis('off')
 
-    # Titles
     ax.text(6.0, 8.18, 'Module 6 — Sequence Diagram',
             fontsize=15, fontweight='bold', ha='center', color=COLOR_NAVY)
     ax.text(6.0, 7.88, 'Transaction Failure Telemetry Capture & Admin Incident Resolution Workflow',
@@ -608,10 +514,8 @@ def create_sequence():
                                      facecolor=COLOR_NAVY, edgecolor=COLOR_NAVY)
         ax.add_patch(box)
         ax.text(lx, 7.11, label, ha='center', va='center', color='white', fontweight='bold', fontsize=8.0)
-        # Lifeline dash down
         ax.plot([lx, lx], [6.75, 0.6], color='#94A3B8', lw=1.2, ls='--')
 
-    # Lifeline activation bars
     def draw_activation(lx, y_top, y_bot):
         bar = patches.Rectangle((lx - 0.08, y_bot), 0.16, y_top - y_bot,
                                 facecolor='#F1F5F9', edgecolor=COLOR_NAVY, lw=1.2)
@@ -626,78 +530,66 @@ def create_sequence():
     draw_activation(8.2, 2.1, 0.8)     # UI during resolve
     draw_activation(5.8, 1.6, 1.0)     # DB update
 
-    # 10 Steps with generous spacing:
-    # Step 1: Engine -> Hook
     ax.annotate('', xy=(3.42, 6.2), xytext=(1.38, 6.2),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.6))
     ax.text(2.36, 6.38, '1. Txn status="failure"\n(e.g. BANK_TIMEOUT)',
             ha='center', va='bottom', fontsize=7.6, color=COLOR_RED, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 2: Hook self-reflection loop
     ax.plot([3.58, 4.25, 4.25, 3.58], [5.75, 5.75, 5.35, 5.35], color=COLOR_RED, lw=1.4)
     ax.annotate('', xy=(3.58, 5.35), xytext=(3.7, 5.35),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.4))
     ax.text(4.35, 5.55, '2. Map failureReason\nto Severity (CRITICAL)',
             ha='left', va='center', fontsize=7.4, color=COLOR_RED, fontweight='bold')
 
-    # Step 3: Hook -> DB
     ax.annotate('', xy=(5.72, 4.95), xytext=(3.58, 4.95),
                 arrowprops=dict(arrowstyle='->', color=COLOR_RED, lw=1.6))
     ax.text(4.65, 5.14, '3. ErrorLog.create({ ... })',
             ha='center', va='bottom', fontsize=7.6, color=COLOR_RED, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 4: Admin -> UI
     ax.annotate('', xy=(8.28, 4.35), xytext=(10.42, 4.35),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.6))
     ax.text(9.35, 4.54, '4. Open /admin/monitoring',
             ha='center', va='bottom', fontsize=7.6, color=COLOR_NAVY, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 5: UI -> DB
     ax.annotate('', xy=(5.88, 3.8), xytext=(8.12, 3.8),
                 arrowprops=dict(arrowstyle='->', color=COLOR_BLUE, lw=1.6))
     ax.text(7.0, 3.99, '5. GET /api/admin/errors?resolved=false',
             ha='center', va='bottom', fontsize=7.4, color=COLOR_BLUE,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 6: DB -> UI (Dashed return)
     ax.annotate('', xy=(8.12, 3.25), xytext=(5.88, 3.25),
                 arrowprops=dict(arrowstyle='->', color=COLOR_BLUE, lw=1.6, ls='--'))
     ax.text(7.0, 3.44, '6. Return 200 OK [Unresolved ErrorLogs]',
             ha='center', va='bottom', fontsize=7.4, color=COLOR_BLUE,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 7: UI -> Admin
     ax.annotate('', xy=(10.42, 2.7), xytext=(8.28, 2.7),
                 arrowprops=dict(arrowstyle='->', color=COLOR_NAVY, lw=1.6))
     ax.text(9.35, 2.89, '7. Render Telemetry & Error Table',
             ha='center', va='bottom', fontsize=7.6, color=COLOR_NAVY,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 8: Admin -> UI
     ax.annotate('', xy=(8.28, 2.05), xytext=(10.42, 2.05),
                 arrowprops=dict(arrowstyle='->', color=COLOR_TEAL, lw=1.6))
     ax.text(9.35, 2.24, '8. Click "Resolve" + Enter Notes',
             ha='center', va='bottom', fontsize=7.6, color=COLOR_TEAL, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 9: UI -> DB
     ax.annotate('', xy=(5.88, 1.5), xytext=(8.12, 1.5),
                 arrowprops=dict(arrowstyle='->', color=COLOR_TEAL, lw=1.6))
     ax.text(7.0, 1.69, '9. POST /api/admin/errors/:id/resolve',
             ha='center', va='bottom', fontsize=7.4, color=COLOR_TEAL, fontweight='bold',
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Step 10: DB -> UI (Dashed return)
     ax.annotate('', xy=(8.12, 0.95), xytext=(5.88, 0.95),
                 arrowprops=dict(arrowstyle='->', color=COLOR_TEAL, lw=1.6, ls='--'))
     ax.text(7.0, 1.14, '10. Incident Marked Resolved (Audit Complete)',
             ha='center', va='bottom', fontsize=7.4, color=COLOR_TEAL,
             bbox=dict(facecolor='white', edgecolor='none', pad=2))
 
-    # Clean outer frame
     rect_frame = patches.Rectangle((0.2, 0.3), 11.6, 8.0,
                                    facecolor='none', edgecolor=COLOR_BORDER, lw=1.2)
     ax.add_patch(rect_frame)
@@ -706,7 +598,6 @@ def create_sequence():
     plt.savefig('mod6_sequence.png', dpi=300, bbox_inches='tight')
     plt.close()
     print('Generated mod6_sequence.png successfully.')
-
 
 if __name__ == '__main__':
     create_dfd()

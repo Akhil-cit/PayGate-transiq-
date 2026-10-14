@@ -14,14 +14,12 @@ export default function FlowPipeline({ currentStep, isFailed }) {
     <div className="bg-white rounded-xl border border-slate-200 p-4 md:p-5 shadow-2xs mb-6 overflow-x-auto">
       <div className="flex items-center justify-between min-w-[720px] max-w-full">
         {steps.map((step, idx) => {
-          // Transaction ID generated in background; step 1 is Account Selection
           const isCompleted = step.num < currentStep || (currentStep === 6 && !isFailed);
           const isActive = step.num === currentStep && !(currentStep === 6 && isFailed);
           const isStepFailed = step.num === 6 && isFailed && currentStep === 6;
 
           return (
             <React.Fragment key={step.num}>
-              {/* Step Node */}
               <div className="flex flex-col items-center flex-1 relative z-10 px-1">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all border ${
@@ -51,7 +49,6 @@ export default function FlowPipeline({ currentStep, isFailed }) {
                 </span>
               </div>
 
-              {/* Connecting Line */}
               {idx < steps.length - 1 && (
                 <div
                   className={`h-0.5 flex-1 mx-1 rounded transition-colors ${

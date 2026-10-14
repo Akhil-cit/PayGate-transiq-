@@ -47,7 +47,7 @@ const adminRules = [
   ['bg-amber-500/10', 'bg-amber-50'],
   ['border-amber-500/30', 'border-amber-200'],
   ['text-amber-400', 'text-amber-700'],
-  ['text-slate-950', 'text-white'], // Wait, if background of icon is amber-500, white icon is fine.
+  ['text-slate-950', 'text-white'],
   ['py-2.5 bg-amber-500 text-slate-900 font-semibold', 'py-2.5 bg-amber-500 text-white font-semibold']
 ];
 

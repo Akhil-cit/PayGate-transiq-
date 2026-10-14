@@ -1,6 +1,3 @@
-/**
- * Central Validation utilities across all modules
- */
 
 export function validatePocketName(name) {
   if (!name || !name.trim()) {
@@ -74,7 +71,6 @@ export function validatePhone(phone) {
   }
   let digits = phone.trim().replace(/\D/g, '');
   
-  // Handle optional 91 or 0 prefix
   if (digits.length === 12 && digits.startsWith('91')) {
     digits = digits.slice(2);
   } else if (digits.length === 11 && digits.startsWith('0')) {

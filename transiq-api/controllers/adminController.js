@@ -4,7 +4,6 @@ import User from '../models/User.js';
 import Wallet from '../models/Wallet.js';
 import Receipt from '../models/Receipt.js';
 
-// ── Helper: build pagination metadata ────────────────────────────────────────
 const paginate = (page, limit, total) => ({
   currentPage: page,
   totalPages: Math.ceil(total / limit),
@@ -12,10 +11,6 @@ const paginate = (page, limit, total) => ({
   limit,
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/admin/stats
-// KPI summary: total txns, volume, success rate, failed, pending, errors
-// ─────────────────────────────────────────────────────────────────────────────
 export const getStats = async (req, res) => {
   try {
     const [
@@ -34,7 +29,6 @@ export const getStats = async (req, res) => {
       User.countDocuments({ role: 'customer' }),
     ]);
 
-    // Total settled volume
     const volumeAgg = await Transaction.aggregate([
       { $match: { status: 'success' } },
       { $group: { _id: null, total: { $sum: '$amount' } } },
@@ -64,10 +58,6 @@ export const getStats = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/admin/transactions
-// All transactions with filters: status, type, method, dateFrom, dateTo, page, limit
-// ─────────────────────────────────────────────────────────────────────────────
 export const getAllTransactions = async (req, res) => {
   try {
     const {
@@ -111,10 +101,6 @@ export const getAllTransactions = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/admin/transactions/:id
-// Full transaction audit view with all populated references
-// ─────────────────────────────────────────────────────────────────────────────
 export const getTransactionById = async (req, res) => {
   try {
     const txn = await Transaction.findById(req.params.id)
@@ -131,7 +117,6 @@ export const getTransactionById = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Transaction not found' });
     }
 
-    // Fetch related error log if any
     const errorLog = await ErrorLog.findOne({ transactionId: txn._id });
 
     res.json({ success: true, data: { ...txn.toObject(), errorLog: errorLog || null } });
@@ -140,10 +125,6 @@ export const getTransactionById = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/admin/transactions/:id/force-success
-// Force a pending transaction to success (admin override)
-// ─────────────────────────────────────────────────────────────────────────────
 export const forceSuccess = async (req, res) => {
   try {
     const txn = await Transaction.findById(req.params.id);
@@ -154,7 +135,7 @@ export const forceSuccess = async (req, res) => {
 
     txn.status = 'success';
     txn.resolvedBy = req.user._id;
-    await txn.save(); // triggers post('save') to deduct wallet balance
+    await txn.save();
 
     res.json({ success: true, message: 'Transaction marked as success', data: txn });
   } catch (err) {
@@ -162,10 +143,6 @@ export const forceSuccess = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/admin/transactions/:id/force-fail
-// Force a pending transaction to failure (admin override)
-// ─────────────────────────────────────────────────────────────────────────────
 export const forceFail = async (req, res) => {
   try {
     const txn = await Transaction.findById(req.params.id);
@@ -177,7 +154,7 @@ export const forceFail = async (req, res) => {
     txn.status = 'failure';
     txn.failureReason = req.body.failureReason || 'BANK_TIMEOUT';
     txn.resolvedBy = req.user._id;
-    await txn.save(); // triggers post('save') to create ErrorLog
+    await txn.save();
 
     res.json({ success: true, message: 'Transaction marked as failure', data: txn });
   } catch (err) {
@@ -185,10 +162,6 @@ export const forceFail = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/admin/errors
-// All error logs with filters: severity, resolved, errorCode, page
-// ─────────────────────────────────────────────────────────────────────────────
 export const getErrors = async (req, res) => {
   try {
     const { severity, resolved, errorCode, page = 1, limit = 20 } = req.query;
@@ -218,10 +191,6 @@ export const getErrors = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/admin/errors/:id/resolve
-// Resolve a single error log
-// ─────────────────────────────────────────────────────────────────────────────
 export const resolveError = async (req, res) => {
   try {
     const { resolutionNotes } = req.body;
@@ -251,10 +220,6 @@ export const resolveError = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// POST /api/admin/errors/resolve-all
-// Resolve all unresolved errors
-// ─────────────────────────────────────────────────────────────────────────────
 export const resolveAllErrors = async (req, res) => {
   try {
     const { resolutionNotes } = req.body;
@@ -280,10 +245,6 @@ export const resolveAllErrors = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/admin/users
-// All customer accounts with their wallet info
-// ─────────────────────────────────────────────────────────────────────────────
 export const getAllUsers = async (req, res) => {
   try {
     const { page = 1, limit = 20, search } = req.query;
@@ -305,7 +266,6 @@ export const getAllUsers = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit, 10));
 
-    // Attach wallet info to each user
     const userIds = users.map((u) => u._id);
     const wallets = await Wallet.find({ userId: { $in: userIds } });
     const walletMap = {};
@@ -326,10 +286,6 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/admin/users/:id/freeze
-// Toggle freeze on a user's wallet
-// ─────────────────────────────────────────────────────────────────────────────
 export const freezeUserWallet = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -339,7 +295,7 @@ export const freezeUserWallet = async (req, res) => {
     if (!wallet) return res.status(404).json({ success: false, message: 'Wallet not found' });
 
     wallet.isFrozen = !wallet.isFrozen;
-    await wallet.save({ validateModifiedOnly: true }); // skip balance-change hook
+    await wallet.save({ validateModifiedOnly: true });
 
     res.json({
       success: true,
@@ -351,10 +307,6 @@ export const freezeUserWallet = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/admin/users/:id/activate
-// Toggle isActive on a user account
-// ─────────────────────────────────────────────────────────────────────────────
 export const toggleUserActive = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');

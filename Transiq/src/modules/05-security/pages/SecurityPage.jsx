@@ -64,7 +64,6 @@ const SecurityPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Top Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <div>
             <span className="text-[11px] font-bold text-blue-600 uppercase tracking-wider">
@@ -83,7 +82,6 @@ const SecurityPage = () => {
           </div>
         </div>
 
-        {/* Status Alerts */}
         {successMessage && (
           <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex justify-between items-center shadow-xs">
             <div className="flex items-center gap-2">
@@ -114,7 +112,6 @@ const SecurityPage = () => {
           </div>
         )}
 
-        {/* Emergency Kill-Switch & Wallet Freeze Banner */}
         <div
           className={`p-6 rounded-xl border transition-all duration-300 ${
             isWalletFrozen
@@ -167,11 +164,8 @@ const SecurityPage = () => {
           </div>
         </div>
 
-        {/* Main Grid: 2 Columns */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column: Password & Auth Config */}
           <div className="lg:col-span-6 space-y-6">
-            {/* Change Password Card */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
@@ -242,7 +236,6 @@ const SecurityPage = () => {
               </form>
             </div>
 
-            {/* Authentication Preferences */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
               <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
                 <span className="text-base"></span>
@@ -250,7 +243,6 @@ const SecurityPage = () => {
               </div>
 
               <div className="space-y-3.5 text-xs">
-                {/* 2FA Item */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-150">
                   <div>
                     <p className="font-semibold text-slate-900">Two-Factor Authentication (2FA)</p>
@@ -270,7 +262,6 @@ const SecurityPage = () => {
                   </button>
                 </div>
 
-                {/* Biometrics Item */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-150">
                   <div>
                     <p className="font-semibold text-slate-900">Biometric / TouchID Login</p>
@@ -290,7 +281,6 @@ const SecurityPage = () => {
                   </button>
                 </div>
 
-                {/* Auto-lock timer */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-150">
                   <div>
                     <p className="font-semibold text-slate-900">Session Auto-Lock Timeout</p>
@@ -313,9 +303,7 @@ const SecurityPage = () => {
             </div>
           </div>
 
-          {/* Right Column: Sessions, Activity & Danger Zone */}
           <div className="lg:col-span-6 space-y-6">
-            {/* Active Sessions */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
@@ -366,7 +354,6 @@ const SecurityPage = () => {
               </div>
             </div>
 
-            {/* Security Audit Log */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
               <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
                 <span className="text-base"></span>
@@ -404,7 +391,6 @@ const SecurityPage = () => {
               </div>
             </div>
 
-            {/* Danger Zone */}
             <div className="bg-rose-50/50 rounded-xl border border-rose-200 p-6 space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-base">⚠️</span>

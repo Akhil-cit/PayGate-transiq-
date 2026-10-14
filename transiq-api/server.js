@@ -10,7 +10,6 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 
-// Route imports
 import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
 import customerRoutes from './routes/customers.js';
@@ -26,16 +25,13 @@ import bankRoutes from './routes/bank.js';
 
 const app = express();
 
-// ── DB Connection ─────────────────────────────────────────────────────────────
 connectDB();
 
-// ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 app.get('/', (req, res) => res.send('<h1>PayGate API Backend is Running 🚀</h1><p>Access <a href="/api/health">/api/health</a> for server status.</p>'));
 
-// ── Real System Health & Telemetry ─────────────────────────────────────────────
 app.get('/api/health', async (req, res) => {
   const start = Date.now();
   let dbStatus = 'Disconnected';
@@ -74,22 +70,20 @@ app.get('/api/health', async (req, res) => {
   });
 });
 
-// ── Routes — Unified Modules ──────────────────────────────────────────────────
-app.use('/api/auth', authRoutes); // Auth (All modules)
-app.use('/api/admin', adminRoutes); // Module 6 — Admin Logs & Monitoring
-app.use('/api/customers', customerRoutes); // Module 1 — Customer Profile & Dashboard
-app.use('/api/wallets', walletRoutes); // Module 1 — Wallet
-app.use('/api/pockets', pocketRoutes); // Module 1 — Savings Pockets
-app.use('/api/recipients', recipientRoutes); // Module 2 — Recipients / Participants
-app.use('/api/transactions', transactionRoutes); // Module 4 — Transactions
-app.use('/api/analytics', analyticsRoutes); // Module 4 — Financial Analysis & Insights
-app.use('/api/security', securityRoutes); // Module 5 — Security
-app.use('/api/payment', paymentRoutes); // Module 3 — Send Money Initiation Flow
-app.use('/api/accounts', accountRoutes); // Module 3 — Accounts
-app.use('/api/bank', bankRoutes); // Module 3 — Bank Integration
-app.use('/api/wallet', bankRoutes); // Module 3 — /api/wallet/accounts/...
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/customers', customerRoutes);
+app.use('/api/wallets', walletRoutes);
+app.use('/api/pockets', pocketRoutes);
+app.use('/api/recipients', recipientRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/security', securityRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/accounts', accountRoutes);
+app.use('/api/bank', bankRoutes);
+app.use('/api/wallet', bankRoutes);
 
-// ── Global Error Handler ──────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error('Server error:', err.message);
   res.status(err.status || 500).json({
@@ -98,7 +92,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ── Start ─────────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 export { app };
 if (process.env.NODE_ENV !== 'test') {

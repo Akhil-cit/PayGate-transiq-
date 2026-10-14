@@ -11,15 +11,11 @@ import os
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Ensure Word is closed
 os.system('powershell -Command "Stop-Process -Name WINWORD -Force -ErrorAction SilentlyContinue"')
 
 doc_path = r'C:\Users\dell\Desktop\PayGate_Module_6_Professionally_Formatted.docx'
 doc = docx.Document(doc_path)
 
-# 1. APPLY EXACT MARGINS FROM ref.docx
-# Top: 0.65 in, Bottom: 0.65 in, Left: 0.75 in, Right: 0.75 in
-# Page size: 8.5 in x 11.0 in (Letter)
 for sec in doc.sections:
     sec.page_width = Inches(8.5)
     sec.page_height = Inches(11.0)
@@ -30,7 +26,6 @@ for sec in doc.sections:
     sec.header_distance = Inches(0.5)
     sec.footer_distance = Inches(0.5)
 
-# Color constants matching ref.docx
 NAVY = RGBColor(15, 39, 71)       # #0F2747
 SLATE = RGBColor(28, 70, 112)     # #1C4670
 TEAL = RGBColor(13, 148, 136)     # #0D9488
@@ -70,7 +65,6 @@ def add_page_break_before(p):
         pPr.append(parse_xml(f'<w:pageBreakBefore {nsdecls("w")}/>'))
 
 print("1. Formatting Cover Page according to ref.docx style...")
-# P0: Logo
 p0 = doc.paragraphs[0]
 p0.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p0.paragraph_format.space_before = Pt(2)
@@ -80,7 +74,6 @@ for extent in p0._element.findall('.//{http://schemas.openxmlformats.org/drawing
     extent.attrib['cx'] = '841248'  # 0.92 in
     extent.attrib['cy'] = '852552'  # 0.932 in
 
-# P1: College Name (14.5 pt bold NAVY in ref.docx)
 p1 = doc.paragraphs[1]
 p1.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p1.paragraph_format.space_before = Pt(0)
@@ -92,7 +85,6 @@ for r in p1.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P2: Subtext (9.0 pt SLATE in ref.docx)
 p2 = doc.paragraphs[2]
 p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p2.paragraph_format.space_before = Pt(0)
@@ -104,7 +96,6 @@ for r in p2.runs:
     r.font.bold = False
     r.font.color.rgb = SLATE
 
-# P3: Divider (9.5 pt NAVY in ref.docx)
 p3 = doc.paragraphs[3]
 p3.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p3.paragraph_format.space_before = Pt(0)
@@ -115,7 +106,6 @@ for r in p3.runs:
     r.font.size = Pt(8.5)
     r.font.color.rgb = NAVY
 
-# P4: Record Title (11.0 pt bold TEAL in ref.docx)
 p4 = doc.paragraphs[4]
 p4.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p4.paragraph_format.space_before = Pt(0)
@@ -127,7 +117,6 @@ for r in p4.runs:
     r.font.bold = True
     r.font.color.rgb = TEAL
 
-# P5: Project Title (20.0 pt bold NAVY in ref.docx)
 p5 = doc.paragraphs[5]
 p5.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p5.paragraph_format.space_before = Pt(0)
@@ -139,7 +128,6 @@ for r in p5.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P6: Subtitle (12.0 pt bold SLATE in ref.docx)
 p6 = doc.paragraphs[6]
 p6.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p6.paragraph_format.space_before = Pt(0)
@@ -151,7 +139,6 @@ for r in p6.runs:
     r.font.bold = True
     r.font.color.rgb = SLATE
 
-# P7: System Subtitle (Italic MUTED in ref.docx)
 p7 = doc.paragraphs[7]
 p7.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p7.paragraph_format.space_before = Pt(0)
@@ -163,7 +150,6 @@ for r in p7.runs:
     r.font.italic = True
     r.font.color.rgb = MUTED
 
-# P8: Module Title (12.0 pt bold NAVY in ref.docx)
 p8 = doc.paragraphs[8]
 p8.alignment = WD_ALIGN_PARAGRAPH.CENTER
 p8.paragraph_format.space_before = Pt(2)
@@ -175,7 +161,6 @@ for r in p8.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P9: "PROJECT DETAILS" (10.5 pt bold NAVY in ref.docx)
 p9 = doc.paragraphs[9]
 p9.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p9.paragraph_format.space_before = Pt(2)
@@ -188,7 +173,6 @@ for r in p9.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# Table 0: Project Details
 tbl0 = doc.tables[0]
 tbl0.alignment = WD_TABLE_ALIGNMENT.CENTER
 apply_ref_table_borders(tbl0)
@@ -220,7 +204,6 @@ for r_idx, row in enumerate(tbl0.rows):
                         r.font.bold = False
                         r.font.color.rgb = DARK
 
-# P10: "TEAM DETAILS (6 MEMBERS)" (10.5 pt bold NAVY in ref.docx)
 p10 = doc.paragraphs[10]
 p10.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p10.paragraph_format.space_before = Pt(3)
@@ -233,7 +216,6 @@ for r in p10.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# Table 1: Team Details
 tbl1 = doc.tables[1]
 tbl1.alignment = WD_TABLE_ALIGNMENT.CENTER
 apply_ref_table_borders(tbl1)
@@ -265,7 +247,6 @@ for r_idx, row in enumerate(tbl1.rows):
                         r.font.bold = False
                         r.font.color.rgb = DARK
 
-# P11: Guide Supervisor
 p11 = doc.paragraphs[11]
 p11.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p11.paragraph_format.space_before = Pt(3)
@@ -278,7 +259,6 @@ for r in p11.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P12: Signatures
 p12 = doc.paragraphs[12]
 p12.alignment = WD_ALIGN_PARAGRAPH.LEFT
 p12.paragraph_format.space_before = Pt(1)
@@ -290,7 +270,6 @@ for r in p12.runs:
     r.font.bold = True
     r.font.color.rgb = NAVY
 
-# P13: Page Break after Page 1
 p13 = doc.paragraphs[13]
 p13.text = ""
 p13.paragraph_format.space_before = Pt(0)
@@ -327,10 +306,6 @@ for t_idx in range(2, len(doc.tables)):
                             r.font.color.rgb = DARK
 
 print("3. Formatting headings and text to exact ref.docx specifications...")
-# Major section headings in ref.docx: 15.0 pt, Bold, #0F2747, space_before=12 pt, space_after=4 pt
-# Subheadings in ref.docx: 12.0 pt, Bold, #1C4670, space_before=8 pt, space_after=2 pt
-# List / numbered items in ref.docx: 9.5 pt, Bold #0F2747 prefix, 9.5 pt normal description, space_before=1 pt, space_after=1.5 pt
-# Body text in ref.docx: 10.0 pt, line spacing 1.12
 
 major_headings = [
     "Synopsis",
@@ -382,7 +357,6 @@ for i in range(14, len(doc.paragraphs)):
     p = doc.paragraphs[i]
     t = p.text.strip()
     
-    # Check if major heading
     is_major = any(t == h or t.startswith(h) for h in major_headings)
     if is_major:
         p.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -398,7 +372,6 @@ for i in range(14, len(doc.paragraphs)):
             r.font.color.rgb = NAVY
         continue
 
-    # Check if subheading
     is_sub = any(t == sh or t.startswith(sh) for sh in subheadings_slate)
     if is_sub:
         p.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -406,7 +379,6 @@ for i in range(14, len(doc.paragraphs)):
         p.paragraph_format.space_after = Pt(2)
         p.paragraph_format.keep_with_next = True
         
-        # In DB Design and Screenshots, page breaks before 5.2, 5.3, Form 12.3, Form 12.5
         if t.startswith("5.2") or t.startswith("5.3") or t.startswith("Form 12.3") or t.startswith("Form 12.5"):
             add_page_break_before(p)
             
@@ -417,7 +389,6 @@ for i in range(14, len(doc.paragraphs)):
             r.font.color.rgb = SLATE
         continue
 
-    # Figure captions in ref.docx
     if t.startswith("Figure "):
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p.paragraph_format.space_before = Pt(2)
@@ -430,7 +401,6 @@ for i in range(14, len(doc.paragraphs)):
             r.font.color.rgb = SLATE
         continue
 
-    # Numbered / bullet items (e.g. "1. ...", "UC-...", "TC-...")
     is_numbered = False
     for r in p.runs:
         if r.font.bold and any(t.startswith(prefix) for prefix in ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "UC-", "TC-", "•", "-"]):
@@ -449,7 +419,6 @@ for i in range(14, len(doc.paragraphs)):
             else:
                 r.font.color.rgb = DARK
     else:
-        # Regular body paragraphs
         p.paragraph_format.space_before = Pt(0)
         p.paragraph_format.space_after = Pt(3.0)
         p.paragraph_format.line_spacing = 1.12
@@ -460,7 +429,6 @@ for i in range(14, len(doc.paragraphs)):
                 r.font.color.rgb = DARK
 
 print("4. Optimizing image displays...")
-# Screenshots: width 5.2 in, height 2.5 in
 for i, p in enumerate(doc.paragraphs):
     if '<w:drawing' in p._element.xml:
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -475,7 +443,6 @@ for i, p in enumerate(doc.paragraphs):
                 extent.attrib['cx'] = '5303520'  # 5.8 in
                 extent.attrib['cy'] = '3474720'  # 3.8 in
 
-# Save docx
 temp_path = r'C:\Users\dell\Desktop\PayGate_Module_6_Professionally_Formatted_temp.docx'
 doc.save(temp_path)
 

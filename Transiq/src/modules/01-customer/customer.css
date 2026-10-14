@@ -1,4 +1,4 @@
-/* Removed base resets to avoid global conflicts */
+
 
 #root {
   width: 100%;
@@ -6,7 +6,6 @@
   display: flex;
   flex-direction: column;
 }
-
 
 button, input {
   font: inherit;
@@ -716,9 +715,6 @@ th {
   }
 }
 
-/* =========================================================
-   MODULE 1 — CUSTOMER & POCKETS
-   ========================================================= */
 .customer-module-page {
   width: 100%;
   max-width: 1360px;
@@ -783,8 +779,6 @@ th {
   .pocket-title-row strong { font-size:20px; }
 }
 
-
-/* UI Validation & Navigation Enhancements */
 .field-error {
   display: block;
   font-size: 12px;

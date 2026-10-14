@@ -42,7 +42,6 @@ def generate_full_dump():
     print("Collecting files...")
     all_files = []
 
-    # 1. Transiq-API (Backend)
     for dirpath, dirnames, filenames in os.walk(BACKEND_DIR):
         dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS]
         for f in filenames:
@@ -53,7 +52,6 @@ def generate_full_dump():
             rel_p = os.path.relpath(abs_p, ROOT_DIR).replace('\\', '/')
             all_files.append(('BACKEND', rel_p, abs_p))
 
-    # 2. Transiq (Frontend)
     for dirpath, dirnames, filenames in os.walk(FRONTEND_DIR):
         dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS]
         for f in filenames:
@@ -64,7 +62,6 @@ def generate_full_dump():
             rel_p = os.path.relpath(abs_p, ROOT_DIR).replace('\\', '/')
             all_files.append(('FRONTEND', rel_p, abs_p))
 
-    # Sort files logically
     all_files.sort(key=lambda x: (x[0], x[1]))
     print(f"Total source code files to bundle: {len(all_files)}")
 
@@ -79,7 +76,6 @@ def generate_full_dump():
 
 ---
 
-## PROJECT STRUCTURE TREE
 ```
 MERN PROJECT/
 ├── transiq-api/                      [Express REST API Backend]
@@ -115,7 +111,6 @@ MERN PROJECT/
 
 ---
 
-## TABLE OF CONTENTS
 """)
         for idx, (section, rel_p, _) in enumerate(all_files, start=1):
             anchor = rel_p.lower().replace('/', '').replace('.', '').replace('-', '').replace('_', '').replace(' ', '')
@@ -123,7 +118,6 @@ MERN PROJECT/
 
         out.write("\n---\n\n")
 
-        # Write each file
         for idx, (section, rel_p, abs_p) in enumerate(all_files, start=1):
             lang = get_language(os.path.basename(abs_p))
             anchor = rel_p.lower().replace('/', '').replace('.', '').replace('-', '').replace('_', '').replace(' ', '')

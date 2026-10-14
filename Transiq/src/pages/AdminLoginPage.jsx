@@ -50,7 +50,6 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden p-8 space-y-6">
-        {/* Header */}
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-indigo-600/25">
             <ShieldCheck size={28} />
@@ -61,20 +60,17 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        {/* Security Note */}
         <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-700 flex items-center gap-2">
           <ShieldCheck size={16} className="shrink-0 text-indigo-600" />
           <span>Customer accounts cannot access this administrative portal.</span>
         </div>
 
-        {/* Error Alert */}
         {error && (
           <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-xs text-rose-400 font-medium">
             {error}
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1">
@@ -132,7 +128,6 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        {/* Footer */}
         <div className="pt-2 text-center border-t border-slate-200">
           <Link to="/" className="text-xs text-slate-500 hover:text-slate-900 transition">
             ← Back to Customer Portal

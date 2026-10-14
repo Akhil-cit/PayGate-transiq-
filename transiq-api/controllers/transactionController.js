@@ -12,7 +12,6 @@ export const getAll = async (req, res, next) => {
     const { status, type, method, dateFrom, dateTo, page = 1, limit = 10 } = req.query;
     const filter = wallet ? { senderWalletId: wallet._id } : {};
 
-    // If non-admin user somehow has no wallet, return empty list gracefully
     if (!wallet && req.user.role !== 'admin') {
       return res.json({
         success: true,

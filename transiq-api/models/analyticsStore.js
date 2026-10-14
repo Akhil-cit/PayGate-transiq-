@@ -9,7 +9,6 @@ export const useAnalyticsStore = create((set) => ({
   loading:  false,
   error:    null,
 
-  // ── Summary ────────────────────────────────────────────────────────────────
   fetchSummary: async () => {
     set({ loading: true, error: null });
     try {
@@ -20,7 +19,6 @@ export const useAnalyticsStore = create((set) => ({
     }
   },
 
-  // ── By Method ──────────────────────────────────────────────────────────────
   fetchByMethod: async () => {
     set({ loading: true, error: null });
     try {
@@ -31,7 +29,6 @@ export const useAnalyticsStore = create((set) => ({
     }
   },
 
-  // ── By Month ───────────────────────────────────────────────────────────────
   fetchByMonth: async () => {
     set({ loading: true, error: null });
     try {
@@ -42,7 +39,6 @@ export const useAnalyticsStore = create((set) => ({
     }
   },
 
-  // ── Insights ───────────────────────────────────────────────────────────────
   fetchInsights: async () => {
     set({ loading: true, error: null });
     try {
@@ -53,7 +49,6 @@ export const useAnalyticsStore = create((set) => ({
     }
   },
 
-  // ── Fetch all at once ──────────────────────────────────────────────────────
   fetchAll: async () => {
     set({ loading: true, error: null });
     try {
@@ -75,7 +70,6 @@ export const useAnalyticsStore = create((set) => ({
     }
   },
 
-  // ── Export CSV ─────────────────────────────────────────────────────────────
   exportCsv: async () => {
     try {
       const response = await analyticsService.exportCsv();

@@ -26,7 +26,6 @@ const ReceiptSchema = new mongoose.Schema(
 
 ReceiptSchema.index({ userId: 1, accountNumber: 1 });
 
-// Pre-save: auto-generate referenceCode
 ReceiptSchema.pre('save', function (next) {
   if (!this.referenceCode) {
     const rand = Math.random().toString(36).slice(2, 8).toUpperCase();

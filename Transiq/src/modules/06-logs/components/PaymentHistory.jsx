@@ -130,9 +130,7 @@ const PaymentHistory = ({ defaultFilter = 'ALL', showHeader = true }) => {
         </div>
       )}
 
-      {/* Filter and Search Controls */}
       <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 mb-5 flex flex-wrap gap-3 items-center justify-between">
-        {/* Status Tabs */}
         <div className="flex flex-wrap gap-1 bg-white p-1 rounded-lg border border-slate-200">
           {[
             { key: 'ALL', label: 'All Records', count: counts.ALL },
@@ -159,7 +157,6 @@ const PaymentHistory = ({ defaultFilter = 'ALL', showHeader = true }) => {
           ))}
         </div>
 
-        {/* Search & Method Filter */}
         <div className="flex flex-wrap gap-2 flex-1 max-w-md">
           <input
             type="text"
@@ -182,7 +179,6 @@ const PaymentHistory = ({ defaultFilter = 'ALL', showHeader = true }) => {
         </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto rounded-lg border border-slate-200">
         <table className="w-full text-left text-xs">
           <thead className="bg-slate-900 text-slate-200 uppercase tracking-wider font-semibold">

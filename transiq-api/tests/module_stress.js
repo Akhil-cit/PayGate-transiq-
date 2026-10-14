@@ -1,6 +1,5 @@
 import http from 'http';
 
-// Comprehensive multi-endpoint stress test
 const BASE_URL = 'http://localhost:5000';
 const ENDPOINTS = [
   { path: '/api/health', name: 'Health Check API' },

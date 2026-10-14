@@ -91,7 +91,6 @@ export const useSecurityStore = create((set, get) => ({
       });
       return { success: true };
     } catch (err) {
-      // If backend fails due to no auth token in demo mode, simulate success or show message
       const errMsg = err.message || 'Failed to update password';
       set({
         loading: false,

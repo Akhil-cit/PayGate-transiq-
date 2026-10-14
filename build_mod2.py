@@ -5,7 +5,6 @@ from doc_builder_base import DocBuilder, Pt, Inches, WD_ALIGN_PARAGRAPH
 def build_module_2(out_path):
     b = DocBuilder()
     
-    # 1st Page
     b.build_cover_page(
         mod_num=2,
         mod_title="Beneficiary Management & Directory Services",
@@ -13,7 +12,6 @@ def build_module_2(out_path):
         student_reg="2503717672621035"
     )
     
-    # Synopsis (Strictly 1 Page)
     b.add_h1("Synopsis")
     b.add_p(
         "PayGate (Transiq) is a modern full-stack digital payment and wallet management platform built on the MERN stack "
@@ -46,7 +44,6 @@ def build_module_2(out_path):
     )
     b.doc.add_page_break()
     
-    # Objective
     b.add_h1("Objective")
     b.add_p("The primary objectives of Module 2 (Beneficiary Management & Directory Services) are:")
     b.add_bullet(" Maintain an accurate, verified participant directory enabling customers to register and manage counterparty beneficiaries.", "1. Verified Counterparty Directory:")
@@ -56,7 +53,6 @@ def build_module_2(out_path):
     b.add_bullet(" Provide high-speed, debounced directory search allowing users to find recipients by name, bank, or account number instantly during checkout.", "5. Rapid Checkout Search Experience:")
     b.add_bullet(" Guarantee strict tenant data privacy so that beneficiaries saved by one user are never exposed to other accounts.", "6. Multi-Tenant Data Protection:")
 
-    # Scope
     b.add_h1("Scope")
     b.add_h2("Functional Scope")
     b.add_bullet(" Adding new recipients with full validation (Name, Bank Name, Account Number, IFSC, Account Type).", "Beneficiary Registration: ")
@@ -74,7 +70,6 @@ def build_module_2(out_path):
     b.add_bullet(" Live penny-drop bank account verification via NPCI/IMPS beneficiary validation APIs.", "Automated Penny-Drop Verification: ")
     b.add_bullet(" International cross-border IBAN/BIC validation and SWIFT routing lookups.", "International IBAN/SWIFT Directory: ")
 
-    # Project Description
     b.add_h1("Project Description")
     b.add_p("Module 2 is architectured across three multi-tier layers:")
     b.add_h2("Client Tier — Recipient UI Components")
@@ -89,7 +84,6 @@ def build_module_2(out_path):
     b.add_h2("Data Persistence Tier — MongoDB")
     b.add_p("Governed by the receipts collection in MongoDB, utilizing compound indexing and lifecycle pre-save hooks.")
 
-    # DB Design
     b.add_h1("DB Design")
     b.add_h2("5.1 receipts Collection (Beneficiaries)")
     r_rows = [
@@ -113,7 +107,6 @@ def build_module_2(out_path):
     ]
     b.add_table_data(["Index Keys", "Index Type", "Operational Integrity Purpose"], idx_rows, [2.3, 1.5, 3.2])
 
-    # DFD
     b.add_h1("Data Flow Diagram (DFD)")
     b.add_p("The Data Flow Diagram models recipient registration, validation, and directory search:")
     b.add_image('extracted_module_diagrams/mod2_img1_image2.png', width_in=6.2, caption="Figure 7.1 — Level 0 & Level 1 DFD: Recipient Directory Subsystem")
@@ -122,7 +115,6 @@ def build_module_2(out_path):
     b.add_bullet(" Validates account and IFSC syntax, generates reference codes, and inserts records into D3.", "Process 2.2 (Beneficiary Registration Engine): ")
     b.add_bullet(" Executes real-time text search queries against D3 for payment checkout workflows.", "Process 2.3 (Search & Autocomplete Engine): ")
 
-    # ER Diagram
     b.add_h1("ER Diagram")
     b.add_p("The Entity-Relationship model links Users to Receipts (1:N) and Receipts to Transactions (1:N):")
     b.add_image('extracted_module_diagrams/mod2_img0_image3.png', width_in=6.2, caption="Figure 8.1 — Entity-Relationship Diagram: Recipient Directory Architecture")
@@ -130,7 +122,6 @@ def build_module_2(out_path):
     b.add_bullet(" Each customer saves and maintains zero or more counterparty beneficiaries.", "USER (1) to RECEIPT (N): ")
     b.add_bullet(" Each beneficiary acts as the destination counterparty for zero or more transactions.", "RECEIPT (1) to TRANSACTION (N): ")
 
-    # Use Case Diagram
     b.add_h1("Use Case Diagram")
     b.add_p("Defines user capabilities for recipient management:")
     b.add_image('extracted_module_diagrams/mod2_img6_image4.png', width_in=6.2, caption="Figure 9.1 — Use Case Diagram: Recipient Directory Operations")
@@ -141,17 +132,14 @@ def build_module_2(out_path):
     b.add_bullet(" Modify existing beneficiary banking details.", "UC-04 Edit Beneficiary: ")
     b.add_bullet(" Remove obsolete or closed counterparty records.", "UC-05 Delete Beneficiary: ")
 
-    # Class Diagram
     b.add_h1("Class Diagram")
     b.add_p("The Class Diagram illustrates the controllers, Mongoose schemas, and state stores:")
     b.add_image('extracted_module_diagrams/mod2_img5_image5.png', width_in=6.2, caption="Figure 10.1 — Class Diagram: Module 2 Object-Oriented Architecture")
 
-    # Sequence Diagram
     b.add_h1("Sequence Diagram")
     b.add_p("Traces the execution of beneficiary registration and compound index validation:")
     b.add_image('extracted_module_diagrams/mod2_img4_image6.png', width_in=6.2, caption="Figure 11.1 — Sequence Diagram: Beneficiary Registration & Verification Flow")
 
-    # Screenshots (Forms)
     b.add_h1("Screenshots (Forms)")
     b.add_p("Below are real, high-resolution screenshots captured directly from the live PayGate application session:")
     
@@ -163,7 +151,6 @@ def build_module_2(out_path):
     b.add_p("The interactive registration modal providing client-side input validation, IFSC auto-capitalization, and error toast feedback.")
     b.add_image('module_screenshots/mod2_add_recipient_modal.png', width_in=5.8, caption="Figure 12.2 — Live Add Beneficiary Modal Dialog")
 
-    # Test Report
     b.add_h1("Test Report")
     b.add_p("Automated testing was conducted using Jest v30.5.2 and Supertest covering all Module 2 endpoints:")
     b.add_h2("Test Execution Summary")
@@ -190,7 +177,6 @@ def build_module_2(out_path):
     ]
     b.add_table_data(["Test ID", "Test Description", "Test Input / Condition", "Expected Output", "Actual Result", "Status"], tc_rows, [0.9, 1.4, 1.4, 1.4, 1.3, 0.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER])
 
-    # Conclusion & Enhancements
     b.build_conclusion_enhancements(
         conclusion_text=[
             "Module 2 (Beneficiary Management & Directory Services) successfully provides a reliable, high-speed participant directory for PayGate. "

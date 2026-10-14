@@ -25,7 +25,6 @@ for i, p in enumerate(doc.paragraphs):
     has_pb = ('w:br w:type="page"' in xml_str) or ('w:pageBreakBefore' in xml_str)
     has_img = '<w:drawing' in xml_str
     
-    # Check borders on paragraph
     pBdr = p._p.find('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}pPr/{http://schemas.openxmlformats.org/wordprocessingml/2006/main}pBdr')
     bdr_info = ET.tostring(pBdr, encoding='unicode')[:50] if pBdr is not None else 'None'
     
@@ -52,7 +51,6 @@ for t_idx, tbl in enumerate(doc.tables):
         for c_idx, cell in enumerate(row.cells):
             shd = cell._tc.get_or_add_tcPr().find('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}shd')
             fill = shd.attrib.get('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}fill') if shd is not None else None
-            # get font info
             c_runs = []
             for cp in cell.paragraphs:
                 for cr in cp.runs:

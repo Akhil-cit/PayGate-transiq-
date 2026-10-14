@@ -70,7 +70,6 @@ export default function TransactionDetailPage({ txnId, onBack }) {
       </button>
 
       <div className="txn-detail-grid">
-        {/* Status card */}
         <div className="txn-detail-status-card" style={{ '--status-color': status.color }}>
           <StatusIcon size={48} color={status.color} />
           <h2 className="txn-detail-status-label">{status.label}</h2>
@@ -97,7 +96,6 @@ export default function TransactionDetailPage({ txnId, onBack }) {
           )}
         </div>
 
-        {/* Details */}
         <div className="txn-detail-sections">
           <section className="txn-detail-card">
             <h3>Transaction Details</h3>

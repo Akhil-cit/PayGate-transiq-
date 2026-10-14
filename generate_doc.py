@@ -45,7 +45,6 @@ def format_table(table, col_widths=None):
     header_tr.append(parse_xml(f'<w:tblHeader {nsdecls("w")}/>'))
     
     for i, row in enumerate(table.rows):
-        # Prevent row split across pages
         trPr = row._tr.get_or_add_trPr()
         trPr.append(parse_xml(f'<w:cantSplit {nsdecls("w")}/>'))
         for j, cell in enumerate(row.cells):
@@ -81,7 +80,6 @@ def add_code_box(doc, text):
     set_cell_background(cell, "F3F4F6")
     set_cell_margins(cell, top=140, bottom=140, left=180, right=180)
     
-    # Border
     tcPr = cell._tc.get_or_add_tcPr()
     borders = parse_xml(f'<w:tcBorders {nsdecls("w")}><w:top w:val="single" w:sz="4" w:space="0" w:color="D1D5DB"/><w:left w:val="single" w:sz="18" w:space="0" w:color="2563EB"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="D1D5DB"/><w:right w:val="single" w:sz="4" w:space="0" w:color="D1D5DB"/></w:tcBorders>')
     tcPr.append(borders)
@@ -98,7 +96,6 @@ def add_code_box(doc, text):
 def build_record_doc():
     doc = Document()
     
-    # Configure margins: 0.8 inch all around
     sections = doc.sections
     for section in sections:
         section.top_margin = Inches(0.8)
@@ -106,22 +103,17 @@ def build_record_doc():
         section.left_margin = Inches(0.8)
         section.right_margin = Inches(0.8)
     
-    # Default style font
     style = doc.styles['Normal']
     font = style.font
     font.name = 'Arial'
     font.size = Pt(10)
     font.color.rgb = RGBColor(55, 65, 81)
     
-    # ==========================================
-    # 1ST PAGE: COLLEGE LOGO, TITLE, TEAM DETAILS
-    # ==========================================
     p_logo = doc.add_paragraph()
     p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_logo.paragraph_format.space_before = Pt(30)
     p_logo.paragraph_format.space_after = Pt(15)
     
-    # Logo box placeholder
     t_logo = doc.add_table(rows=1, cols=1)
     t_logo.alignment = WD_TABLE_ALIGNMENT.CENTER
     c_logo = t_logo.cell(0, 0)
@@ -152,7 +144,6 @@ def build_record_doc():
     r_rc.font.size = Pt(11)
     r_rc.font.color.rgb = RGBColor(75, 85, 99)
     
-    # Title Box Table
     t_title = doc.add_table(rows=1, cols=1)
     t_title.alignment = WD_TABLE_ALIGNMENT.CENTER
     c_title = t_title.cell(0, 0)
@@ -179,7 +170,6 @@ def build_record_doc():
     r_t2.font.color.rgb = RGBColor(37, 99, 235)
     r_t2.bold = True
     
-    # Team Details Table
     p_sp = doc.add_paragraph()
     p_sp.paragraph_format.space_before = Pt(45)
     
@@ -237,12 +227,8 @@ def build_record_doc():
     r_b.font.size = Pt(9)
     r_b.font.color.rgb = RGBColor(107, 114, 128)
     
-    # END PAGE 1 -> PAGE BREAK
     doc.add_page_break()
     
-    # ==========================================
-    # SYNOPSIS (STRICTLY EXACTLY 1 PAGE)
-    # ==========================================
     add_styled_heading(doc, "SYNOPSIS", level=1)
     
     p_syn1 = doc.add_paragraph()
@@ -291,12 +277,8 @@ def build_record_doc():
         "role-based access control (RBAC), intercepting unauthenticated sessions instantly at the browser boundary."
     )
     
-    # END SYNOPSIS -> PAGE BREAK
     doc.add_page_break()
     
-    # ==========================================
-    # OBJECTIVE
-    # ==========================================
     add_styled_heading(doc, "OBJECTIVE", level=1)
     
     objectives = [
@@ -322,9 +304,6 @@ def build_record_doc():
         r_ot.font.color.rgb = RGBColor(17, 24, 39)
         p_obj.add_run(desc)
         
-    # ==========================================
-    # SCOPE
-    # ==========================================
     add_styled_heading(doc, "SCOPE", level=1)
     
     add_styled_heading(doc, "1. Functional Scope", level=2)
@@ -360,9 +339,6 @@ def build_record_doc():
         "• Direct banking core integration via live Reserve Bank of India (RBI) webhooks."
     )
     
-    # ==========================================
-    # PROJECT DESCRIPTION
-    # ==========================================
     add_styled_heading(doc, "PROJECT DESCRIPTION", level=1)
     
     p_pdesc = doc.add_paragraph()
@@ -386,9 +362,6 @@ def build_record_doc():
         "ObjectId references while guaranteeing fast indexed queries on transaction reference codes and user identity IDs."
     )
     
-    # ==========================================
-    # DB DESIGN
-    # ==========================================
     add_styled_heading(doc, "DB DESIGN", level=1)
     
     p_dbdesc = doc.add_paragraph()
@@ -398,7 +371,6 @@ def build_record_doc():
         "The schemas and constraint specifications are detailed below:"
     )
     
-    # Table 1: Users
     add_styled_heading(doc, "1. Users Collection ('users')", level=2)
     t_users = doc.add_table(rows=10, cols=4)
     t_users.columns[0].width = Inches(1.3)
@@ -424,7 +396,6 @@ def build_record_doc():
     format_table(t_users)
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
     
-    # Table 2: Wallets
     add_styled_heading(doc, "2. Wallets Collection ('wallets')", level=2)
     t_wallets = doc.add_table(rows=7, cols=4)
     t_wallets.columns[0].width = Inches(1.3)
@@ -447,7 +418,6 @@ def build_record_doc():
     format_table(t_wallets)
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
     
-    # Table 3: Pockets
     add_styled_heading(doc, "3. Pockets Collection ('pockets')", level=2)
     t_pockets = doc.add_table(rows=8, cols=4)
     t_pockets.columns[0].width = Inches(1.3)
@@ -471,7 +441,6 @@ def build_record_doc():
     format_table(t_pockets)
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
     
-    # Table 4: Receipts (Beneficiaries)
     add_styled_heading(doc, "4. Receipts Collection ('receipts')", level=2)
     t_receipts = doc.add_table(rows=9, cols=4)
     t_receipts.columns[0].width = Inches(1.3)
@@ -496,7 +465,6 @@ def build_record_doc():
     format_table(t_receipts)
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
     
-    # Table 5: Transactions
     add_styled_heading(doc, "5. Transactions Collection ('transactions')", level=2)
     t_txns = doc.add_table(rows=11, cols=4)
     t_txns.columns[0].width = Inches(1.3)
@@ -523,7 +491,6 @@ def build_record_doc():
     format_table(t_txns)
     doc.add_paragraph().paragraph_format.space_after = Pt(6)
     
-    # Table 6: ErrorLogs
     add_styled_heading(doc, "6. ErrorLogs Collection ('errorlogs')", level=2)
     t_errs = doc.add_table(rows=8, cols=4)
     t_errs.columns[0].width = Inches(1.3)
@@ -547,9 +514,6 @@ def build_record_doc():
     format_table(t_errs)
     doc.add_paragraph().paragraph_format.space_after = Pt(8)
     
-    # ==========================================
-    # DATA FLOW DIAGRAM (DFD)
-    # ==========================================
     add_styled_heading(doc, "DATA FLOW DIAGRAM (DFD)", level=1)
     
     add_styled_heading(doc, "Level 0 DFD (Context Analysis Diagram)", level=2)
@@ -608,9 +572,6 @@ def build_record_doc():
     )
     add_code_box(doc, dfd1_text)
     
-    # ==========================================
-    # ER DIAGRAM
-    # ==========================================
     add_styled_heading(doc, "ER DIAGRAM", level=1)
     
     p_er = doc.add_paragraph()
@@ -649,9 +610,6 @@ def build_record_doc():
     )
     add_code_box(doc, er_text)
     
-    # ==========================================
-    # USE CASE DIAGRAM
-    # ==========================================
     add_styled_heading(doc, "USE CASE DIAGRAM", level=1)
     
     p_uc = doc.add_paragraph()
@@ -679,9 +637,6 @@ def build_record_doc():
     )
     add_code_box(doc, uc_text)
     
-    # ==========================================
-    # CLASS DIAGRAM
-    # ==========================================
     add_styled_heading(doc, "CLASS DIAGRAM", level=1)
     
     p_cd = doc.add_paragraph()
@@ -722,9 +677,6 @@ def build_record_doc():
     )
     add_code_box(doc, cd_text)
     
-    # ==========================================
-    # SEQUENCE DIAGRAM
-    # ==========================================
     add_styled_heading(doc, "SEQUENCE DIAGRAM", level=1)
     
     p_seq = doc.add_paragraph()
@@ -754,9 +706,6 @@ def build_record_doc():
     )
     add_code_box(doc, seq_text)
     
-    # ==========================================
-    # SCREENSHOTS (FORMS)
-    # ==========================================
     add_styled_heading(doc, "SCREENSHOTS (FORMS)", level=1)
     
     p_sc = doc.add_paragraph()
@@ -861,9 +810,6 @@ def build_record_doc():
     )
     add_code_box(doc, sc5_text)
     
-    # ==========================================
-    # TEST REPORT
-    # ==========================================
     add_styled_heading(doc, "TEST REPORT", level=1)
     
     p_tr = doc.add_paragraph()
@@ -915,9 +861,6 @@ def build_record_doc():
     format_table(t_cases)
     doc.add_paragraph().paragraph_format.space_after = Pt(8)
     
-    # ==========================================
-    # CONCLUSION AND FURTHER ENHANCEMENTS
-    # ==========================================
     add_styled_heading(doc, "CONCLUSION AND FURTHER ENHANCEMENTS", level=1)
     
     add_styled_heading(doc, "Conclusion", level=2)

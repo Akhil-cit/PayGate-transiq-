@@ -7,7 +7,6 @@ from docx.oxml.ns import nsdecls, qn
 import os
 import shutil
 
-# Color palette
 NAVY = RGBColor(15, 39, 71)      # 0F2747
 SLATE = RGBColor(28, 70, 112)    # 1C4670
 TEAL = RGBColor(13, 148, 136)    # 0D9488
@@ -203,7 +202,6 @@ class DocBuilder:
         return table
 
     def build_cover_page(self, mod_num, mod_title, student_name, student_reg):
-        # Logo
         p_logo = self.doc.add_paragraph()
         p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p_logo.paragraph_format.space_before = Pt(6)
@@ -211,7 +209,6 @@ class DocBuilder:
         if os.path.exists('cit_logo.png'):
             p_logo.add_run().add_picture('cit_logo.png', width=Inches(1.15))
 
-        # College Name
         p_clg = self.doc.add_paragraph()
         p_clg.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p_clg.paragraph_format.space_after = Pt(1)
@@ -281,7 +278,6 @@ class DocBuilder:
         r_mod.font.bold = True
         r_mod.font.color.rgb = NAVY
 
-        # Project Details
         p_dth = self.doc.add_paragraph()
         p_dth.paragraph_format.space_after = Pt(3)
         r_dth = p_dth.add_run("PROJECT DETAILS")
@@ -300,7 +296,6 @@ class DocBuilder:
         ]
         self.add_table_data(["Field", "Details"], t_data, [2.2, 4.8], [WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT])
 
-        # Team Details
         p_tmh = self.doc.add_paragraph()
         p_tmh.paragraph_format.space_before = Pt(8)
         p_tmh.paragraph_format.space_after = Pt(3)
@@ -320,7 +315,6 @@ class DocBuilder:
         ]
         self.add_table_data(["S.No", "Name of Student", "Register Number", "Assigned Module / Role"], team_rows, [0.6, 2.2, 1.6, 2.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT])
 
-        # Signatures
         p_gd = self.doc.add_paragraph()
         p_gd.paragraph_format.space_before = Pt(10)
         p_gd.paragraph_format.space_after = Pt(3)

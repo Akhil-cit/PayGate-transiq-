@@ -5,7 +5,6 @@ from doc_builder_base import DocBuilder, Pt, Inches, WD_ALIGN_PARAGRAPH
 def build_module_4(out_path):
     b = DocBuilder()
     
-    # 1st Page
     b.build_cover_page(
         mod_num=4,
         mod_title="Transaction Ledgers & Financial Analytics",
@@ -13,7 +12,6 @@ def build_module_4(out_path):
         student_reg="2503717672621040"
     )
     
-    # Synopsis (Strictly 1 Page)
     b.add_h1("Synopsis")
     b.add_p(
         "PayGate (Transiq) is a full-stack digital payment and wallet platform engineered to deliver total financial auditability "
@@ -46,7 +44,6 @@ def build_module_4(out_path):
     )
     b.doc.add_page_break()
     
-    # Objective
     b.add_h1("Objective")
     b.add_p("The primary objectives of Module 4 (Transaction Ledgers & Financial Analytics) are:")
     b.add_bullet(" Maintain an immutable, auditable financial record for all transfer, deposit, and withdrawal activities.", "1. Comprehensive Ledger Integrity:")
@@ -56,7 +53,6 @@ def build_module_4(out_path):
     b.add_bullet(" Generate intelligent category and counterparty insights identifying top recipients and spending categories.", "5. Intelligent Spending Insights:")
     b.add_bullet(" Provide high-speed CSV export capabilities allowing users to download structured records for tax and accounting audits.", "6. Forensic CSV Export:")
 
-    # Scope
     b.add_h1("Scope")
     b.add_h2("Functional Scope")
     b.add_bullet(" Browsing historical transactions with pagination, date filters, and method dropdowns.", "Transaction Ledger Browsing: ")
@@ -74,7 +70,6 @@ def build_module_4(out_path):
     b.add_bullet(" Direct bank feed reconciliation via Open-Banking Account Aggregator (AA) framework.", "Account Aggregator (AA) Integration: ")
     b.add_bullet(" Automated income tax capital gains calculations or GST invoicing.", "Automated Tax & GST Invoicing: ")
 
-    # Project Description
     b.add_h1("Project Description")
     b.add_p("Module 4 operates across three multi-tier layers:")
     b.add_h2("Client Tier — Analytics & Ledger UI")
@@ -90,7 +85,6 @@ def build_module_4(out_path):
     b.add_h2("Data Persistence Tier — MongoDB")
     b.add_p("Monitors and queries the transactions collection in MongoDB, utilizing compound indexes for rapid audit retrieval.")
 
-    # DB Design
     b.add_h1("DB Design")
     b.add_h2("5.1 transactions Collection (Primary Ledger)")
     t_rows = [
@@ -117,7 +111,6 @@ def build_module_4(out_path):
     ]
     b.add_table_data(["Aggregation Pipeline", "MongoDB Query Stages", "Analytical Purpose"], agg_rows, [1.8, 3.2, 2.0])
 
-    # DFD
     b.add_h1("Data Flow Diagram (DFD)")
     b.add_p("The Data Flow Diagram models transaction logging, history filtering, and analytics aggregation:")
     b.add_image('extracted_module_diagrams/mod4_img0_image1.png', width_in=6.2, caption="Figure 7.1 — Level 0 & Level 1 DFD: Transaction Ledger & Analytics")
@@ -126,27 +119,22 @@ def build_module_4(out_path):
     b.add_bullet(" Evaluates user filter parameters and returns paginated records from D4.", "Process 4.2 (Ledger Query & Filter Service): ")
     b.add_bullet(" Runs aggregation pipelines over D4, streaming metrics to client charts and CSV builders.", "Process 4.3 (Financial Analytics & Export Service): ")
 
-    # ER Diagram
     b.add_h1("ER Diagram")
     b.add_p("The Entity-Relationship model connects Transactions to Wallets, Receipts, and ErrorLogs:")
     b.add_image('extracted_module_diagrams/mod4_img1_image2.png', width_in=6.2, caption="Figure 8.1 — Entity-Relationship Diagram: Transaction Ledger Architecture")
 
-    # Use Case Diagram
     b.add_h1("Use Case Diagram")
     b.add_p("Depicts customer capabilities for transaction auditing and analytics:")
     b.add_image('extracted_module_diagrams/mod4_img2_image3.png', width_in=6.2, caption="Figure 9.1 — Use Case Diagram: Transaction Ledger & Analytics Operations")
 
-    # Class Diagram
     b.add_h1("Class Diagram")
     b.add_p("Models the transaction controllers, analytics services, and client Zustand stores:")
     b.add_image('extracted_module_diagrams/mod4_img3_image4.png', width_in=6.2, caption="Figure 10.1 — Class Diagram: Module 4 Object-Oriented Architecture")
 
-    # Sequence Diagram
     b.add_h1("Sequence Diagram")
     b.add_p("Traces the execution of transaction querying, detail inspection, and CSV export generation:")
     b.add_image('extracted_module_diagrams/mod4_img4_image5.png', width_in=6.2, caption="Figure 11.1 — Sequence Diagram: Transaction Query & CSV Export Flow")
 
-    # Screenshots (Forms)
     b.add_h1("Screenshots (Forms)")
     b.add_p("Below are real, high-resolution screenshots captured directly from the live PayGate application session:")
     
@@ -166,7 +154,6 @@ def build_module_4(out_path):
     b.add_p("Intelligent financial insights summarizing top recipient allocations, frequent transfer times, and spending recommendations.")
     b.add_image('module_screenshots/mod4_insights.png', width_in=5.8, caption="Figure 12.4 — Live Spending Insights Interface (/insights)")
 
-    # Test Report
     b.add_h1("Test Report")
     b.add_p("Automated testing was conducted using Jest v30.5.2 and Supertest covering all Module 4 endpoints:")
     b.add_h2("Test Execution Summary")
@@ -193,7 +180,6 @@ def build_module_4(out_path):
     ]
     b.add_table_data(["Test ID", "Test Description", "Test Input / Condition", "Expected Output", "Actual Result", "Status"], tc_rows, [0.9, 1.4, 1.4, 1.4, 1.3, 0.6], [WD_ALIGN_PARAGRAPH.CENTER, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.LEFT, WD_ALIGN_PARAGRAPH.CENTER])
 
-    # Conclusion & Enhancements
     b.build_conclusion_enhancements(
         conclusion_text=[
             "Module 4 (Transaction Ledgers & Financial Analytics) successfully delivers comprehensive transaction traceability and financial intelligence for PayGate. "

@@ -107,7 +107,6 @@ async function seed() {
     isActive: true,
   });
 
-  // Also support admin@transiq.internal
   await User.create({
     firstName: 'System',
     lastName: 'Admin',

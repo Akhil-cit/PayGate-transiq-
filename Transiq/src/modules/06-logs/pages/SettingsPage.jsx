@@ -7,7 +7,6 @@ const SettingsPage = () => {
   const [actionLoading, setActionLoading] = useState(null);
   const [message, setMessage] = useState(null);
 
-  // Gateway Settings State
   const [gatewaySettings, setGatewaySettings] = useState(() => {
     try {
       const saved = localStorage.getItem('paygate_gateway_settings');
@@ -88,7 +87,6 @@ const SettingsPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Page Header */}
         <div className="bg-white p-6 rounded-xl border border-slate-200 pr-36">
           <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600">Platform Configuration</span>
           <h1 className="text-xl font-bold text-slate-900 mt-0.5">Admin Settings & Gateway Governance</h1>
@@ -113,7 +111,6 @@ const SettingsPage = () => {
         )}
 
         <div className="space-y-6">
-          {/* Left: Customer Account Security Governance (Live Database) */}
           <div className="space-y-6">
             <div className="bg-white rounded-xl border border-slate-200 p-6">
               <div className="flex justify-between items-center mb-4">
@@ -203,7 +200,6 @@ const SettingsPage = () => {
               )}
             </div>
 
-            {/* Database & Storage Architecture */}
             <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-3">
               <h2 className="text-sm font-bold text-slate-900">Database & Connection Configuration</h2>
               <div className="grid grid-cols-2 gap-3 text-xs font-mono">
@@ -227,7 +223,6 @@ const SettingsPage = () => {
             </div>
           </div>
 
-          {/* Right: Gateway Rules & Policy Controls */}
           <div className="space-y-6">
             <form onSubmit={handleSaveSettings} className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
               <div className="border-b border-slate-100 pb-3">
