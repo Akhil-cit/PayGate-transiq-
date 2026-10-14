@@ -308,7 +308,7 @@ export default function MyWalletPage() {
                 to="/transactions"
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold border border-white/20 transition"
               >
-                Passbook
+                Transaction History
               </Link>
             </div>
           </div>
