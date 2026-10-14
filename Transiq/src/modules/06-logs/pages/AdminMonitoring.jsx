@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLogsStore } from '../store/logsStore';
 
@@ -123,32 +123,32 @@ const AdminMonitoring = () => {
         </div>
 
         {/* 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Left: Recent Activity & Pending */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="xl:col-span-2 space-y-6">
             {/* Recent Transactions */}
-            <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <div className="bg-white rounded-xl border border-slate-200 p-5 md:p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-sm font-bold text-slate-900">Recent Payment Activity</h2>
                 <Link to="/admin/history" className="text-xs font-semibold text-blue-600 hover:text-blue-800">
                   View all ({totalTransactions})
                 </Link>
               </div>
-              <div className="overflow-hidden rounded-lg border border-slate-200">
-                <table className="min-w-full text-left text-xs">
-                  <thead className="bg-slate-900 text-slate-300 uppercase tracking-wider">
+              <div className="overflow-x-auto rounded-lg border border-slate-200">
+                <table className="w-full min-w-[580px] text-left text-xs">
+                  <thead className="bg-slate-900 text-slate-300 uppercase tracking-wider text-[11px]">
                     <tr>
-                      <th className="px-3.5 py-2.5 whitespace-nowrap">Txn ID</th>
-                      <th className="px-3.5 py-2.5 whitespace-nowrap">Parties</th>
-                      <th className="px-3.5 py-2.5 whitespace-nowrap">Amount</th>
-                      <th className="px-3.5 py-2.5 whitespace-nowrap">Status</th>
-                      <th className="px-3.5 py-2.5 whitespace-nowrap">Timestamp</th>
+                      <th className="px-3 py-2.5 whitespace-nowrap">Txn ID</th>
+                      <th className="px-3 py-2.5 whitespace-nowrap">Parties</th>
+                      <th className="px-3 py-2.5 whitespace-nowrap">Amount</th>
+                      <th className="px-3 py-2.5 whitespace-nowrap">Status</th>
+                      <th className="px-3 py-2.5 whitespace-nowrap">Timestamp</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {recentTransactions.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-3.5 py-4 text-center text-slate-400">
+                        <td colSpan={5} className="px-3 py-4 text-center text-slate-400">
                           No transactions recorded yet.
                         </td>
                       </tr>
@@ -160,18 +160,18 @@ const AdminMonitoring = () => {
                         const dateStr = log.createdAt ? new Date(log.createdAt).toLocaleTimeString() : log.timestamp || 'N/A';
 
                         return (
-                          <tr key={log._id || log.id} className="hover:bg-slate-50">
-                            <td className="px-3.5 py-2.5 font-mono font-semibold text-blue-600">{id}</td>
-                            <td className="px-3.5 py-2.5 text-slate-700">
-                              {remitterName} <span className="text-slate-400">to</span> {recipientName}
+                          <tr key={log._id || log.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="px-3 py-2.5 font-mono text-[11px] font-semibold text-blue-600 whitespace-nowrap">{id}</td>
+                            <td className="px-3 py-2.5 text-slate-700 text-xs">
+                              <span className="font-medium text-slate-800">{remitterName}</span> <span className="text-slate-400">to</span> <span className="font-medium text-slate-800">{recipientName}</span>
                             </td>
-                            <td className="px-3.5 py-2.5 font-bold text-slate-900">₹{(log.amount || 0).toLocaleString()}</td>
-                            <td className="px-3.5 py-2.5">
+                            <td className="px-3 py-2.5 font-bold text-slate-900 whitespace-nowrap">₹{(log.amount || 0).toLocaleString()}</td>
+                            <td className="px-3 py-2.5 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold border ${getStatusBadge(log.status)}`}>
                                 {(log.status || '').toUpperCase()}
                               </span>
                             </td>
-                            <td className="px-3.5 py-2.5 text-slate-500 font-mono text-[11px]">{dateStr}</td>
+                            <td className="px-3 py-2.5 text-slate-500 font-mono text-[11px] whitespace-nowrap">{dateStr}</td>
                           </tr>
                         );
                       })
